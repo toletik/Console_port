@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
         rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
         rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
+
+        AltitudeModifier = 0;
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
