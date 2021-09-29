@@ -16,6 +16,9 @@ public class Dash : PlayerCapacity
         { Direction.LEFT, false }
     };
 
+    private Direction lastDirection = default;
+    private Direction currentDirection = default;
+
     public bool TryAddDirection(Direction direction)
     {
         if (directionEnabled[direction]) 
@@ -26,8 +29,30 @@ public class Dash : PlayerCapacity
 
     protected override void LookToStartAction()
     {
+        if (!directionEnabled[currentDirection]) return;
+
         player.MovementControlCoef = planarMovementModifierCoef;
-        currentAction = StartCoroutine(ExecuteDash(new Vector2(-1, 0)));
+
+        currentAction = StartCoroutine(ExecuteDash(currentDirection switch
+        {
+            Direction.UP => new Vector2(0, 1),
+            Direction.RIGHT => new Vector2(1, 0),
+            Direction.DOWN => new Vector2(0, -1),
+            Direction.LEFT => new Vector2(-1, 0), 
+            _ => new Vector2(0, 1)
+        }));
+    }
+
+    /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>
+    public void ChooseDirection(int directionIndex)
+    {
+        if (directionIndex == (int)Direction.UP || 
+            directionIndex == (int)Direction.RIGHT || 
+            directionIndex == (int)Direction.DOWN || 
+            directionIndex == (int)Direction.LEFT)
+            {
+                currentDirection = (Direction)directionIndex;
+            }
     }
 
     private IEnumerator ExecuteDash(Vector2 direction)
@@ -43,6 +68,8 @@ public class Dash : PlayerCapacity
         }
 
         player.MovementControlCoef = 1;
+        lastDirection = currentDirection;
+
         yield return WaitForCooldown();
 
         currentAction = null;

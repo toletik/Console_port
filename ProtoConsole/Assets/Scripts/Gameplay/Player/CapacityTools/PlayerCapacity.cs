@@ -1,12 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlayerCapacity : MonoBehaviour
 {
     [SerializeField] private float cooldown = 0.8f;
-
-    [Header("Controls")]
-    [SerializeField] protected KeyCode activateKey = KeyCode.Keypad1;
 
     [Header("Parameters")]
     [SerializeField, Range(0, 1)] protected float planarMovementModifierCoef = 0.8f;
@@ -19,12 +17,9 @@ public abstract class PlayerCapacity : MonoBehaviour
         player = GetComponentInParent<Player>();
     }
 
-    protected virtual void Update()
+    public virtual void TryToActivate(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(activateKey) && currentAction == null)
-        {
-            LookToStartAction();
-        }
+        if (isActiveAndEnabled && context.action.triggered && currentAction == null) LookToStartAction();
     }
 
     protected abstract void LookToStartAction();

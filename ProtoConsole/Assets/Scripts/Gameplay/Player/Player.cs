@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
 
-    private Vector2 inputs = new Vector2();
+    private Vector2 inputs = Vector2.zero;
     private Vector3 gravityCenter = default;
 
     private void Awake()
@@ -33,10 +34,13 @@ public class Player : MonoBehaviour
         digCapacity.enabled = false;
     }
 
+    public void UpdateMoveInputs(InputAction.CallbackContext callback)
+    {
+        inputs = callback.ReadValue<Vector2>();
+    }
+
     public void FixedUpdate()
     {
-        inputs.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
         rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) * (speed * Time.fixedDeltaTime);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
