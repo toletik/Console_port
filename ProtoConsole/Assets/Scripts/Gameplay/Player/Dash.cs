@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dash : MonoBehaviour
+public class Dash : PlayerCapacity
 {
     private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
     {

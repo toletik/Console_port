@@ -1,9 +1,14 @@
 using UnityEngine;
+
 public class Player : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
+    [SerializeField] private CapacityRenderer capacityConeSpawner = default;
+    [SerializeField] private Transform capacityRenderersContainer = default;
 
+    [Header("Parameters")]
     [SerializeField] private float speed = 1;
 
     [Header("Capacities")]
@@ -12,6 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Dig digCapacity = default;
 
     [HideInInspector] public float AltitudeModifier = 0;
+    [HideInInspector] public bool CanAddAltitudeModifier = true;
+    [HideInInspector] public float MovementControlCoef = 1;
 
     private Vector3 gravityCenter = default;
 
@@ -26,7 +33,7 @@ public class Player : MonoBehaviour
     
     public void FixedUpdate()
     {
-        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * speed * Time.fixedDeltaTime;
+        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * (speed * Time.fixedDeltaTime * MovementControlCoef);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
         rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
@@ -36,6 +43,24 @@ public class Player : MonoBehaviour
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
+    {
+        if (ActivateCapacityIfNew(type, dashDirection))
+        {
+            capacityConeSpawner.GetRendererForCapacity(type, capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
+            {
+                Capacity.JUMP => Vector3.zero,
+                Capacity.DASH => new Vector3 (90, 0, (int)dashDirection),
+                Capacity.DIG => new Vector3 (180, 0, 0),
+                _ => Vector3.zero
+            });
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool ActivateCapacityIfNew(Capacity type, Direction dashDirection = default)
     {
         switch (type)
         {

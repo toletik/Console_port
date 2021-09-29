@@ -40,11 +40,49 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558262071722226893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 067bd9c7bd646cd44813919d5114d125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
+  movementHeight: -1
+  movementDuration: 0.8
+  movementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 5.941104
+      outSlope: 5.941104
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04033617
+    - serializedVersion: 3
+      time: 0.505103
+      value: 1.0009141
+      inSlope: -0.012809804
+      outSlope: -0.012809804
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13945721
+    - serializedVersion: 3
+      time: 0.9976196
+      value: -0.0008544922
+      inSlope: -5.6947346
+      outSlope: -5.6947346
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03507394
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  planarMovementModifierCoef: 0
+  activateKey: 259
 --- !u!114 &6484247886315376336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49a8e781bd2d8a43823b25b6353007d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
 --- !u!114 &2644550229452822875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,11 +103,49 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558262071722226893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 723063435a9af1b4eae28623f867b374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
+  movementHeight: 3
+  movementDuration: 0.8
+  movementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.007698834
+      inSlope: 6.372969
+      outSlope: 6.372969
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06730786
+    - serializedVersion: 3
+      time: 0.37150955
+      value: 1.00214
+      inSlope: 0.038785882
+      outSlope: 0.038785882
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05508982
+    - serializedVersion: 3
+      time: 0.9963989
+      value: -0.0021362305
+      inSlope: -2.6144516
+      outSlope: -2.6144516
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.051674843
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  planarMovementModifierCoef: 0.75
+  activateKey: 257
 --- !u!1 &2764149572851260121
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,8 +274,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   rigidbody: {fileID: 2764149572851260120}
-  speed: 0.5
+  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
+  capacityRenderersContainer: {fileID: 3404585915173331366}
+  speed: 10
   jumpCapacity: {fileID: 2644550229452822875}
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
   AltitudeModifier: 0
+  CanAddAltitudeModifier: 1
+  MovementControlCoef: 1
