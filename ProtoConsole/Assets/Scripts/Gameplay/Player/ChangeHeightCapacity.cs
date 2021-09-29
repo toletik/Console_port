@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class ChangeHeightCapacity : MonoBehaviour
+public abstract class ChangeHeightCapacity : PlayerCapacity
 {
+    [Header("Parameters")]
     [SerializeField] private float movementHeight = 3;
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
@@ -20,7 +21,7 @@ public class ChangeHeightCapacity : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(activateKey) && player.CanAddAltitudeModifier) 
+        if (Input.GetKeyDown(activateKey) && player.CanAddAltitudeModifier && currentMovement == null) 
         {
             player.CanAddAltitudeModifier = false; 
             currentMovement = StartCoroutine(UpdateHeight()); 
@@ -40,9 +41,11 @@ public class ChangeHeightCapacity : MonoBehaviour
         }
 
         player.AltitudeModifier = 0;
-        currentMovement = null;
-
         player.CanAddAltitudeModifier = true;
+
+        yield return WaitForCooldown();
+
+        currentMovement = null;
 
         yield break;
     }
