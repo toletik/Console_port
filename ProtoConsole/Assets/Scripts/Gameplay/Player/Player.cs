@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
+    [HideInInspector] public float MovementControlCoef = 1;
 
     private Vector3 gravityCenter = default;
 
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
     
     public void FixedUpdate()
     {
-        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * speed * Time.fixedDeltaTime;
+        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * (speed * Time.fixedDeltaTime * MovementControlCoef);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
         rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;

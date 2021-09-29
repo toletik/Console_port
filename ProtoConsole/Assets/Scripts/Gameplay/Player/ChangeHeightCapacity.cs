@@ -7,6 +7,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
     [SerializeField] private float movementHeight = 3;
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
+    [SerializeField] private float planarMovementModifierCoef = 0.8f;
 
     [Header("Controls")]
     [SerializeField] protected KeyCode activateKey = KeyCode.Keypad1;
@@ -23,7 +24,9 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
     {
         if (Input.GetKeyDown(activateKey) && player.CanAddAltitudeModifier && currentMovement == null) 
         {
-            player.CanAddAltitudeModifier = false; 
+            player.CanAddAltitudeModifier = false;
+            player.MovementControlCoef = planarMovementModifierCoef;
+
             currentMovement = StartCoroutine(UpdateHeight()); 
         }
     }
@@ -41,6 +44,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
         }
 
         player.AltitudeModifier = 0;
+        player.MovementControlCoef = 1;
         player.CanAddAltitudeModifier = true;
 
         yield return WaitForCooldown();

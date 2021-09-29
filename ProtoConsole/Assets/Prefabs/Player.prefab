@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067bd9c7bd646cd44813919d5114d125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
   movementHeight: -1
   movementDuration: 0.8
   movementCurve:
@@ -80,6 +81,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  planarMovementModifierCoef: 0
   activateKey: 259
 --- !u!114 &6484247886315376336
 MonoBehaviour:
@@ -93,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49a8e781bd2d8a43823b25b6353007d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
 --- !u!114 &2644550229452822875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723063435a9af1b4eae28623f867b374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.8
   movementHeight: 3
   movementDuration: 0.8
   movementCurve:
@@ -140,6 +144,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  planarMovementModifierCoef: 0.75
   activateKey: 257
 --- !u!1 &2764149572851260121
 GameObject:
@@ -275,3 +280,4 @@ MonoBehaviour:
   digCapacity: {fileID: 1511378094470394320}
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
+  movementControlCoef: 1
