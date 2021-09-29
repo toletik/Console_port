@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -25
       objectReference: {fileID: 0}
+    - target: {fileID: 340774971153066978, guid: 44530a92dc8cd144db4624f9f6e4ef9c, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 4278331564203427979}
     - target: {fileID: 700515196997297707, guid: 44530a92dc8cd144db4624f9f6e4ef9c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -656,6 +660,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4278331562919715706}
     m_Modifications:
+    - target: {fileID: 340774971153066978, guid: 9d19c09a634af1e4abaac51143369f53, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 4278331564203427979}
     - target: {fileID: 3012333733598059476, guid: 9d19c09a634af1e4abaac51143369f53, type: 3}
       propertyPath: screenToInstantiate
       value: 
