@@ -1,9 +1,14 @@
 using UnityEngine;
+
 public class Player : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
+    [SerializeField] private CapacityRenderer capacityConeSpawner = default;
+    [SerializeField] private Transform capacityRenderersContainer = default;
 
+    [Header("Parameters")]
     [SerializeField] private float speed = 1;
 
     [Header("Capacities")]
@@ -38,6 +43,17 @@ public class Player : MonoBehaviour
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
+    {
+        if (ActivateCapacityIfNew(type, dashDirection))
+        {
+            capacityConeSpawner.GetRendererForCapacity(type).SetParent(capacityRenderersContainer, false);
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool ActivateCapacityIfNew(Capacity type, Direction dashDirection = default)
     {
         switch (type)
         {

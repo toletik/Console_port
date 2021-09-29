@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558262071722226893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 067bd9c7bd646cd44813919d5114d125, type: 3}
   m_Name: 
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558262071722226893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 723063435a9af1b4eae28623f867b374, type: 3}
   m_Name: 
@@ -274,10 +274,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   rigidbody: {fileID: 2764149572851260120}
-  speed: 0.5
+  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
+  capacityRenderersContainer: {fileID: 3404585915173331366}
+  speed: 10
   jumpCapacity: {fileID: 2644550229452822875}
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
-  movementControlCoef: 1
+  MovementControlCoef: 1
