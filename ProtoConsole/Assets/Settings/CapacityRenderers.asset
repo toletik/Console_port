@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CapacityRenderers
   m_EditorClassIdentifier: 
   capacityConePrefab: {fileID: 7826172552243549741, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
-  dashMaterial: {fileID: 2100000, guid: 262b575518a4c2148906f4954fdaba13, type: 2}
-  jumpMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
-  digMaterial: {fileID: -6478536213147159724, guid: eb0844c781550f44bb3d71125e09b1bd, type: 3}
+  dashMaterial: {fileID: 2100000, guid: be7ebfcffea868142a0aaf9b33e4a6df, type: 2}
+  jumpMaterial: {fileID: 2100000, guid: f71add941fb1d074fa9b5c41090e009c, type: 2}
+  digMaterial: {fileID: 2100000, guid: 61fc2fe9716cd1f428ca1b73e041668f, type: 2}
+  noneMaterial: {fileID: 2100000, guid: 97a9c0a5e145ef74fa55c2dcb4c22a98, type: 2}
