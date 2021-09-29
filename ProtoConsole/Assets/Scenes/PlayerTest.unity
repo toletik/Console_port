@@ -10810,6 +10810,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 727881380}
     m_Modifications:
+    - target: {fileID: 1511378094470394320, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
+      propertyPath: movementHeight
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644550229452822875, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
+      propertyPath: movementHeight
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2764149572851260100, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
       propertyPath: m_RootOrder
       value: 0

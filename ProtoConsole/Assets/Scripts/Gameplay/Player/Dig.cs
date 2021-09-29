@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Dig : MonoBehaviour
+public class Dig : ChangeHeightCapacity
 {
    
 }

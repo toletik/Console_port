@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Dig digCapacity = default;
 
     [HideInInspector] public float AltitudeModifier = 0;
+    [HideInInspector] public bool CanAddAltitudeModifier = true;
 
     private Vector3 gravityCenter = default;
 
