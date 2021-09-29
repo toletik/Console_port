@@ -8,6 +8,9 @@ public abstract class PlayerCapacity : MonoBehaviour
     [Header("Controls")]
     [SerializeField] protected KeyCode activateKey = KeyCode.Keypad1;
 
+    [Header("Parameters")]
+    [SerializeField, Range(0, 1)] protected float planarMovementModifierCoef = 0.8f;
+
     protected Player player = default;
     protected Coroutine currentAction = null;
 

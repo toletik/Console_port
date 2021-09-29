@@ -12214,7 +12214,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16250
+  m_Name: pb_Mesh17616
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12430,6 +12430,14 @@ PrefabInstance:
     - target: {fileID: 2764149572851260121, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6484247886315376336, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
+      propertyPath: dashSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6484247886315376336, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}
+      propertyPath: dashDuration
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 111a3835a4abc2f43b3eba941351cfab, type: 3}

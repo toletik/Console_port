@@ -3,11 +3,9 @@ using UnityEngine;
 
 public abstract class ChangeHeightCapacity : PlayerCapacity
 {
-    [Header("Parameters")]
     [SerializeField] private float movementHeight = 3;
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
-    [SerializeField] private float planarMovementModifierCoef = 0.8f;
 
     protected override void LookToStartAction()
     {

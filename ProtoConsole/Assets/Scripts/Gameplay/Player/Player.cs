@@ -19,7 +19,9 @@ public class Player : MonoBehaviour
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
     [HideInInspector] public float MovementControlCoef = 1;
+    [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
 
+    private Vector2 inputs = new Vector2();
     private Vector3 gravityCenter = default;
 
     private void Awake()
@@ -30,16 +32,19 @@ public class Player : MonoBehaviour
         jumpCapacity.enabled = false;
         digCapacity.enabled = false;
     }
-    
+
     public void FixedUpdate()
     {
-        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * (speed * Time.fixedDeltaTime * MovementControlCoef);
+        inputs.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) * (speed * Time.fixedDeltaTime);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
         rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
         rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
 
         AltitudeModifier = 0;
+        ExternalVelocity = Vector3.zero;
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)

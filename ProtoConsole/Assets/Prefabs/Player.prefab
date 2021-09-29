@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.8
+  activateKey: 259
+  planarMovementModifierCoef: 0
   movementHeight: -1
   movementDuration: 0.8
   movementCurve:
@@ -81,8 +83,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  planarMovementModifierCoef: 0
-  activateKey: 259
 --- !u!114 &6484247886315376336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,12 +90,49 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558262071722226893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e49a8e781bd2d8a43823b25b6353007d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 0.8
+  cooldown: 1
+  activateKey: 258
+  planarMovementModifierCoef: 0.05
+  dashDuration: 0.05
+  dashSpeed: 7
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0011971919
+      value: 0.9995016
+      inSlope: 0.0010052315
+      outSlope: 0.0010052315
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.061080147
+    - serializedVersion: 3
+      time: 0.78057176
+      value: 0.98502725
+      inSlope: -0.0790599
+      outSlope: -0.0790599
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.076471955
+      outWeight: 0.17169537
+    - serializedVersion: 3
+      time: 1.0018942
+      value: 0.4023072
+      inSlope: -8.400119
+      outSlope: -8.400119
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.039952327
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &2644550229452822875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.8
+  activateKey: 257
+  planarMovementModifierCoef: 0.75
   movementHeight: 3
   movementDuration: 0.8
   movementCurve:
@@ -144,8 +183,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  planarMovementModifierCoef: 0.75
-  activateKey: 257
 --- !u!1 &2764149572851260121
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,3 +320,4 @@ MonoBehaviour:
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
   MovementControlCoef: 1
+  ExternalVelocity: {x: 0, y: 0}
