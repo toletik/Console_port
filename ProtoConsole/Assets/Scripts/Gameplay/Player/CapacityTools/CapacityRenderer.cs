@@ -10,17 +10,20 @@ public class CapacityRenderer : ScriptableObject
     [SerializeField] private Material jumpMaterial = default;
     [SerializeField] private Material digMaterial = default;
 
-    public Transform GetRendererForCapacity(Capacity capacity)
+    public Transform GetRendererForCapacity(Capacity capacity, Transform parent)
     {
-        GameObject cone = Instantiate(capacityConePrefab);
+        GameObject cone = Instantiate(capacityConePrefab, parent);
 
-        cone.GetComponent<MeshRenderer>().material = capacity switch
+        if (capacity != Capacity.NONE)
         {
-            Capacity.JUMP => jumpMaterial,
-            Capacity.DASH => dashMaterial,
-            Capacity.DIG => digMaterial,
-            _ => cone.GetComponent<MeshRenderer>().material,
-        };
+            cone.GetComponentInChildren<MeshRenderer>().material = capacity switch
+            {
+                Capacity.JUMP => jumpMaterial,
+                Capacity.DASH => dashMaterial,
+                Capacity.DIG => digMaterial,
+                _ => default
+            };
+        }
 
         return cone.transform;
     }

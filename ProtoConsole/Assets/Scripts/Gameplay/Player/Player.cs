@@ -46,7 +46,14 @@ public class Player : MonoBehaviour
     {
         if (ActivateCapacityIfNew(type, dashDirection))
         {
-            capacityConeSpawner.GetRendererForCapacity(type).SetParent(capacityRenderersContainer, false);
+            capacityConeSpawner.GetRendererForCapacity(type, capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
+            {
+                Capacity.JUMP => Vector3.zero,
+                Capacity.DASH => new Vector3 (90, 0, (int)dashDirection),
+                Capacity.DIG => new Vector3 (180, 0, 0),
+                _ => Vector3.zero
+            });
+
             return true;
         }
 
