@@ -18,4 +18,9 @@ public class Dash : PlayerCapacity
         
         return directionEnabled[direction] = true;
     }
+
+    protected override void LookToStartAction()
+    {
+        
+    }
 }

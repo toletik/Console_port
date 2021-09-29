@@ -5,6 +5,27 @@ public abstract class PlayerCapacity : MonoBehaviour
 {
     [SerializeField] private float cooldown = 0.8f;
 
+    [Header("Controls")]
+    [SerializeField] protected KeyCode activateKey = KeyCode.Keypad1;
+
+    protected Player player = default;
+    protected Coroutine currentAction = null;
+
+    protected virtual void OnEnable()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
+    protected virtual void Update()
+    {
+        if (Input.GetKeyDown(activateKey) && currentAction == null)
+        {
+            LookToStartAction();
+        }
+    }
+
+    protected abstract void LookToStartAction();
+
     protected Coroutine WaitForCooldown() => StartCoroutine(Cooldown());
 
     private IEnumerator Cooldown()
