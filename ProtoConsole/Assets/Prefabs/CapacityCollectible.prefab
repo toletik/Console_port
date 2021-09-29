@@ -1,6 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6976016770880904488
+--- !u!64 &9154215918388383270
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628033957629854712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &4555949036239020911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,6 +26,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea22dab080ce3ae48905cbc890bcf95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalDashDirection: 0
   capacityType: 0
 --- !u!1001 &3217314120908576213
 PrefabInstance:
@@ -186,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826172552243549741, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
       propertyPath: m_Name
-      value: Capacity
+      value: CapacityCollectible
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
