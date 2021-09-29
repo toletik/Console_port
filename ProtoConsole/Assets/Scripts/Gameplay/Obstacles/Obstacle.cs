@@ -10,10 +10,16 @@ public class Obstacle : StateObjects
     [SerializeField] protected float idleDuration = default;
     [SerializeField] protected float attackDuration = default;
     [SerializeField] protected AnimationCurve attackCurve = default;
+    [SerializeField] protected float attackCoolDown = 10;
 
+    private Vector3 Offset = default;
+    private float angleOffset = default;
+    private float attackElapsedTime = 0;
     private float elapsedTime = 0;
     private Vector3 attackEndPosition = default;
     private Vector3 attackStartPosition = default;
+    private float angle = 0;
+   
 
     private void Start()
     {
@@ -33,31 +39,51 @@ public class Obstacle : StateObjects
     private void DoActionAttack()
     {
         transform.position = Vector3.Lerp(attackStartPosition,attackEndPosition,attackCurve.Evaluate(elapsedTime/attackDuration));
+        if (elapsedTime >= attackDuration) {
+            ResetElapsedTime();
+            angle -= Mathf.PI;
+            Debug.Log(angle);
+            
+            SetModeIdle();
+
+        }
     }
 
     private void SetAttackPosition()
     {
         attackStartPosition = transform.position;
-
+        Debug.Log(angle);
         Vector3 direction = (planet.position - transform.position).normalized;
-        Debug.DrawLine(transform.position, transform.position + direction * radiusIdle * 2);
+        Debug.DrawLine(transform.position, transform.position + direction * radiusIdle * 2,Color.red,2);
         attackEndPosition = transform.position + direction * radiusIdle * 2;
+       
+      
     }
     protected virtual void DoActionIdle()
     {
         ManageOrbit();
-        SetModeAttack();
+        attackElapsedTime += Time.deltaTime;
+
+        if (attackElapsedTime >= attackCoolDown) {
+            ResetElapsedTime();
+
+            SetModeAttack();
+        }
     }
 
     private void ManageOrbit()
     {
-        float angle;
-        angle = Mathf.Lerp(0, Mathf.PI * 2, elapsedTime / idleDuration);
+        
+        angle += (Mathf.PI * 2) / idleDuration / (1 / Time.deltaTime);
 
-        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle));
+        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle)*radiusIdle) ;
 
-        if (elapsedTime >= idleDuration) elapsedTime = 0;
     }
+    private void ResetElapsedTime()
+    {
+        attackElapsedTime = 0;
+        elapsedTime = 0;
+    } 
     private void Update()
     {
         elapsedTime += Time.deltaTime;

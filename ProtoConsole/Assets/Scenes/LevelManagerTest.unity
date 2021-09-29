@@ -312,19 +312,23 @@ PrefabInstance:
       objectReference: {fileID: 1508328139}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: radiusIdle
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
-      propertyPath: idleDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
-      propertyPath: attackDuration
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: idleDuration
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCoolDown
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_PostInfinity
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_Curve.Array.size
@@ -335,7 +339,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].time
+      value: 0.5982645
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[3].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].value
+      value: 0.8231431
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[3].value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
@@ -347,12 +367,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].inSlope
+      value: -0.050761282
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_Curve.Array.data[0].outSlope
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_Curve.Array.data[1].outSlope
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].outSlope
+      value: -0.050761282
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCurve.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: attackCurve.m_Curve.Array.data[0].tangentMode
