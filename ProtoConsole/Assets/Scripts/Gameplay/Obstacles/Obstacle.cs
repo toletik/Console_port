@@ -15,7 +15,7 @@ public class Obstacle : StateObjects
     private Vector3 Offset = default;
     private float angleOffset = default;
     private float attackElapsedTime = 0;
-    private float elapsedTime = 0;
+    protected float elapsedTime = 0;
     private Vector3 attackEndPosition = default;
     private Vector3 attackStartPosition = default;
     private float angle = 0;
