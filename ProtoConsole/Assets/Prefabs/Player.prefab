@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 3c5699de86e7e1e47aecb8bcc17a0c85, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -549,6 +549,9 @@ MonoBehaviour:
   capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   capacityRenderersContainer: {fileID: 5027195158979113058}
   speed: 10
+  ejectionOnPlayerContactStrenght: 0.3
+  ejectionDeceleration: 0.02
+  ejectionGravity: 0.05
   jumpCapacity: {fileID: 2644550229452822875}
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
