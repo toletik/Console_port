@@ -9,6 +9,11 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
     protected abstract Capacity Type { get; }
 
+    protected override bool TryToAssignCapacity()
+    {
+        return player.TryAddCapacity(Type);
+    }
+
     protected override void LookToStartAction()
     {
         if (player.CanAddAltitudeModifier)

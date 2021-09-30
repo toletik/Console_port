@@ -16,7 +16,6 @@ public class Dash : PlayerCapacity
         { Direction.LEFT, false }
     };
 
-    private Direction lastDirection = default;
     private Direction currentDirection = default;
 
     public bool TryAddDirection(Direction direction)
@@ -25,6 +24,11 @@ public class Dash : PlayerCapacity
             return false;
         
         return directionEnabled[direction] = true;
+    }
+
+    protected override bool TryToAssignCapacity()
+    {
+        return player.TryAddCapacity(Capacity.DASH, currentDirection);
     }
 
     protected override void LookToStartAction()
@@ -80,6 +84,5 @@ public class Dash : PlayerCapacity
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Capacity.DASH);
-        lastDirection = currentDirection;
     }
 }

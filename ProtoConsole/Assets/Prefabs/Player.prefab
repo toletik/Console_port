@@ -528,6 +528,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e73a8b88-44c2-4b32-8e70-9e44e5643695
     m_ActionName: Player/PauseGame[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2764149572851260103}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: SwitchCapacityAssignationMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88c21a77-bc08-4af0-a94f-a2710c0adaa0
+    m_ActionName: Player/AssignationMode[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -556,6 +572,8 @@ MonoBehaviour:
   jumpCapacity: {fileID: 2644550229452822875}
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
+  activateAssignModeEvenWithoutAvailableSlot: 0
+  keepAssignModeActivatedAfterAttribution: 0
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
   MovementControlCoef: 1
