@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,11 +24,19 @@ public class Player : MonoBehaviour
     [SerializeField] private Dash dashCapacity = default;
     [SerializeField] private Dig digCapacity = default;
 
+    [Header("Capacities assignment")]
+    [SerializeField] private bool activateAssignModeEvenWithoutAvailableSlot = false;
+    [SerializeField] private bool keepAssignModeActivatedAfterAttributionSuccess = false;
+    [SerializeField] private bool keepAssignModeActivatedAfterAttributionFail = true;
+
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
+    
+    public bool AssignationMode { get; private set; }
 
+    private uint availableUnassignedCapacities = 0;
     private Capacity currentCapacityUsed = Capacity.NONE;
 
     private Vector2 inputs = Vector2.zero;
@@ -82,9 +89,28 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Capacities
+    public void SwitchCapacityAssignationMode(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (availableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
+            {
+                AssignationMode = true;
+                Debug.LogWarning("Start assignation");
+            }
+        }
+        else if (context.canceled) 
+        { 
+            AssignationMode = false; 
+            Debug.LogWarning("End assignation"); 
+        }
+    }
+
+    public void CollectCapacityToAssign() => availableUnassignedCapacities++;
+
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
-        if (ActivateCapacityIfNew(type, dashDirection))
+        if (availableUnassignedCapacities > 0 && ActivateCapacityIfNew(type, dashDirection))
         {
             capacityConeSpawner.GetRendererForCapacity(type, capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
             {
@@ -94,8 +120,15 @@ public class Player : MonoBehaviour
                 _ => Vector3.zero
             });
 
+            availableUnassignedCapacities--;
+
+            if (!keepAssignModeActivatedAfterAttributionSuccess) 
+                AssignationMode = false;
+
             return true;
         }
+
+        if (!keepAssignModeActivatedAfterAttributionFail) AssignationMode = false;
 
         return false;
     }

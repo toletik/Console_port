@@ -12,16 +12,21 @@ public abstract class PlayerCapacity : MonoBehaviour
     protected Player player = default;
     protected Coroutine currentAction = null;
 
-    protected virtual void OnEnable()
+    protected virtual void Awake()
     {
         player = GetComponentInParent<Player>();
     }
 
     public virtual void TryToActivate(InputAction.CallbackContext context)
     {
-        if (isActiveAndEnabled && context.action.triggered && currentAction == null) LookToStartAction();
+        if (context.action.triggered)
+        {
+            if (player.AssignationMode) TryToAssignCapacity();
+            else if (isActiveAndEnabled && currentAction == null) LookToStartAction();
+        }
     }
 
+    protected abstract bool TryToAssignCapacity();
     protected abstract void LookToStartAction();
 
     protected Coroutine WaitForCooldown() => StartCoroutine(Cooldown());
