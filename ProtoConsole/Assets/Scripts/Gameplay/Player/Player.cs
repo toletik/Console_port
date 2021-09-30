@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public delegate void PlayerEventHandler(Player player);
+    public static event PlayerEventHandler OnPause;
+
     [Header("References")]
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
@@ -36,6 +39,7 @@ public class Player : MonoBehaviour
         digCapacity.enabled = false;
     }
 
+    #region Movement
     public void UpdateMoveInputs(InputAction.CallbackContext callback)
     {
         inputs = callback.ReadValue<Vector2>();
@@ -52,7 +56,9 @@ public class Player : MonoBehaviour
         AltitudeModifier = 0;
         ExternalVelocity = Vector3.zero;
     }
+    #endregion
 
+    #region Capacities
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
         if (ActivateCapacityIfNew(type, dashDirection))
@@ -105,5 +111,15 @@ public class Player : MonoBehaviour
     public void EndCapacity(Capacity capacity)
     {
         currentCapacityUsed = (Capacity)((int)currentCapacityUsed - (int)capacity);
+    }
+    #endregion
+
+    public void ClickOnPause(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            Debug.Log(gameObject.name + " : Click to pause/unpause the game");
+            OnPause?.Invoke(this);
+        }
     }
 }
