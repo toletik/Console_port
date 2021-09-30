@@ -31,4 +31,6 @@ public abstract class PlayerCapacity : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
         yield break;
     }
+
+    protected abstract void ClearCapacityEffects();
 }

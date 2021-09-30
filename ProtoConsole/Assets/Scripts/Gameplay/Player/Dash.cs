@@ -7,8 +7,6 @@ public class Dash : PlayerCapacity
     [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
-    [Space(10)]
-    [SerializeField, Range(0, 1)] private float minPlayerMovementRestrictionToDash = 0.005f;
 
     private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
     {
@@ -31,9 +29,10 @@ public class Dash : PlayerCapacity
 
     protected override void LookToStartAction()
     {
-        if (!directionEnabled[currentDirection] || player.MovementControlCoef < minPlayerMovementRestrictionToDash) return;
+        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return;
 
         player.MovementControlCoef = planarMovementModifierCoef;
+        player.StartCapacity(Capacity.DASH);
 
         currentAction = StartCoroutine(ExecuteDash(currentDirection switch
         {
@@ -69,12 +68,18 @@ public class Dash : PlayerCapacity
             yield return null;
         }
 
-        player.MovementControlCoef = 1;
-        lastDirection = currentDirection;
+        ClearCapacityEffects();
 
         yield return WaitForCooldown();
 
         currentAction = null;
         yield break;
+    }
+
+    protected override void ClearCapacityEffects()
+    {
+        player.MovementControlCoef = 1;
+        player.EndCapacity(Capacity.DASH);
+        lastDirection = currentDirection;
     }
 }

@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
 
+    private Capacity currentCapacityUsed = Capacity.NONE;
+
     private Vector2 inputs = Vector2.zero;
     private Vector3 gravityCenter = default;
 
@@ -86,5 +88,22 @@ public class Player : MonoBehaviour
             default:
                 return false;
         }
+    }
+
+    public bool IsUsingCapacity(Capacity capacity)
+    {
+        if (capacity == currentCapacityUsed) return true;
+        else if (currentCapacityUsed == Capacity.DASH_AND_JUMP && (capacity == Capacity.JUMP || capacity == Capacity.DASH)) return true;
+        else return false;
+    }
+
+    public void StartCapacity(Capacity capacity)
+    {
+        currentCapacityUsed = (Capacity)((int)currentCapacityUsed + (int)capacity);
+    }
+
+    public void EndCapacity(Capacity capacity)
+    {
+        currentCapacityUsed = (Capacity)((int)currentCapacityUsed - (int)capacity);
     }
 }

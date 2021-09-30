@@ -7,12 +7,15 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
 
+    protected abstract Capacity Type { get; }
+
     protected override void LookToStartAction()
     {
         if (player.CanAddAltitudeModifier)
         {
             player.CanAddAltitudeModifier = false;
             player.MovementControlCoef = planarMovementModifierCoef;
+            player.StartCapacity(Type);
 
             currentAction = StartCoroutine(UpdateHeight());
         }
@@ -30,14 +33,19 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
             yield return null;
         }
 
-        player.AltitudeModifier = 0;
-        player.MovementControlCoef = 1;
-        player.CanAddAltitudeModifier = true;
+        ClearCapacityEffects();
 
         yield return WaitForCooldown();
 
         currentAction = null;
-
         yield break;
+    }
+
+    protected override void ClearCapacityEffects()
+    {
+        player.AltitudeModifier = 0;
+        player.MovementControlCoef = 1;
+        player.CanAddAltitudeModifier = true;
+        player.EndCapacity(Type);
     }
 }
