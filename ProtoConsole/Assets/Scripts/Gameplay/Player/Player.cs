@@ -1,7 +1,13 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public delegate void PlayerEventHandler(Player player);
+    public static event PlayerEventHandler OnPause;
+
     [Header("References")]
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
@@ -10,6 +16,9 @@ public class Player : MonoBehaviour
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
+    [SerializeField] private float ejectionOnPlayerContactStrenght = 0.3f;
+    [SerializeField] private float ejectionDeceleration = 0.02f;
+    [SerializeField] private float ejectionGravity = 0.05f;
 
     [Header("Capacities")]
     [SerializeField] private Jump jumpCapacity = default;
@@ -19,29 +28,60 @@ public class Player : MonoBehaviour
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
     [HideInInspector] public float MovementControlCoef = 1;
+    [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
 
+    private Capacity currentCapacityUsed = Capacity.NONE;
+
+    private Vector2 inputs = Vector2.zero;
     private Vector3 gravityCenter = default;
+    private Vector3 ejection = default;
+
+    private Action doAction = default;
 
     private void Awake()
     {
         gravityCenter = levelSettings.GravityCenter;
+        DisableAllCapacities(false);
 
-        dashCapacity.enabled = false;
-        jumpCapacity.enabled = false;
-        digCapacity.enabled = false;
+        SetModeMove();
     }
-    
+
     public void FixedUpdate()
     {
-        rigidbody.position += (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal")) * (speed * Time.fixedDeltaTime * MovementControlCoef);
-        rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
-
-        rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
-        rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
-
-        AltitudeModifier = 0;
+        doAction.Invoke();
     }
 
+    #region Movement
+    private void SetModeMove()
+    {
+        doAction = DoActionMove;
+        dashCapacity.gameObject.SetActive(true);
+    }
+
+    private void DoActionMove()
+    {
+        rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) * (speed * Time.fixedDeltaTime);
+        rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
+
+        RotateAccordingToPlanet();
+
+        AltitudeModifier = 0;
+        ExternalVelocity = Vector3.zero;
+    }
+
+    private void RotateAccordingToPlanet()
+    {
+        rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
+        rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
+    }
+
+    public void UpdateMoveInputs(InputAction.CallbackContext callback)
+    {
+        inputs = callback.ReadValue<Vector2>();
+    }
+    #endregion
+
+    #region Capacities
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
         if (ActivateCapacityIfNew(type, dashDirection))
@@ -76,6 +116,92 @@ public class Player : MonoBehaviour
 
             default:
                 return false;
+        }
+    }
+
+    public bool IsUsingCapacity(Capacity capacity)
+    {
+        if (capacity == currentCapacityUsed) return true;
+        else if (currentCapacityUsed == Capacity.DASH_AND_JUMP && (capacity == Capacity.JUMP || capacity == Capacity.DASH)) return true;
+        else return false;
+    }
+
+    public void StartCapacity(Capacity capacity)
+    {
+        currentCapacityUsed = (Capacity)((int)currentCapacityUsed + (int)capacity);
+    }
+
+    public void EndCapacity(Capacity capacity)
+    {
+        currentCapacityUsed = (Capacity)((int)currentCapacityUsed - (int)capacity);
+    }
+
+    private void DisableAllCapacities(bool keepUnlock = true)
+    {
+        if (keepUnlock) dashCapacity.gameObject.SetActive(false);
+        else 
+        {
+            dashCapacity.enabled = false;
+            jumpCapacity.enabled = false;
+            digCapacity.enabled = false;
+        }
+    }
+    #endregion
+
+    #region Interactions
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(gameObject.tag))
+        {
+            Debug.Log("Aie !");
+            Eject(rigidbody.position - collision.rigidbody.position, ejectionOnPlayerContactStrenght);
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log(gameObject.name + " --> Die");
+    }
+
+    public void Eject(Vector3 direction, float strength)
+    {
+        ejection = direction.normalized * strength;
+        SetModeEjected();
+    }
+
+    private void SetModeEjected()
+    {
+        doAction = DoActionEjected;
+        DisableAllCapacities();
+    }
+
+    private void DoActionEjected()
+    {
+        rigidbody.position += ejection;
+
+        ejection -= (rigidbody.position - gravityCenter).normalized * ejectionGravity;
+        ejection *= 1 - ejectionDeceleration;
+
+        Vector3 toCenter = rigidbody.position - gravityCenter;
+
+        RotateAccordingToPlanet();
+
+        if (toCenter.magnitude <= levelSettings.PlanetRadius)
+        {
+            rigidbody.position = gravityCenter + toCenter.normalized * levelSettings.PlanetRadius;
+            ejection = Vector3.zero;
+
+            SetModeMove();
+        }
+    }
+    #endregion
+
+    public void ClickOnPause(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            Debug.Log(gameObject.name + " : Click to pause/unpause the game");
+            OnPause?.Invoke(this);
         }
     }
 }

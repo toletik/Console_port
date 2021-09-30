@@ -9,6 +9,7 @@ public class CapacityRenderer : ScriptableObject
     [SerializeField] private Material dashMaterial = default;
     [SerializeField] private Material jumpMaterial = default;
     [SerializeField] private Material digMaterial = default;
+    [SerializeField] private Material noneMaterial = default;
 
     public Transform GetRendererForCapacity(Capacity capacity, Transform parent)
     {
@@ -21,7 +22,7 @@ public class CapacityRenderer : ScriptableObject
                 Capacity.JUMP => jumpMaterial,
                 Capacity.DASH => dashMaterial,
                 Capacity.DIG => digMaterial,
-                _ => default
+                _ => noneMaterial
             };
         }
 

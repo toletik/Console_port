@@ -3,31 +3,21 @@ using UnityEngine;
 
 public abstract class ChangeHeightCapacity : PlayerCapacity
 {
-    [Header("Parameters")]
     [SerializeField] private float movementHeight = 3;
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
-    [SerializeField] private float planarMovementModifierCoef = 0.8f;
 
-    [Header("Controls")]
-    [SerializeField] protected KeyCode activateKey = KeyCode.Keypad1;
+    protected abstract Capacity Type { get; }
 
-    private Player player = default;
-    private Coroutine currentMovement = null;
-
-    private void OnEnable()
+    protected override void LookToStartAction()
     {
-        player = GetComponentInParent<Player>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(activateKey) && player.CanAddAltitudeModifier && currentMovement == null) 
+        if (player.CanAddAltitudeModifier)
         {
             player.CanAddAltitudeModifier = false;
             player.MovementControlCoef = planarMovementModifierCoef;
+            player.StartCapacity(Type);
 
-            currentMovement = StartCoroutine(UpdateHeight()); 
+            currentAction = StartCoroutine(UpdateHeight());
         }
     }
 
@@ -43,14 +33,19 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
             yield return null;
         }
 
-        player.AltitudeModifier = 0;
-        player.MovementControlCoef = 1;
-        player.CanAddAltitudeModifier = true;
+        ClearCapacityEffects();
 
         yield return WaitForCooldown();
 
-        currentMovement = null;
-
+        currentAction = null;
         yield break;
+    }
+
+    protected override void ClearCapacityEffects()
+    {
+        player.AltitudeModifier = 0;
+        player.MovementControlCoef = 1;
+        player.CanAddAltitudeModifier = true;
+        player.EndCapacity(Type);
     }
 }

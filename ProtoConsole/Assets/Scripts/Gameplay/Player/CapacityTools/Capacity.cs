@@ -1,7 +1,8 @@
 public enum Capacity
 {
-    NONE, 
-    JUMP, 
+    NONE,
+    DIG,
     DASH,
-    DIG
+    JUMP,
+    DASH_AND_JUMP = 5
 }
