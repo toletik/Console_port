@@ -7,6 +7,8 @@ public class Dash : PlayerCapacity
     [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
+    [Space(10)]
+    [SerializeField, Range(0, 1)] private float minPlayerMovementRestrictionToDash = 0.005f;
 
     private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
     {
@@ -29,7 +31,7 @@ public class Dash : PlayerCapacity
 
     protected override void LookToStartAction()
     {
-        if (!directionEnabled[currentDirection]) return;
+        if (!directionEnabled[currentDirection] || player.MovementControlCoef < minPlayerMovementRestrictionToDash) return;
 
         player.MovementControlCoef = planarMovementModifierCoef;
 
