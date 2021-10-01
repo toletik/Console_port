@@ -7,7 +7,12 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
     [SerializeField] private float movementDuration = 0.8f;
     [SerializeField] private AnimationCurve movementCurve = default;
 
-    protected abstract Capacity Type { get; }
+    protected new MeshRenderer renderer = default;
+
+    protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
+    {
+        return this.renderer = renderer;
+    }
 
     protected override bool TryToAssignCapacity()
     {
@@ -23,6 +28,8 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
             player.StartCapacity(Type);
 
             currentAction = StartCoroutine(UpdateHeight());
+
+            SetUsedColorOnRenderer(renderer);
         }
     }
 
@@ -40,7 +47,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown();
+        yield return WaitForCooldown(renderer);
 
         currentAction = null;
         yield break;

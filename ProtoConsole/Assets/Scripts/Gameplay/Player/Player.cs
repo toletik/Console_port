@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     [Header("References")]
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
-    [SerializeField] private CapacityRenderer capacityConeSpawner = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
 
     [Header("Parameters")]
@@ -110,9 +109,9 @@ public class Player : MonoBehaviour
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
-        if (availableUnassignedCapacities > 0 && ActivateCapacityIfNew(type, dashDirection))
+        if (availableUnassignedCapacities > 0 && ActivateCapacityIfNew(type, out PlayerCapacity capacity, dashDirection))
         {
-            capacityConeSpawner.GetRendererForCapacity(type, capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
+            capacity.CreateRenderer(capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
             {
                 Capacity.JUMP => Vector3.zero,
                 Capacity.DASH => new Vector3 (90, 0, (int)dashDirection),
@@ -133,21 +132,25 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    private bool ActivateCapacityIfNew(Capacity type, Direction dashDirection = default)
+    private bool ActivateCapacityIfNew(Capacity type, out PlayerCapacity capacityScript, Direction dashDirection = default)
     {
         switch (type)
         {
             case Capacity.JUMP:
+                capacityScript = jumpCapacity;
                 return jumpCapacity.enabled ? false : jumpCapacity.enabled = true;
 
             case Capacity.DASH:
                 dashCapacity.enabled = true;
+                capacityScript = dashCapacity;
                 return dashCapacity.TryAddDirection(dashDirection);                
 
             case Capacity.DIG:
+                capacityScript = digCapacity;
                 return digCapacity.enabled ? false : digCapacity.enabled = true;
 
             default:
+                capacityScript = default;
                 return false;
         }
     }

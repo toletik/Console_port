@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.8
+  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0
   movementHeight: -1
   movementDuration: 0.8
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
+  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0.05
   dashDuration: 0.05
   dashSpeed: 7
@@ -174,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.8
+  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0.75
   movementHeight: 3
   movementDuration: 0.8
@@ -563,7 +566,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   rigidbody: {fileID: 2764149572851260120}
-  capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   capacityRenderersContainer: {fileID: 5027195158979113058}
   speed: 10
   ejectionOnPlayerContactStrenght: 0.3
@@ -573,7 +575,8 @@ MonoBehaviour:
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
   activateAssignModeEvenWithoutAvailableSlot: 0
-  keepAssignModeActivatedAfterAttribution: 0
+  keepAssignModeActivatedAfterAttributionSuccess: 0
+  keepAssignModeActivatedAfterAttributionFail: 1
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
   MovementControlCoef: 1

@@ -5,12 +5,18 @@ using UnityEngine.InputSystem;
 public abstract class PlayerCapacity : MonoBehaviour
 {
     [SerializeField] private float cooldown = 0.8f;
+    [SerializeField] private CapacityRenderer capacityConeSpawner = default;
 
     [Header("Parameters")]
     [SerializeField, Range(0, 1)] protected float planarMovementModifierCoef = 0.8f;
 
+    protected abstract Capacity Type { get; }
+
     protected Player player = default;
     protected Coroutine currentAction = null;
+
+    private Color coneColor = default;
+    private Color coneColorOnCapacityUsed = default;
 
     protected virtual void Awake()
     {
@@ -26,14 +32,38 @@ public abstract class PlayerCapacity : MonoBehaviour
         }
     }
 
+    public Transform CreateRenderer(Transform rendererParent)
+    {
+        Transform renderer = capacityConeSpawner.CreateRendererForCapacity(Type, rendererParent);
+
+        coneColor = SaveRenderer(renderer.GetComponentInChildren<MeshRenderer>()).material.color;
+        coneColorOnCapacityUsed = capacityConeSpawner.GetUsedMaterialColorForCapacity(Type);
+
+        return renderer;
+    }
+
+    protected abstract MeshRenderer SaveRenderer(MeshRenderer renderer);
     protected abstract bool TryToAssignCapacity();
     protected abstract void LookToStartAction();
 
-    protected Coroutine WaitForCooldown() => StartCoroutine(Cooldown());
+    protected Coroutine WaitForCooldown(MeshRenderer renderer) => StartCoroutine(Cooldown(renderer));
 
-    private IEnumerator Cooldown()
+    protected void SetUsedColorOnRenderer(MeshRenderer renderer) => renderer.material.color = coneColorOnCapacityUsed;
+    
+    private IEnumerator Cooldown(MeshRenderer renderer)
     {
-        yield return new WaitForSeconds(cooldown);
+        Material capacityMaterial = renderer.material;
+        AnimationCurve interpolation = capacityConeSpawner.ColorInterpolationCurveForCooldown;
+        float elapsedTime = 0;
+
+        while(elapsedTime <= cooldown)
+        {
+            elapsedTime += Time.deltaTime;
+            capacityMaterial.color = Color.Lerp(coneColorOnCapacityUsed, coneColor, interpolation.Evaluate(elapsedTime / cooldown));
+
+            yield return null;
+        }
+
         yield break;
     }
 

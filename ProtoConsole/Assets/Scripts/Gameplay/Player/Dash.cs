@@ -8,6 +8,8 @@ public class Dash : PlayerCapacity
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
 
+    protected override Capacity Type => Capacity.DASH;
+
     private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
     {
         { Direction.UP, false },
@@ -16,7 +18,20 @@ public class Dash : PlayerCapacity
         { Direction.LEFT, false }
     };
 
+    private readonly Dictionary<Direction, MeshRenderer> allDirectionsRenderer = new Dictionary<Direction, MeshRenderer>()
+    {
+        { Direction.UP, default },
+        { Direction.RIGHT, default },
+        { Direction.DOWN, default },
+        { Direction.LEFT, default }
+    };
+
     private Direction currentDirection = default;
+
+    protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
+    {
+        return allDirectionsRenderer[currentDirection] = renderer;
+    }
 
     public bool TryAddDirection(Direction direction)
     {
@@ -28,7 +43,7 @@ public class Dash : PlayerCapacity
 
     protected override bool TryToAssignCapacity()
     {
-        return player.TryAddCapacity(Capacity.DASH, currentDirection);
+        return player.TryAddCapacity(Type, currentDirection);
     }
 
     protected override void LookToStartAction()
@@ -36,16 +51,18 @@ public class Dash : PlayerCapacity
         if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return;
 
         player.MovementControlCoef = planarMovementModifierCoef;
-        player.StartCapacity(Capacity.DASH);
+        player.StartCapacity(Type);
 
         currentAction = StartCoroutine(ExecuteDash(currentDirection switch
         {
             Direction.UP => new Vector2(0, 1),
             Direction.RIGHT => new Vector2(1, 0),
             Direction.DOWN => new Vector2(0, -1),
-            Direction.LEFT => new Vector2(-1, 0), 
+            Direction.LEFT => new Vector2(-1, 0),
             _ => new Vector2(0, 1)
         }));
+
+        SetUsedColorOnRenderer(allDirectionsRenderer[currentDirection]);
     }
 
     /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>
@@ -62,6 +79,7 @@ public class Dash : PlayerCapacity
 
     private IEnumerator ExecuteDash(Vector2 direction)
     {
+        Direction dashDirection = currentDirection;
         float elapsedTime = 0;
 
         while (elapsedTime < dashDuration)
@@ -74,7 +92,7 @@ public class Dash : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown();
+        yield return WaitForCooldown(allDirectionsRenderer[dashDirection]);
 
         currentAction = null;
         yield break;
@@ -83,6 +101,6 @@ public class Dash : PlayerCapacity
     protected override void ClearCapacityEffects()
     {
         player.MovementControlCoef = 1;
-        player.EndCapacity(Capacity.DASH);
+        player.EndCapacity(Type);
     }
 }
