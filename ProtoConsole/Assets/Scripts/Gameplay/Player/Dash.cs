@@ -46,9 +46,9 @@ public class Dash : PlayerCapacity
         return player.TryAddCapacity(Type, currentDirection);
     }
 
-    protected override void LookToStartAction()
+    protected override bool LookToStartAction()
     {
-        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return;
+        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return false;
 
         player.MovementControlCoef = planarMovementModifierCoef;
         player.StartCapacity(Type);
@@ -63,6 +63,8 @@ public class Dash : PlayerCapacity
         }));
 
         SetUsedColorOnRenderer(allDirectionsRenderer[currentDirection]);
+
+        return true;
     }
 
     /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>

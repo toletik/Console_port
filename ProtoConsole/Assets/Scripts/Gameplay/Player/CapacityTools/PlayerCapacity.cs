@@ -44,7 +44,7 @@ public abstract class PlayerCapacity : MonoBehaviour
 
     protected abstract MeshRenderer SaveRenderer(MeshRenderer renderer);
     protected abstract bool TryToAssignCapacity();
-    protected abstract void LookToStartAction();
+    protected abstract bool LookToStartAction();
 
     protected Coroutine WaitForCooldown(MeshRenderer renderer) => StartCoroutine(Cooldown(renderer));
 

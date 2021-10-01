@@ -19,7 +19,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
         return player.TryAddCapacity(Type);
     }
 
-    protected override void LookToStartAction()
+    protected override bool LookToStartAction()
     {
         if (player.CanAddAltitudeModifier)
         {
@@ -30,7 +30,11 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
             currentAction = StartCoroutine(UpdateHeight());
 
             SetUsedColorOnRenderer(renderer);
+
+            return true;
         }
+
+        return false;
     }
 
     private IEnumerator UpdateHeight()

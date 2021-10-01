@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
     
     public bool AssignationMode { get; private set; }
+    public bool CanBeEjected = true;
 
     private MeshRenderer meshRenderer = default;
     private Material defaultPlayerMaterial = default;
@@ -217,8 +218,11 @@ public class Player : MonoBehaviour
 
     public void Eject(Vector3 direction, float strength)
     {
-        ejection = direction.normalized * strength;
-        SetModeEjected();
+        if (CanBeEjected)
+        {
+            ejection = direction.normalized * strength;
+            SetModeEjected();
+        }
     }
 
     private void SetModeEjected()
