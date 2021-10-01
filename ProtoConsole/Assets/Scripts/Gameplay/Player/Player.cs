@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
+    [SerializeField] private Material hasCapacityToAssignMaterial = default;
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
@@ -35,6 +36,9 @@ public class Player : MonoBehaviour
     
     public bool AssignationMode { get; private set; }
 
+    private MeshRenderer meshRenderer = default;
+    private Material defaultPlayerMaterial = default;
+
     private uint availableUnassignedCapacities = 0;
     private Capacity currentCapacityUsed = Capacity.NONE;
 
@@ -46,6 +50,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        meshRenderer = GetComponent<MeshRenderer>();
+        defaultPlayerMaterial = meshRenderer.material;
+
         gravityCenter = levelSettings.GravityCenter;
         DisableAllCapacities(false);
 
@@ -105,7 +112,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CollectCapacityToAssign() => availableUnassignedCapacities++;
+    public void CollectCapacityToAssign() 
+    {
+        if (availableUnassignedCapacities == 0) 
+            meshRenderer.material = hasCapacityToAssignMaterial;
+
+        availableUnassignedCapacities++;
+    }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
@@ -120,6 +133,9 @@ public class Player : MonoBehaviour
             });
 
             availableUnassignedCapacities--;
+
+            if (availableUnassignedCapacities == 0) 
+                meshRenderer.material = defaultPlayerMaterial;
 
             if (!keepAssignModeActivatedAfterAttributionSuccess) 
                 AssignationMode = false;
