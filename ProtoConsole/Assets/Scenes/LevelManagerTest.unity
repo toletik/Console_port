@@ -358,6 +358,10 @@ PrefabInstance:
       propertyPath: planet
       value: 
       objectReference: {fileID: 1508328139}
+    - target: {fileID: 7706766637508996185, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
+      propertyPath: attackCoolDown
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
 --- !u!1001 &864997510
@@ -521,7 +525,11 @@ PrefabInstance:
       objectReference: {fileID: 1508328139}
     - target: {fileID: 7706766637508996185, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: idleDuration
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7706766637508996185, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: attackCoolDown
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 201697067050172134, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
