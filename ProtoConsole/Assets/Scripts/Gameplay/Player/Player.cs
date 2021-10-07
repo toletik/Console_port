@@ -33,9 +33,9 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool CanAddAltitudeModifier = true;
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
+    [HideInInspector] public bool CanBeEjected = true;
 
-    public bool AssignationMode { get; private set; }
-    public bool CanBeEjected = true;
+    public bool AssignationMode { get; private set; } = false;
 
     private MeshRenderer meshRenderer = default;
     private Material defaultPlayerMaterial = default;
@@ -56,17 +56,20 @@ public class Player : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         defaultPlayerMaterial = meshRenderer.material;
 
-        gravityCenter = levelSettings.GravityCenter;
         DisableAllCapacities(false);
 
-        SetModeMove();
+        doAction = () => { };
     }
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
         transform.position = position;
+
         levelSettings = currentLevelSettings;
+        gravityCenter = levelSettings.GravityCenter;
     }
+
+    public void StartGame() => SetModeMove(); 
 
     public void FixedUpdate()
     {
@@ -77,7 +80,7 @@ public class Player : MonoBehaviour
     private void SetModeMove()
     {
         doAction = DoActionMove;
-        dashCapacity.gameObject.SetActive(true);
+        dashCapacity.gameObject.SetActive(true);        //dashCapacity en tant que gameobject de toutes les capacités
     }
 
     private void DoActionMove()

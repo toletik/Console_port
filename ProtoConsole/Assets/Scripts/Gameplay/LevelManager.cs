@@ -21,6 +21,10 @@ public class LevelManager : MonoBehaviour
             player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
             player.OnDeath += Player_OnDeath;
+
+            player.StartGame();
+
+            Debug.Log("Yaaaay");
         }
     }
 
