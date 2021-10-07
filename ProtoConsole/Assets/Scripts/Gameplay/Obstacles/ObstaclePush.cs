@@ -14,8 +14,13 @@ public class ObstaclePush : Obstacle
     private bool growingScaleX = true;
     private bool growingScaleZ = true;
 
+    private bool movingLeft = false;
+
     private float elapsedTimeX = 0;
     private float elapsedTimeZ = 0;
+
+    private float elapsedTimeMove = 0;
+
     void Start()
     {
         sides = new Transform[]{
@@ -70,8 +75,8 @@ public class ObstaclePush : Obstacle
         float newScaleX = 0;
         float newScaleZ = 0;
 
-        newScaleZ =  TestGrowing(growingScaleX, elapsedTimeX);
-        newScaleX=  TestGrowing(growingScaleZ, elapsedTimeZ);
+        newScaleZ = TestElapsedTime(growingScaleX, elapsedTimeX);
+        newScaleX= TestElapsedTime(growingScaleZ, elapsedTimeZ);
 
         for (int i = 0; i < sides.Length; i++)
         {
@@ -79,10 +84,12 @@ public class ObstaclePush : Obstacle
         }
     }
 
-    private float TestGrowing(bool growing,float elapsedTime)
+    private float TestElapsedTime(bool growing,float elapsedTime)
     {
         if(growing) return Mathf.Lerp(0.1f, 0.2f, elapsedTime);
         else return  Mathf.Lerp(0.2f, 0.1f, elapsedTime);
     }
+
+    
     
 }
