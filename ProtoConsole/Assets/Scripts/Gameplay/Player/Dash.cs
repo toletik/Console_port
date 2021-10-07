@@ -9,6 +9,9 @@ public class Dash : PlayerCapacity
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
 
+    [Header("Feedback")]
+    [SerializeField] private bool updateColorForAllDirectionOnUse = false;
+
     protected override Capacity Type => Capacity.DASH;
 
     private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
@@ -95,7 +98,21 @@ public class Dash : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown(allDirectionsRenderer[dashDirection]);
+        List<MeshRenderer> feedbackRenderers = new List<MeshRenderer>();
+
+        if (updateColorForAllDirectionOnUse)
+        {
+            Array directions = Enum.GetValues(typeof(Direction));
+
+            foreach (Direction dir in directions)
+            {
+                if (allDirectionsRenderer[dir] != default)
+                    feedbackRenderers.Add(allDirectionsRenderer[dir]);
+            }
+        }
+        else feedbackRenderers.Add(allDirectionsRenderer[dashDirection]);
+
+        yield return WaitForCooldown(feedbackRenderers);
 
         currentAction = null;
         yield break;

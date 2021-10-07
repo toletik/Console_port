@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ChangeHeightCapacity : PlayerCapacity
@@ -51,7 +52,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown(renderer);
+        yield return WaitForCooldown(new List<MeshRenderer>() { renderer });
 
         currentAction = null;
         yield break;
