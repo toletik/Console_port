@@ -260,4 +260,19 @@ public class Player : MonoBehaviour
             OnPause?.Invoke(this);
         }
     }
+
+    public void Reset()
+    {
+        dashCapacity.ResetCapacity();
+        digCapacity.ResetCapacity();
+        jumpCapacity.ResetCapacity();
+
+        for (int i = capacityRenderersContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(capacityRenderersContainer.GetChild(i).gameObject);
+        }
+
+        AssignationMode = false;
+        CanBeEjected = true;
+    }
 }

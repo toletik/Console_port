@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ChangeHeightCapacity : PlayerCapacity
@@ -51,7 +52,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown(renderer);
+        yield return WaitForCooldown(new List<MeshRenderer>() { renderer });
 
         currentAction = null;
         yield break;
@@ -63,5 +64,11 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
         player.MovementControlCoef = 1;
         player.CanAddAltitudeModifier = true;
         player.EndCapacity(Type);
+    }
+
+    public override void ResetCapacity()
+    {
+        base.ResetCapacity();
+        renderer = default;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class Dash : PlayerCapacity
     [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
+
+    [Header("Feedback")]
+    [SerializeField] private bool updateColorForAllDirectionOnUse = false;
 
     protected override Capacity Type => Capacity.DASH;
 
@@ -94,7 +98,21 @@ public class Dash : PlayerCapacity
 
         ClearCapacityEffects();
 
-        yield return WaitForCooldown(allDirectionsRenderer[dashDirection]);
+        List<MeshRenderer> feedbackRenderers = new List<MeshRenderer>();
+
+        if (updateColorForAllDirectionOnUse)
+        {
+            Array directions = Enum.GetValues(typeof(Direction));
+
+            foreach (Direction dir in directions)
+            {
+                if (allDirectionsRenderer[dir] != default)
+                    feedbackRenderers.Add(allDirectionsRenderer[dir]);
+            }
+        }
+        else feedbackRenderers.Add(allDirectionsRenderer[dashDirection]);
+
+        yield return WaitForCooldown(feedbackRenderers);
 
         currentAction = null;
         yield break;
@@ -104,5 +122,18 @@ public class Dash : PlayerCapacity
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Type);
+    }
+
+    public override void ResetCapacity()
+    {
+        base.ResetCapacity();
+
+        Array directions = Enum.GetValues(typeof(Direction));
+
+        foreach (Direction direction in directions)
+        {
+            directionEnabled[direction] = false;
+            allDirectionsRenderer[direction] = default;
+        }
     }
 }

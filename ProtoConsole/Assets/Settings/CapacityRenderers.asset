@@ -50,6 +50,6 @@ MonoBehaviour:
   jumpMaterial: {fileID: 2100000, guid: f71add941fb1d074fa9b5c41090e009c, type: 2}
   digMaterial: {fileID: 2100000, guid: 61fc2fe9716cd1f428ca1b73e041668f, type: 2}
   noneMaterial: {fileID: 2100000, guid: 97a9c0a5e145ef74fa55c2dcb4c22a98, type: 2}
-  dashMaterialUsed: {r: 0, g: 0, b: 0, a: 1}
-  jumpMaterialUsed: {r: 0, g: 0, b: 0, a: 1}
-  digMaterialUsed: {r: 0, g: 0, b: 0, a: 1}
+  dashMaterialUsed: {r: 1, g: 1, b: 1, a: 1}
+  jumpMaterialUsed: {r: 1, g: 1, b: 1, a: 1}
+  digMaterialUsed: {r: 1, g: 1, b: 1, a: 1}

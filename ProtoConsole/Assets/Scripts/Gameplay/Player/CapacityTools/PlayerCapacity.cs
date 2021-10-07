@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,20 +47,32 @@ public abstract class PlayerCapacity : MonoBehaviour
     protected abstract bool TryToAssignCapacity();
     protected abstract bool LookToStartAction();
 
-    protected Coroutine WaitForCooldown(MeshRenderer renderer) => StartCoroutine(Cooldown(renderer));
+    protected Coroutine WaitForCooldown(List<MeshRenderer> renderers) => StartCoroutine(Cooldown(renderers));
 
     protected void SetUsedColorOnRenderer(MeshRenderer renderer) => renderer.material.color = coneColorOnCapacityUsed;
     
-    private IEnumerator Cooldown(MeshRenderer renderer)
+    private IEnumerator Cooldown(List<MeshRenderer> renderer)
     {
-        Material capacityMaterial = renderer.material;
+        List<Material> capacityMaterials = new List<Material>();
         AnimationCurve interpolation = capacityConeSpawner.ColorInterpolationCurveForCooldown;
+        Color color;
+        int numberOfMaterials = renderer.Count;
         float elapsedTime = 0;
+
+        for (int i = 0; i < numberOfMaterials; i++)
+        {
+            capacityMaterials.Add(renderer[i].material);
+        }
 
         while(elapsedTime <= cooldown)
         {
             elapsedTime += Time.deltaTime;
-            capacityMaterial.color = Color.Lerp(coneColorOnCapacityUsed, coneColor, interpolation.Evaluate(elapsedTime / cooldown));
+            color = Color.Lerp(coneColorOnCapacityUsed, coneColor, interpolation.Evaluate(elapsedTime / cooldown));
+
+            for (int i = 0; i < numberOfMaterials; i++)
+            {
+                capacityMaterials[i].color = color;
+            }
 
             yield return null;
         }
@@ -68,4 +81,10 @@ public abstract class PlayerCapacity : MonoBehaviour
     }
 
     protected abstract void ClearCapacityEffects();
+
+    public virtual void ResetCapacity()
+    {
+        StopAllCoroutines();
+        enabled = false;
+    }
 }
