@@ -175,8 +175,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1889783875781950766, guid: 026d9b290cc9e194a8ed60fdd657b7c1, type: 3}
-      propertyPath: m_NotificationBehavior
-      value: 3
+      propertyPath: m_MaxPlayerCount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1889783875781950767, guid: 026d9b290cc9e194a8ed60fdd657b7c1, type: 3}
       propertyPath: m_Name

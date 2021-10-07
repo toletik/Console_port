@@ -17,8 +17,6 @@ public class PlayerManager : MonoBehaviour
     {
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        Debug.Log("Input manager " + playerInputManager);
-
         playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
     }

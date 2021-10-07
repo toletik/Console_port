@@ -63,12 +63,13 @@ public class Player : MonoBehaviour
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
-        transform.position = position;
+        rigidbody.position = position;
 
         levelSettings = currentLevelSettings;
         gravityCenter = levelSettings.GravityCenter;
     }
 
+    [ContextMenu("Set Mode Play")]
     public void StartGame() => SetModeMove(); 
 
     public void FixedUpdate()
@@ -292,5 +293,6 @@ public class Player : MonoBehaviour
 
         AssignationMode = false;
         CanBeEjected = true;
+        currentCapacityUsed = Capacity.NONE;
     }
 }

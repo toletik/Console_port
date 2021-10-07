@@ -23,8 +23,6 @@ public class LevelManager : MonoBehaviour
             player.OnDeath += Player_OnDeath;
 
             player.StartGame();
-
-            Debug.Log("Yaaaay");
         }
     }
 
