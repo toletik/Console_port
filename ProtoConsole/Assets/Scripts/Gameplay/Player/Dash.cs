@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,5 +105,18 @@ public class Dash : PlayerCapacity
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Type);
+    }
+
+    public override void ResetCapacity()
+    {
+        base.ResetCapacity();
+
+        Array directions = Enum.GetValues(typeof(Direction));
+
+        foreach (Direction direction in directions)
+        {
+            directionEnabled[direction] = false;
+            allDirectionsRenderer[direction] = default;
+        }
     }
 }

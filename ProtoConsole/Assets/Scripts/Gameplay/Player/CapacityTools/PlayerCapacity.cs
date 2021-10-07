@@ -68,4 +68,10 @@ public abstract class PlayerCapacity : MonoBehaviour
     }
 
     protected abstract void ClearCapacityEffects();
+
+    public virtual void ResetCapacity()
+    {
+        StopAllCoroutines();
+        enabled = false;
+    }
 }

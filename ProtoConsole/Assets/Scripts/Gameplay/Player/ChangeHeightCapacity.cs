@@ -64,4 +64,10 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
         player.CanAddAltitudeModifier = true;
         player.EndCapacity(Type);
     }
+
+    public override void ResetCapacity()
+    {
+        base.ResetCapacity();
+        renderer = default;
+    }
 }
