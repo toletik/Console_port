@@ -14,9 +14,6 @@ public class ObstaclePush : Obstacle
     private bool growingScaleX = true;
     private bool growingScaleZ = true;
 
-    private float currentScaleX = 0.1f;
-    private float currentScaleZ = 0.1f;
-
     private float elapsedTimeX = 0;
     private float elapsedTimeZ = 0;
     void Start()

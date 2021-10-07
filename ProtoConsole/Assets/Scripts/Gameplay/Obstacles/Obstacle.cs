@@ -42,8 +42,7 @@ public class Obstacle : StateObjects
         if (elapsedTime >= attackDuration) {
             ResetElapsedTime();
             angle -= Mathf.PI;
-            Debug.Log(angle);
-            
+                 
             SetModeIdle();
 
         }
@@ -52,9 +51,9 @@ public class Obstacle : StateObjects
     private void SetAttackPosition()
     {
         attackStartPosition = transform.position;
-        Debug.Log(angle);
+    
         Vector3 direction = (planet.position - transform.position).normalized;
-        Debug.DrawLine(transform.position, transform.position + direction * radiusIdle * 2,Color.red,2);
+      
         attackEndPosition = transform.position + direction * radiusIdle * 2;
        
       
