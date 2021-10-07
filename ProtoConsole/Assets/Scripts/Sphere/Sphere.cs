@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class Sphere : MonoBehaviour
 {
+    [Header("ScriptSettings")]
     [SerializeField] private SliceEnum typeOfSphere = default;
+
+    [Header("MovementSettings")]
+    [SerializeField] private float[] rotationSpeed = new float[2];
+    [SerializeField] private float offSetRotation = default;
+
     private List<GameObject> sphereEntityUncuted = new List<GameObject>();
     private int cutLeft = default;
     private Action doAction = default;
@@ -22,7 +28,9 @@ public class Sphere : MonoBehaviour
 	}
 
     private void DoActionRotate(){
-
+		for (int i = 0; i < 2; i++) {
+            sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
+		}
     }
 
     private void DoActionVoid(){
@@ -31,33 +39,42 @@ public class Sphere : MonoBehaviour
 	public void CutTheSphere(){
         int numberOfChildren;
         int numberOfObjectInList;
+
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
+
+
         if(cutLeft>=0){
+
+            ResetRotation();
+
+            sphereEntityUncuted=new List<GameObject>();
             cutLeft-=1;
             numberOfObjectInList=arrayOfGameObject.Count;
+
 			for (int i = 0; i < numberOfObjectInList; i++) {
                 numberOfChildren = arrayOfGameObject[i].transform.childCount;
+                Debug.Log(numberOfChildren);
 				for (int j = 0; j < numberOfChildren; j++) {
                     sphereEntityUncuted.Add(arrayOfGameObject[i].transform.GetChild(j).gameObject);
 				}
 			}
         }
-        if(typeOfSphere==SliceEnum.Half&& cutLeft==0)setModeRotate();
-        else if (typeOfSphere==SliceEnum.Quarter&& cutLeft==1)setModeVoid();
+
+        if(typeOfSphere==SliceEnum.Half&& cutLeft==0)SetModeRotate();
+        else SetModeVoid();
     }
 
-    private void setModeRotate(){
+    private void SetModeRotate(){
         doAction = DoActionRotate;
     }
 
-    private void setModeVoid(){
-        if(typeOfSphere==SliceEnum.Quarter && cutLeft==0)ResetRotation();
+    private void SetModeVoid(){
         doAction= DoActionVoid;
     }
 
 	private void ResetRotation() {
 		for (int i = 0; i < sphereEntityUncuted.Count; i++) {
-            sphereEntityUncuted[i].transform.rotation.eulerAngles.Set(0,0,0);
+            sphereEntityUncuted[i].transform.rotation= Quaternion.identity;
 		}
 	}
 

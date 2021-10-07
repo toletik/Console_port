@@ -228,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690593743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -61, y: -0.9392563, z: 113.11545}
+  m_LocalPosition: {x: -76, y: -0.9392563, z: 113.11545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -417,6 +417,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 807643117130396997, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
+      propertyPath: rotationSpeed.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 807643117130396997, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
+      propertyPath: rotationSpeed.Array.data[0]
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 807643117130396997, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
+      propertyPath: rotationSpeed.Array.data[1]
+      value: -40
+      objectReference: {fileID: 0}
     - target: {fileID: 3319321621595379264, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
       propertyPath: m_Name
       value: Sphere
@@ -463,6 +475,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4666651199894601913, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764506209412611434, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777047432844602592, guid: 6c3450af780b1a94186ae714f6fc558c, type: 3}
+      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
