@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,6 +6,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof (PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
+    public event Action<int> OnPlayerAdded;
+    public event Action<int> OnPlayerRemoved;
+
+    [SerializeField] private uint minNumberOfPlayers = 2;
+
     [Header("Player tags")]
     [SerializeField] private PlayerColors playerColors = default;
     [SerializeField] private string tagPrefix = "P";
@@ -12,6 +18,8 @@ public class PlayerManager : MonoBehaviour
 
     private PlayerInputManager playerInputManager = default;
     private List<PlayerInput> players = new List<PlayerInput>();
+
+    public bool EnoughPlayersToStart => players.Count >= minNumberOfPlayers;
 
     private void Awake()
     {
@@ -31,13 +39,21 @@ public class PlayerManager : MonoBehaviour
         if (!players.Contains(player)) 
         {
             Debug.Log("Bienvenue !");
+
             players.Add(player);
+            OnPlayerAdded?.Invoke(players.Count);
         }
     }
 
     private void PlayerInputManager_OnPlayerLeft(PlayerInput player)
     {
-        if (players.Contains(player)) players.Remove(player);
+        if (players.Contains(player))
+        {
+            Debug.Log("Good bye !");
+
+            players.Remove(player);
+            OnPlayerRemoved?.Invoke(players.Count);
+        }
     }
 
     public void StartLevel(LevelManager currentLevelManager)

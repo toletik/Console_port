@@ -8,9 +8,9 @@ public class ConnexionScreen : Screen
 
     public void OnStartGame()
     {
-        if (levelPrefabs.Count == 0)
+        if (levelPrefabs.Count == 0 || !playerManager.EnoughPlayersToStart)
         {
-            Debug.LogError("NO LEVEL");
+            Debug.LogError("NO LEVEL or NOT ENOUGH PLAYERS");
             return;
         }
 
@@ -23,11 +23,40 @@ public class ConnexionScreen : Screen
     {
         base.OpenScreen();
         playerManager.EnablePlayerConnexion(true);
+
+        playerManager.OnPlayerAdded += PlayerManager_OnPlayerAdded;
+        playerManager.OnPlayerRemoved += PlayerManager_OnPlayerRemoved;
+    }
+
+    private void PlayerManager_OnPlayerAdded(int currentNumberOfPlayers)
+    {
+        
+    }
+
+    private void PlayerManager_OnPlayerRemoved(int currentNumberOfPlayers)
+    {
+        
     }
 
     public override void CloseScreen()
     {
         base.CloseScreen();
         playerManager.EnablePlayerConnexion(false);
+
+        ClearEvents();
+    }
+
+    private void ClearEvents()
+    {
+        if (playerManager)
+        {
+            playerManager.OnPlayerAdded -= PlayerManager_OnPlayerAdded;
+            playerManager.OnPlayerRemoved -= PlayerManager_OnPlayerRemoved;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ClearEvents();
     }
 }
