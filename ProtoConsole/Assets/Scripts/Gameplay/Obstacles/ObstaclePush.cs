@@ -8,7 +8,7 @@ public class ObstaclePush : Obstacle
     // Start is called before the first frame update
     [SerializeField]private Transform side1  = default;
     [SerializeField]private Transform side2 = default;
-
+    [SerializeField] private BoxCollider boxCollider = default;
     private Transform[] sides = default;
 
     private bool growingScaleX = true;
@@ -87,4 +87,5 @@ public class ObstaclePush : Obstacle
         if(growing) return Mathf.Lerp(0.1f, 0.2f, elapsedTime);
         else return  Mathf.Lerp(0.2f, 0.1f, elapsedTime);
     }
+    
 }
