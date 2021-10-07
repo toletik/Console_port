@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067bd9c7bd646cd44813919d5114d125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2764149572851260103}
   cooldown: 0.8
   capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0
@@ -113,6 +114,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  ejectionImmunityWhileInGround: 1
 --- !u!114 &6484247886315376336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49a8e781bd2d8a43823b25b6353007d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2764149572851260103}
   cooldown: 1
   capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0.05
@@ -163,6 +166,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  updateColorForAllDirectionOnUse: 0
 --- !u!114 &2644550229452822875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723063435a9af1b4eae28623f867b374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2764149572851260103}
   cooldown: 0.8
   capacityConeSpawner: {fileID: 11400000, guid: 2f6a1e7decbf61e4b9f75499ea1fe955, type: 2}
   planarMovementModifierCoef: 0.75
@@ -564,7 +569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7ef4d0bff748044a87c477372d0ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   rigidbody: {fileID: 2764149572851260120}
   capacityRenderersContainer: {fileID: 5027195158979113058}
   hasCapacityToAssignMaterial: {fileID: 2100000, guid: cdf303524d4810c4ea87a60d7d68aa08, type: 2}
@@ -582,6 +586,7 @@ MonoBehaviour:
   CanAddAltitudeModifier: 1
   MovementControlCoef: 1
   ExternalVelocity: {x: 0, y: 0}
+  CanBeEjected: 1
 --- !u!1001 &9016047205345522796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,6 +597,10 @@ PrefabInstance:
     - target: {fileID: 4834276556808201518, guid: fb090e557da4bec45aa7a12f545eaedd, type: 3}
       propertyPath: m_Name
       value: TagContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834276556808201518, guid: fb090e557da4bec45aa7a12f545eaedd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4834276556808201519, guid: fb090e557da4bec45aa7a12f545eaedd, type: 3}
       propertyPath: m_RootOrder

@@ -26,6 +26,8 @@ public class PlayerTag : MonoBehaviour
 
     public void DisplayPlayer(string text, Color color, bool updateArrowColor = true)
     {
+        gameObject.SetActive(true);
+
         DisplayPlayer(text);
 
         textfield.color = color;
