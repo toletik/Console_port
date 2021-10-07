@@ -16,19 +16,18 @@ public class Sphere : MonoBehaviour
 
     public void CutTheSphere(){
         int numberOfChildren;
+        int numberOfObjectInList;
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
         if(cutLeft>=0){
-            Debug.Log("cutStillAvailable");
             cutLeft-=1;
-			for (int i = 0; i < arrayOfGameObject.Count; i++) {
-                if(arrayOfGameObject[i] == null)break;
+            numberOfObjectInList=arrayOfGameObject.Count;
+			for (int i = 0; i < numberOfObjectInList; i++) {
                 numberOfChildren = arrayOfGameObject[i].transform.childCount;
 				for (int j = 0; j < numberOfChildren; j++) {
                     sphereEntityUncuted.Add(arrayOfGameObject[i].transform.GetChild(j).gameObject);
 				}
 			}
         }
-        Debug.Log(sphereEntityUncuted.Count);
     }
 
     public SliceEnum GetTypeOfSphere(){
