@@ -74,6 +74,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackCoolDown: 20
+  side1: {fileID: 2369804488728943313}
+  side2: {fileID: 2369804488376574483}
 --- !u!1 &2369804488376574482
 GameObject:
   m_ObjectHideFlags: 0

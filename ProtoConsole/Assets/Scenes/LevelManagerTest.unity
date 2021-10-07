@@ -306,6 +306,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
+      propertyPath: planet
+      value: 
+      objectReference: {fileID: 1508328139}
     - target: {fileID: 2369804487793264004, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: m_RootOrder
       value: 1

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2369804487793264004}
-  - component: {fileID: 7706766637508996185}
+  - component: {fileID: 1451870752348325503}
   m_Layer: 0
   m_Name: ObstaclesSlicer
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7706766637508996185
+--- !u!114 &1451870752348325503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,21 +42,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2369804487793264007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0ed73032449637479b6f1bb021308f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c75f85483a130e44aee10460af65c33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 0}
   radiusIdle: 10
-  idleDuration: 2
-  attackDuration: 2
+  idleDuration: 20
+  attackDuration: 3
   attackCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0

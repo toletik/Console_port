@@ -59,9 +59,14 @@ public class Obstacle : StateObjects
        
       
     }
+     private void ManageRotation()
+    {
+        transform.rotation = Quaternion.LookRotation((planet.position - transform.position).normalized);
+    }
     protected virtual void DoActionIdle()
     {
         ManageOrbit();
+        ManageRotation();
         attackElapsedTime += Time.deltaTime;
 
         if (attackElapsedTime >= attackCoolDown) {
@@ -83,7 +88,8 @@ public class Obstacle : StateObjects
     {
         attackElapsedTime = 0;
         elapsedTime = 0;
-    } 
+    }
+ 
     private void Update()
     {
         elapsedTime += Time.deltaTime;
