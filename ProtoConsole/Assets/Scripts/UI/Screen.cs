@@ -1,23 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Screen : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public virtual void OpenScreen()
     {
+        gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void CloseScreen()
     {
-        
+        gameObject.SetActive(false);
     }
 
-    private void LeaveButton(){
+    public virtual void LeaveButton()
+    {
+
     }
 
-	public virtual void PlayButton(){
+	public virtual void PlayButton()
+    {
+
 	}
 }

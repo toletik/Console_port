@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
     public delegate void PlayerEventHandler(Player player);
     public static event PlayerEventHandler OnPause;
+    public event PlayerEventHandler OnDeath;
 
     [Header("References")]
-    [SerializeField] private LevelSettings levelSettings = default;
     [SerializeField] private new Rigidbody rigidbody = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool CanAddAltitudeModifier = true;
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
-    
+
     public bool AssignationMode { get; private set; }
     public bool CanBeEjected = true;
 
@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
     private Vector3 gravityCenter = default;
     private Vector3 ejection = default;
 
+    private LevelSettings levelSettings = default;
+
     private Action doAction = default;
 
     private void Awake()
@@ -58,6 +60,12 @@ public class Player : MonoBehaviour
         DisableAllCapacities(false);
 
         SetModeMove();
+    }
+
+    public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
+    {
+        transform.position = position;
+        levelSettings = currentLevelSettings;
     }
 
     public void FixedUpdate()
@@ -214,6 +222,11 @@ public class Player : MonoBehaviour
     public void Die()
     {
         Debug.Log(gameObject.name + " --> Die");
+
+        //Animation + enabled = false;
+
+        gameObject.SetActive(false);
+        OnDeath?.Invoke(this);
     }
 
     public void Eject(Vector3 direction, float strength)
@@ -263,6 +276,8 @@ public class Player : MonoBehaviour
 
     public void Reset()
     {
+        gameObject.SetActive(true);
+
         dashCapacity.ResetCapacity();
         digCapacity.ResetCapacity();
         jumpCapacity.ResetCapacity();
