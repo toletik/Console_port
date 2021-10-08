@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfSphere: 1
-  rotationSpeed: 0
+  rotationSpeed: []
   offSetRotation: 0
 --- !u!135 &2559285243601884944
 SphereCollider:
@@ -212,15 +212,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0000038146973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000019073486
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.000002861023
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -260,7 +260,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6967d9043cf0cbc429d203ab0d8ad63a, type: 2}
     - target: {fileID: 919132149155446097, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_Name
-      value: quarter Sphere 1 (1)
+      value: 'quarter Sphere 1 '
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
@@ -335,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 262b575518a4c2148906f4954fdaba13, type: 2}
     - target: {fileID: 919132149155446097, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_Name
-      value: quarter Sphere 1
+      value: quarter Sphere 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
@@ -362,15 +362,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0000027418137
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000023841858
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.000002861023
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -410,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 61fc2fe9716cd1f428ca1b73e041668f, type: 2}
     - target: {fileID: 919132149155446097, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_Name
-      value: quarter Sphere 1 (1)
+      value: quarter Sphere 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
@@ -441,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -485,7 +485,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: be7ebfcffea868142a0aaf9b33e4a6df, type: 2}
     - target: {fileID: 919132149155446097, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}
       propertyPath: m_Name
-      value: quarter Sphere 1
+      value: quarter Sphere 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3064edfca9be8dd4ea9353df1c5e8fbe, type: 3}

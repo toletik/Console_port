@@ -28,9 +28,13 @@ public class Sphere : MonoBehaviour
 	}
 
     private void DoActionRotate(){
-		for (int i = 0; i < 2; i++) {
+        float lenght = sphereEntityUncuted.Count;
+		for (int i = 0; i < lenght; i++) {
             sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
 		}
+    }
+
+    private void DoActionSpacing(){
     }
 
     private void DoActionVoid(){
@@ -53,14 +57,18 @@ public class Sphere : MonoBehaviour
 
 			for (int i = 0; i < numberOfObjectInList; i++) {
                 numberOfChildren = arrayOfGameObject[i].transform.childCount;
-                Debug.Log(numberOfChildren);
 				for (int j = 0; j < numberOfChildren; j++) {
                     sphereEntityUncuted.Add(arrayOfGameObject[i].transform.GetChild(j).gameObject);
+                    
 				}
 			}
         }
 
         if(typeOfSphere==SliceEnum.Half&& cutLeft==0)SetModeRotate();
+        else if(typeOfSphere==SliceEnum.Quarter){
+            if(cutLeft==1)SetModeRotate();
+            else SetModeSpacing();
+        }
         else SetModeVoid();
     }
 
@@ -70,6 +78,23 @@ public class Sphere : MonoBehaviour
 
     private void SetModeVoid(){
         doAction= DoActionVoid;
+    }
+
+    private void SetModeSpacing(){
+        StartCoroutine("Space");
+    }
+
+    private float offSet = 0.1f;
+
+    IEnumerator Space(){
+        float d = 1;
+        float lenght = sphereEntityUncuted.Count;
+		for (int i = 0; i < lenght; i++) {
+            if(i>=lenght/2)d=-1;
+            sphereEntityUncuted[i].transform.position = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d);
+		}
+        doAction=DoActionSpacing;
+        yield return  null;
     }
 
 	private void ResetRotation() {
