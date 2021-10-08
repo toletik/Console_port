@@ -11,6 +11,7 @@ public class Sphere : MonoBehaviour
     [Header("MovementSettings")]
     [SerializeField] private float[] rotationSpeed = new float[2];
     [SerializeField] private float offSetRotation = default;
+    [SerializeField] private float timeScaleSpacing = default;
 
     private List<GameObject> sphereEntityUncuted = new List<GameObject>();
     private int cutLeft = default;
@@ -62,14 +63,16 @@ public class Sphere : MonoBehaviour
                     
 				}
 			}
-        }
 
-        if(typeOfSphere==SliceEnum.Half&& cutLeft==0)SetModeRotate();
-        else if(typeOfSphere==SliceEnum.Quarter){
-            if(cutLeft==1)SetModeRotate();
-            else SetModeSpacing();
+            if(typeOfSphere==SliceEnum.Half&& cutLeft==0)SetModeRotate();
+
+            else if(typeOfSphere==SliceEnum.Quarter){
+                if(cutLeft==1)SetModeRotate();
+                else SetModeSpacing();
+            }
+
+            else SetModeVoid();
         }
-        else SetModeVoid();
     }
 
     private void SetModeRotate(){
@@ -87,14 +90,22 @@ public class Sphere : MonoBehaviour
     private float offSet = 0.1f;
 
     IEnumerator Space(){
+        SetModeVoid();
+
         float d = 1;
         float lenght = sphereEntityUncuted.Count;
-		for (int i = 0; i < lenght; i++) {
-            if(i>=lenght/2)d=-1;
-            sphereEntityUncuted[i].transform.localPosition = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d);
-		}
+        float timer = 0;
+
+		while (timer<1) {
+            timer+= Time.deltaTime/timeScaleSpacing;
+            for (int i = 0; i < lenght; i++) {
+                if(i>=lenght/2)d=-1;
+                else d =1;
+                sphereEntityUncuted[i].transform.localPosition = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d)*timer;
+		    }
+            yield return  null;
+        }
         doAction=DoActionSpacing;
-        yield return  null;
     }
 
 	private void ResetRotation() {
