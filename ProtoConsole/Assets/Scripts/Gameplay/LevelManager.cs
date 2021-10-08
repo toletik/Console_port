@@ -5,6 +5,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private LevelSettings settings = default;
 
+    public LevelSettings Settings => settings;
+
     private List<Player> livingPlayers = default;
 
     public void InitPlayers(List<Player> players)
