@@ -66,6 +66,7 @@ MonoBehaviour:
   - 10
   - -10
   offSetRotation: 0
+  timeScaleSpacing: 2
 --- !u!135 &2559285243601884944
 SphereCollider:
   m_ObjectHideFlags: 0
