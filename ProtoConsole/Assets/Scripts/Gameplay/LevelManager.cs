@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
         {
             player = players[i];
 
-            player.Reset();
+            player.ResetValues();
             player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
             player.OnDeath += Player_OnDeath;
@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Player_OnDeath(Player player)
+    private void Player_OnDeath(Player player, int numberOfPowerups)
     {
         if (livingPlayers.Contains(player)) 
         { 

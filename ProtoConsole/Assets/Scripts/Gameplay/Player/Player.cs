@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public delegate void PlayerEventHandler(Player player);
+    public delegate void PlayerEventHandler(Player player, int possessedCollectibles = 0);
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
 
@@ -240,7 +240,7 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
         enabled = false;
 
-        OnDeath?.Invoke(this);
+        OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)availableUnassignedCapacities);
     }
 
     public void Eject(Vector3 direction, float strength)
@@ -290,7 +290,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Reset()
+    public void ResetValues()
     {
         gameObject.SetActive(true);
 
