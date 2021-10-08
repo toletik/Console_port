@@ -103,13 +103,10 @@ public class ObstaclePush : Obstacle
         float newPos = 0;
 
         newPos = TestElapsedTimeMove(movingLeft, elapsedTimeMove);
-        Debug.Log(newPos);
 
         for (int i = 0; i < sides.Length; i++)
         {
             Transform currentSide = sides[i];
-            
-
             currentSide.localPosition =new Vector3(newPos, 1, 0);
         }
     }
