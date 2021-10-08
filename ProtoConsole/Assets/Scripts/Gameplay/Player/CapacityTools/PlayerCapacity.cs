@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public abstract class PlayerCapacity : MonoBehaviour
 {
+    [SerializeField] protected Player player = default;
     [SerializeField] private float cooldown = 0.8f;
     [SerializeField] private CapacityRenderer capacityConeSpawner = default;
 
@@ -13,16 +14,10 @@ public abstract class PlayerCapacity : MonoBehaviour
 
     protected abstract Capacity Type { get; }
 
-    protected Player player = default;
     protected Coroutine currentAction = null;
 
     private Color coneColor = default;
     private Color coneColorOnCapacityUsed = default;
-
-    protected virtual void Awake()
-    {
-        player = GetComponentInParent<Player>();
-    }
 
     public virtual void TryToActivate(InputAction.CallbackContext context)
     {
