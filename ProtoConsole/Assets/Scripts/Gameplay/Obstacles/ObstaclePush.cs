@@ -8,7 +8,11 @@ public class ObstaclePush : Obstacle
     // Start is called before the first frame update
     [SerializeField]private Transform side1  = default;
     [SerializeField]private Transform side2 = default;
-    [SerializeField] private BoxCollider boxCollider = default;
+    [SerializeField] private float timeScaleX = 2;
+    [SerializeField] private float timeScaleZ = 1;
+    [SerializeField] private float timeScaleMove = 4;
+
+
     private Transform[] sides = default;
 
     private bool growingScaleX = true;
@@ -20,6 +24,11 @@ public class ObstaclePush : Obstacle
     private float elapsedTimeZ = 0;
 
     private float elapsedTimeMove = 0;
+
+    private const float  OFFSET_LEFT = 0.2f;
+    private const float  OFFSET_RIGHT = 0.1f;
+
+
 
     void Start()
     {
@@ -45,9 +54,9 @@ public class ObstaclePush : Obstacle
     }
     private void ManageElapseTimeScale(float deltaTime)
     { 
-        elapsedTimeZ += deltaTime / 2;
-        elapsedTimeX += deltaTime ;
-        elapsedTimeMove += deltaTime/4;
+        elapsedTimeZ += deltaTime / timeScaleZ;
+        elapsedTimeX += deltaTime /timeScaleX;
+        elapsedTimeMove += deltaTime/timeScaleMove;
         
        
         if(elapsedTimeX>= 1)
@@ -107,8 +116,8 @@ public class ObstaclePush : Obstacle
 
     private float TestElapsedTimeScale(bool growing,float elapsedTime)
     {
-        if(growing) return Mathf.Lerp(0.1f, 0.2f, elapsedTime);
-        else return  Mathf.Lerp(0.2f, 0.1f, elapsedTime);
+        if(growing) return Mathf.Lerp(OFFSET_RIGHT, OFFSET_LEFT, elapsedTime);
+        else return  Mathf.Lerp(OFFSET_LEFT, OFFSET_RIGHT, elapsedTime);
     }
     private float TestElapsedTimeMove(bool direction,float elapsedTime)
     {
