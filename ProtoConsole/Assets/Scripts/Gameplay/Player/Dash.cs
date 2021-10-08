@@ -57,7 +57,7 @@ public class Dash : PlayerCapacity
         player.MovementControlCoef = planarMovementModifierCoef;
         player.StartCapacity(Type);
 
-        currentAction = StartCoroutine(ExecuteDash(currentDirection switch
+        currentAction = player.StartCoroutine(ExecuteDash(currentDirection switch
         {
             Direction.UP => new Vector2(0, 1),
             Direction.RIGHT => new Vector2(1, 0),

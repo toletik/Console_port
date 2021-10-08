@@ -16,8 +16,10 @@ public class Player : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
     [SerializeField] private float ejectionOnPlayerContactStrenght = 0.3f;
+    [SerializeField] private float ejectionOnPlayerContactWithDashStrength = 0.5f;
     [SerializeField] private float ejectionDeceleration = 0.02f;
     [SerializeField] private float ejectionGravity = 0.05f;
+    [SerializeField] private float upModifierOnEject = 0.1f;
 
     [Header("Capacities")]
     [SerializeField] private Jump jumpCapacity = default;
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
         defaultPlayerMaterial = meshRenderer.material;
 
         DisableAllCapacities(false);
+        GetComponent<BoxCollider>().enabled = false;
 
         doAction = () => { };
     }
@@ -70,7 +73,11 @@ public class Player : MonoBehaviour
     }
 
     [ContextMenu("Set Mode Play")]
-    public void StartGame() => SetModeMove(); 
+    public void StartGame() 
+    { 
+        SetModeMove();
+        GetComponent<BoxCollider>().enabled = true;
+    }
 
     public void FixedUpdate()
     {
@@ -198,6 +205,7 @@ public class Player : MonoBehaviour
 
     public void EndCapacity(Capacity capacity)
     {
+        Debug.Log("END OF " + capacity);
         currentCapacityUsed = (Capacity)((int)currentCapacityUsed - (int)capacity);
     }
 
@@ -216,10 +224,10 @@ public class Player : MonoBehaviour
     #region Interactions
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag(gameObject.tag))
+        if (collision.gameObject.TryGetComponent(out Player otherPlayer))
         {
             Debug.Log("Aie !");
-            Eject(rigidbody.position - collision.rigidbody.position, ejectionOnPlayerContactStrenght);
+            Eject(rigidbody.position - collision.rigidbody.position, otherPlayer.IsUsingCapacity(Capacity.DASH) ? ejectionOnPlayerContactWithDashStrength : ejectionOnPlayerContactStrenght);
         }
     }
 
@@ -230,6 +238,8 @@ public class Player : MonoBehaviour
         //Animation + enabled = false;
 
         gameObject.SetActive(false);
+        enabled = false;
+
         OnDeath?.Invoke(this);
     }
 
@@ -237,7 +247,7 @@ public class Player : MonoBehaviour
     {
         if (CanBeEjected)
         {
-            ejection = direction.normalized * strength;
+            ejection = (direction + (rigidbody.position - levelSettings.GravityCenter).normalized * upModifierOnEject).normalized * strength;
             SetModeEjected();
         }
     }
@@ -246,6 +256,8 @@ public class Player : MonoBehaviour
     {
         doAction = DoActionEjected;
         DisableAllCapacities();
+
+        MovementControlCoef = 1;
     }
 
     private void DoActionEjected()

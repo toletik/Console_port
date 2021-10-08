@@ -28,7 +28,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
             player.MovementControlCoef = planarMovementModifierCoef;
             player.StartCapacity(Type);
 
-            currentAction = StartCoroutine(UpdateHeight());
+            currentAction = player.StartCoroutine(UpdateHeight());
 
             SetUsedColorOnRenderer(renderer);
 
