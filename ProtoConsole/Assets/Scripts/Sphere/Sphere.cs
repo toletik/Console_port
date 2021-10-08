@@ -47,7 +47,7 @@ public class Sphere : MonoBehaviour
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
 
 
-        if(cutLeft>=0){
+        if(cutLeft>0){
 
             ResetRotation();
 
@@ -91,7 +91,7 @@ public class Sphere : MonoBehaviour
         float lenght = sphereEntityUncuted.Count;
 		for (int i = 0; i < lenght; i++) {
             if(i>=lenght/2)d=-1;
-            sphereEntityUncuted[i].transform.position = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d);
+            sphereEntityUncuted[i].transform.localPosition = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d);
 		}
         doAction=DoActionSpacing;
         yield return  null;
