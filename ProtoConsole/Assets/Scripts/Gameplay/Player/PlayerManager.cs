@@ -63,7 +63,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             playersAsPlayer.Add(players[i].GetComponent<Player>());
-            playersAsPlayer[playersAsPlayer.Count - 1].GetComponentInChildren<PlayerTag>(true).DisplayPlayer(tagPrefix + players.Count, playerColors.GetColorAtIndex(players.Count - 1), colorArrowUnderTag);
+            playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true).DisplayPlayer(tagPrefix + (i + 1), playerColors.GetColorAtIndex(i), colorArrowUnderTag);
         }
 
         currentLevelManager.InitPlayers(playersAsPlayer);
