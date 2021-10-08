@@ -42,7 +42,7 @@ public abstract class PlayerCapacity : MonoBehaviour
     protected abstract bool TryToAssignCapacity();
     protected abstract bool LookToStartAction();
 
-    protected Coroutine WaitForCooldown(List<MeshRenderer> renderers) => StartCoroutine(Cooldown(renderers));
+    protected Coroutine WaitForCooldown(List<MeshRenderer> renderers) => player.StartCoroutine(Cooldown(renderers));
 
     protected void SetUsedColorOnRenderer(MeshRenderer renderer) => renderer.material.color = coneColorOnCapacityUsed;
     
@@ -79,7 +79,12 @@ public abstract class PlayerCapacity : MonoBehaviour
 
     public virtual void ResetCapacity()
     {
-        StopAllCoroutines();
+        if (currentAction != null)
+        {
+            player.StopCoroutine(currentAction);
+            currentAction = null;
+        }
+
         enabled = false;
     }
 }

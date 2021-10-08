@@ -574,8 +574,10 @@ MonoBehaviour:
   hasCapacityToAssignMaterial: {fileID: 2100000, guid: cdf303524d4810c4ea87a60d7d68aa08, type: 2}
   speed: 10
   ejectionOnPlayerContactStrenght: 0.3
+  ejectionOnPlayerContactWithDashStrength: 0.7
   ejectionDeceleration: 0.02
   ejectionGravity: 0.05
+  upModifierOnEject: 1
   jumpCapacity: {fileID: 2644550229452822875}
   dashCapacity: {fileID: 6484247886315376336}
   digCapacity: {fileID: 1511378094470394320}
