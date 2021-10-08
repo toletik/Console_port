@@ -87,6 +87,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd53ae990decafb4490ca27b2e0662ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColors: {fileID: 11400000, guid: 05b4996912a1b1743a1565bd37ec95a3, type: 2}
-  tagPrefix: P
-  colorArrowUnderTag: 1
+  minNumberOfPlayers: 2
+  playerTagSettings: {fileID: 11400000, guid: b25a7b18e4a93a648aa2534555223553, type: 2}

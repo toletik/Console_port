@@ -10,11 +10,7 @@ public class PlayerManager : MonoBehaviour
     public event Action<int> OnPlayerRemoved;
 
     [SerializeField] private uint minNumberOfPlayers = 2;
-
-    [Header("Player tags")]
-    [SerializeField] private PlayerColors playerColors = default;
-    [SerializeField] private string tagPrefix = "P";
-    [SerializeField] private bool colorArrowUnderTag = true;
+    [SerializeField] private PlayerTagParameters playerTagSettings = default;
 
     private PlayerInputManager playerInputManager = default;
     private List<PlayerInput> players = new List<PlayerInput>();
@@ -63,7 +59,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             playersAsPlayer.Add(players[i].GetComponent<Player>());
-            playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true).DisplayPlayer(tagPrefix + (i + 1), playerColors.GetColorAtIndex(i), colorArrowUnderTag);
+            playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true).DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerTagSettings.GetColorAtIndex(i), playerTagSettings.UpdateArrowColor);
         }
 
         currentLevelManager.InitPlayers(playersAsPlayer);
