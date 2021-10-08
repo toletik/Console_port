@@ -62,7 +62,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfSphere: 1
-  rotationSpeed: []
+  rotationSpeed:
+  - 10
+  - -10
   offSetRotation: 0
 --- !u!135 &2559285243601884944
 SphereCollider:
