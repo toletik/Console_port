@@ -36,7 +36,6 @@ public class LevelManager : MonoBehaviour
 
         if (livingPlayers.Count < 2)
         {
-            Debug.Log(" ====== " + livingPlayers[0].name + " WINS ! ====== ");
             Destroy(gameObject);
         }
     }
