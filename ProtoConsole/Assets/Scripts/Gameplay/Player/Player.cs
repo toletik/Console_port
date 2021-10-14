@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
+    [SerializeField] private float spawnInvincibilityTime = 3;
 
     [Header("Collision")]
     [SerializeField] private float ejectionOnPlayerContactStrenght = 0.3f;
@@ -93,9 +94,11 @@ public class Player : MonoBehaviour
     }
 
     [ContextMenu("Set Mode Play")]
-    public void StartGame() 
-    { 
+    public void SetModePlay() 
+    {
         SetModeMove();
+
+        enabled = true;
         GetComponent<BoxCollider>().enabled = true;
     }
 

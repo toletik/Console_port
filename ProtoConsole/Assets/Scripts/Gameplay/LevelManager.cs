@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class LevelManager : MonoBehaviour
 
     public LevelSettings Settings => settings;
 
-    private List<Player> livingPlayers = default;
+    private List<Player> players = default;
 
     private Action doAction = default;
     private float elapsedTime = 0;
@@ -20,18 +21,11 @@ public class LevelManager : MonoBehaviour
 
     public void InitPlayers(List<Player> players)
     {
-        Player player;
-
-        livingPlayers = players;
+        this.players = players;
 
         for (int i = 0; i < players.Count; i++)
         {
-            player = players[i];
-
-            player.ResetValues();
-            player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
-
-            player.OnDeath += Player_OnDeath;
+            RespawnPlayer(players[i], false).OnDeath += Player_OnDeath;
         }
 
         elapsedTime = 0;
@@ -52,9 +46,9 @@ public class LevelManager : MonoBehaviour
 
         doAction = DoActionRunGame;
 
-        for (i = 0; i < livingPlayers.Count; i++)
+        for (i = 0; i < players.Count; i++)
         {
-            livingPlayers[i].StartGame();
+            players[i].SetModePlay();
         }
 
         for (i = 0; i < obstacles.Count; i++)
@@ -81,30 +75,53 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("End of Game !!!");
             doAction = () => { };
+
+            StopAllCoroutines();
         }
     }
 
+    #region Player cycle : Die / Respawn
     private void Player_OnDeath(Player player, int numberOfPowerups)
     {
-        if (livingPlayers.Contains(player)) 
-        { 
-            livingPlayers.Remove(player);
-            player.OnDeath -= Player_OnDeath;
+        StartCoroutine(PlayerRespawnCooldown(player));
+    }
+
+    private IEnumerator PlayerRespawnCooldown(Player player)
+    {
+        float elapsedTime = 0;
+        float duration = settings.RespawnPlayerCooldownDuration;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            //Update hud
+
+            yield return null;
         }
 
-        if (livingPlayers.Count < 2)
-        {
-            Destroy(gameObject);
-        }
+        RespawnPlayer(player, true);
+
+        yield break;
     }
+
+    private Player RespawnPlayer(Player player, bool enablePlay)
+    {
+        player.ResetValues();
+        player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
+
+        if (enablePlay) player.SetModePlay();
+
+        return player;
+    }
+    #endregion
 
     private void OnDestroy()
     {
-        for (int i = 0; i < livingPlayers.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         {
-            livingPlayers[i].OnDeath -= Player_OnDeath;
+            players[i].OnDeath -= Player_OnDeath;
         }
 
-        livingPlayers = null;
+        players = null;
     }
 }
