@@ -13,8 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform capacityRenderersContainer = default;
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
 
-    [Header("Parameters")]
+    [Header("Basic movement")]
     [SerializeField] private float speed = 1;
+
+    [Header("Collision")]
     [SerializeField] private float ejectionOnPlayerContactStrenght = 0.3f;
     [SerializeField] private float ejectionOnPlayerContactWithDashStrength = 0.5f;
     [SerializeField] private float ejectionDeceleration = 0.02f;

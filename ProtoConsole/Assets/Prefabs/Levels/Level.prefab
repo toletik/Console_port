@@ -195,7 +195,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926fc46b3a8eac84a9eec71d1fe6da88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startLevelDelayDuration: 3
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
+  obstacles:
+  - {fileID: 5266986892180950230}
+  - {fileID: 3987662190532009787}
 --- !u!1001 &1424352162844771089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,6 +381,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclesSlicer
       objectReference: {fileID: 0}
+    - target: {fileID: 2369804487793264007, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2369804488728943318, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -388,6 +396,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2369804487793264004, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
   m_PrefabInstance: {fileID: 2553841583739558212}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3987662190532009787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
+  m_PrefabInstance: {fileID: 2553841583739558212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c75f85483a130e44aee10460af65c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &257318447656616852 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2369804488728943312, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
@@ -460,6 +479,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclePousseur
       objectReference: {fileID: 0}
+    - target: {fileID: 2369804487793264007, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7706766637508996185, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: planet
       value: 
@@ -482,6 +505,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+--- !u!114 &5266986892180950230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7706766637508996185, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+  m_PrefabInstance: {fileID: 2588434817185718415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ed73032449637479b6f1bb021308f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &218648198067053835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2369804487793264004, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}

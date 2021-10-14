@@ -1,13 +1,22 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private int startLevelDelayDuration = 3;
+    [Space(8)]
     [SerializeField] private LevelSettings settings = default;
+    [Space(8)]
+    [SerializeField] private List<Obstacle> obstacles = default;
 
     public LevelSettings Settings => settings;
 
     private List<Player> livingPlayers = default;
+
+    private Action doAction = default;
+    private float elapsedTime = 0;
+    private int levelDuration = 0;
 
     public void InitPlayers(List<Player> players)
     {
@@ -23,8 +32,55 @@ public class LevelManager : MonoBehaviour
             player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
             player.OnDeath += Player_OnDeath;
+        }
 
-            player.StartGame();
+        elapsedTime = 0;
+        doAction = DoActionDelayLevelStart;
+    }
+
+    private void Update()
+    {
+        doAction();
+    }
+
+    private void StartLevel()
+    {
+        int i;
+
+        elapsedTime = 0;
+        levelDuration = settings.LevelDuration;
+
+        doAction = DoActionRunGame;
+
+        for (i = 0; i < livingPlayers.Count; i++)
+        {
+            livingPlayers[i].StartGame();
+        }
+
+        for (i = 0; i < obstacles.Count; i++)
+        {
+            obstacles[i].gameObject.SetActive(true);
+        }
+
+        Debug.Log("START !!!");
+    }
+
+    private void DoActionDelayLevelStart()
+    {
+        elapsedTime += Time.deltaTime;
+
+        if (elapsedTime >= startLevelDelayDuration) 
+            StartLevel();
+    }
+
+    private void DoActionRunGame()
+    {
+        elapsedTime += Time.deltaTime;
+
+        if (elapsedTime >= levelDuration)
+        {
+            Debug.Log("End of Game !!!");
+            doAction = () => { };
         }
     }
 
