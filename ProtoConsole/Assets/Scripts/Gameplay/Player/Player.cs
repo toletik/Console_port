@@ -7,13 +7,14 @@ public class Player : MonoBehaviour
     public delegate void PlayerEventHandler(Player player, int possessedCollectibles = 0);
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
+    public event PlayerEventHandler OnCollectibleUpdate;
 
     [Header("References")]
     [SerializeField] private new Rigidbody rigidbody = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
 
-    [Header("Basic movement")]
+    [Header("Parameters")]
     [SerializeField] private float speed = 1;
 
     [Header("Collision")]
@@ -41,12 +42,27 @@ public class Player : MonoBehaviour
 
     public bool AssignationMode { get; private set; } = false;
 
-    private MeshRenderer meshRenderer = default;
-    private Material defaultPlayerMaterial = default;
+    private uint AvailableUnassignedCapacities 
+    { 
+        get => _availableUnassignedCapacities; 
+        set 
+        {
+            if (!(value > 0 && _availableUnassignedCapacities > 0))
+            {
+                meshRenderer.material = value == 0 ? defaultPlayerMaterial : hasCapacityToAssignMaterial;
+            }
 
-    private uint availableUnassignedCapacities = 0;
+            _availableUnassignedCapacities = value;
+            OnCollectibleUpdate?.Invoke(this, (int)_availableUnassignedCapacities);
+        } 
+    }
+
+    private uint _availableUnassignedCapacities = 0;
     private Capacity currentCapacityUsed = Capacity.NONE;
 
+    private MeshRenderer meshRenderer = default;
+    private Material defaultPlayerMaterial = default;
+    
     private Vector2 inputs = Vector2.zero;
     private Vector3 gravityCenter = default;
     private Vector3 ejection = default;
@@ -68,6 +84,8 @@ public class Player : MonoBehaviour
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
+        gameObject.SetActive(true);
+
         rigidbody.position = position;
 
         levelSettings = currentLevelSettings;
@@ -121,7 +139,7 @@ public class Player : MonoBehaviour
     {
         if (context.started)
         {
-            if (availableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
+            if (AvailableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
             {
                 AssignationMode = true;
                 Debug.LogWarning("Start assignation");
@@ -136,15 +154,12 @@ public class Player : MonoBehaviour
 
     public void CollectCapacityToAssign() 
     {
-        if (availableUnassignedCapacities == 0) 
-            meshRenderer.material = hasCapacityToAssignMaterial;
-
-        availableUnassignedCapacities++;
+        AvailableUnassignedCapacities++;
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
     {
-        if (availableUnassignedCapacities > 0 && ActivateCapacityIfNew(type, out PlayerCapacity capacity, dashDirection))
+        if (AvailableUnassignedCapacities > 0 && ActivateCapacityIfNew(type, out PlayerCapacity capacity, dashDirection))
         {
             capacity.CreateRenderer(capacityRenderersContainer).localRotation = Quaternion.Euler(type switch
             {
@@ -154,10 +169,7 @@ public class Player : MonoBehaviour
                 _ => Vector3.zero
             });
 
-            availableUnassignedCapacities--;
-
-            if (availableUnassignedCapacities == 0) 
-                meshRenderer.material = defaultPlayerMaterial;
+            AvailableUnassignedCapacities--;
 
             if (!keepAssignModeActivatedAfterAttributionSuccess) 
                 AssignationMode = false;
@@ -207,7 +219,6 @@ public class Player : MonoBehaviour
 
     public void EndCapacity(Capacity capacity)
     {
-        Debug.Log("END OF " + capacity);
         currentCapacityUsed = (Capacity)((int)currentCapacityUsed - (int)capacity);
     }
 
@@ -242,7 +253,7 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
         enabled = false;
 
-        OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)availableUnassignedCapacities);
+        OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
     }
 
     public void Eject(Vector3 direction, float strength)
@@ -294,11 +305,11 @@ public class Player : MonoBehaviour
 
     public void ResetValues()
     {
-        gameObject.SetActive(true);
-
         dashCapacity.ResetCapacity();
         digCapacity.ResetCapacity();
         jumpCapacity.ResetCapacity();
+
+        AvailableUnassignedCapacities = 0;
 
         for (int i = capacityRenderersContainer.childCount - 1; i >= 0; i--)
         {
