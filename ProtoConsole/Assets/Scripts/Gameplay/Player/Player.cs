@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,9 @@ public class Player : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
     [SerializeField] private float spawnInvincibilityTime = 3;
+    [SerializeField] private int numberOfInvincibilityBlink = 4;
+    [SerializeField] private AnimationCurve invincibilityBlink = default;
+    [SerializeField] private Color invincibilityColor = Color.grey;
 
     [Header("Collision")]
     [SerializeField] private float ejectionOnPlayerContactStrenght = 0.3f;
@@ -99,7 +103,7 @@ public class Player : MonoBehaviour
         SetModeMove();
 
         enabled = true;
-        GetComponent<BoxCollider>().enabled = true;
+        StartCoroutine(PlayInvincibilityTime());
     }
 
     public void FixedUpdate()
@@ -322,5 +326,37 @@ public class Player : MonoBehaviour
         AssignationMode = false;
         CanBeEjected = true;
         currentCapacityUsed = Capacity.NONE;
+
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
+    private IEnumerator PlayInvincibilityTime()
+    {
+        float elapsedTime = 0;
+        Material currentMaterial = meshRenderer.material;
+        Color baseColor = currentMaterial.color;
+
+        while (elapsedTime < spawnInvincibilityTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if (meshRenderer.material != currentMaterial)
+            {
+                currentMaterial.color = baseColor;
+
+                currentMaterial = meshRenderer.material;
+                baseColor = currentMaterial.color;
+            }
+
+            currentMaterial.color = Color.Lerp(baseColor, invincibilityColor, invincibilityBlink.Evaluate(numberOfInvincibilityBlink * elapsedTime / spawnInvincibilityTime));
+
+            yield return null;
+        }
+
+        currentMaterial.color = baseColor;
+
+        GetComponent<BoxCollider>().enabled = true;
+
+        yield break;
     }
 }

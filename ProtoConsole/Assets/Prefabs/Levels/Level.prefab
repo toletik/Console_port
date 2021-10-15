@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926fc46b3a8eac84a9eec71d1fe6da88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLevelDelayDuration: 3
+  startLevelDelayDuration: 0
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   obstacles:
   - {fileID: 5266986892180950230}
