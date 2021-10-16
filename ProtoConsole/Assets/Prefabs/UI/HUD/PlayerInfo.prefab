@@ -156,7 +156,7 @@ MonoBehaviour:
   objectOn: {fileID: 6347776542988061217}
   objectOff: {fileID: 6119592620464178191}
   timerRenderer: {fileID: 518117419989663569}
-  collectibleOn: 1
+  collectibleOn: 0
   respawning: 0
   player: {fileID: 0}
   playerId: 0

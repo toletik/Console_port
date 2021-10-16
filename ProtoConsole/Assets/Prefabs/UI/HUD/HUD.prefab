@@ -135,5 +135,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdec569adf2cff498ce60aedb160d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInfoPrefab: {fileID: 0}
-  verticalBox: {fileID: 0}
+  playerInfoPrefab: {fileID: 6317431174429381518, guid: 1a44a98f81238384396948091ec7624e, type: 3}
+  verticalBox: {fileID: 2490918607456194004}
