@@ -25,7 +25,8 @@ public class HUD : MonoBehaviour
         playerInfo.player = player;
         playerInfo.playerId = PlayerId;
         playerInfos.Add(playerInfo);
+        playerInfo.baseColor = color;
         Instantiate(playerInfo, verticalBox);
-        playerInfo.ChangeTextColor(color);
+        
     }
 }

@@ -490,6 +490,14 @@ PrefabInstance:
       propertyPath: playerInfoPrefab
       value: 
       objectReference: {fileID: 6317431174429381518, guid: 1a44a98f81238384396948091ec7624e, type: 3}
+    - target: {fileID: 2490918607456194005, guid: 0d19b566876d1b347b4ba19570ab8521, type: 3}
+      propertyPath: m_Spacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490918607456194005, guid: 0d19b566876d1b347b4ba19570ab8521, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2490918607778884248, guid: 0d19b566876d1b347b4ba19570ab8521, type: 3}
       propertyPath: m_Name
       value: HUD
