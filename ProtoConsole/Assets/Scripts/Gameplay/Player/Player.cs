@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    private const string MATERIAL_EMISSIVE_KEYWORD = "_EMISSION";
+    private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
+    private const string MATERIAL_COLOR = "_Color";
+
     public delegate void PlayerEventHandler(Player player, int possessedCollectibles = 0);
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
@@ -28,6 +32,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float ejectionDeceleration = 0.02f;
     [SerializeField] private float ejectionGravity = 0.05f;
     [SerializeField] private float upModifierOnEject = 0.1f;
+
+    [Header("Collision - Layers")]
+    [SerializeField] private string defaultGameLayerNameForPlayer = "Player";
+    [SerializeField] private string invincibilityLayerNameForPlayer = "Invincibility";
 
     [Header("Capacities")]
     [SerializeField] private Jump jumpCapacity = default;
@@ -74,6 +82,9 @@ public class Player : MonoBehaviour
 
     private LevelSettings levelSettings = default;
 
+    private int defaultGameLayerForPlayer;
+    private int invincibilityLayerForPlayer;
+
     private Action doAction = default;
 
     private void Awake()
@@ -83,6 +94,9 @@ public class Player : MonoBehaviour
 
         DisableAllCapacities(false);
         GetComponent<BoxCollider>().enabled = false;
+
+        defaultGameLayerForPlayer = LayerMask.NameToLayer(defaultGameLayerNameForPlayer);
+        invincibilityLayerForPlayer = LayerMask.NameToLayer(invincibilityLayerNameForPlayer);
 
         doAction = () => { };
     }
@@ -103,6 +117,8 @@ public class Player : MonoBehaviour
         SetModeMove();
 
         enabled = true;
+        GetComponent<BoxCollider>().enabled = true;
+
         StartCoroutine(PlayInvincibilityTime());
     }
 
@@ -328,13 +344,20 @@ public class Player : MonoBehaviour
         currentCapacityUsed = Capacity.NONE;
 
         GetComponent<BoxCollider>().enabled = false;
+
+        gameObject.layer = defaultGameLayerForPlayer;
     }
 
+    #region Player invincibility
     private IEnumerator PlayInvincibilityTime()
     {
+        Action<Material, Color, float> updateCorrectColorOnMaterial = default;
+        Material currentMaterial = null;
+        Color baseColor = default;
         float elapsedTime = 0;
-        Material currentMaterial = meshRenderer.material;
-        Color baseColor = currentMaterial.color;
+        bool emissiveMaterial = false;
+        
+        gameObject.layer = invincibilityLayerForPlayer;
 
         while (elapsedTime < spawnInvincibilityTime)
         {
@@ -342,21 +365,48 @@ public class Player : MonoBehaviour
 
             if (meshRenderer.material != currentMaterial)
             {
-                currentMaterial.color = baseColor;
-
+                if (currentMaterial != null)
+                {
+                    //Reset material précédent
+                    updateCorrectColorOnMaterial(currentMaterial, baseColor, 0);
+                }
+                
+                //Valeurs du nouveau matériau
                 currentMaterial = meshRenderer.material;
-                baseColor = currentMaterial.color;
+                emissiveMaterial = currentMaterial.IsKeywordEnabled(MATERIAL_EMISSIVE_KEYWORD);
+                
+                if (emissiveMaterial)
+                {
+                    baseColor = currentMaterial.GetColor(MATERIAL_EMISSIVE_COLOR);
+                    updateCorrectColorOnMaterial = UpdateMaterialEmissiveColor;
+                }
+                else
+                {
+                    baseColor = currentMaterial.GetColor(MATERIAL_COLOR);
+                    updateCorrectColorOnMaterial = UpdateMaterialColor;
+                }
             }
 
-            currentMaterial.color = Color.Lerp(baseColor, invincibilityColor, invincibilityBlink.Evaluate(numberOfInvincibilityBlink * elapsedTime / spawnInvincibilityTime));
+            updateCorrectColorOnMaterial(currentMaterial, baseColor, invincibilityBlink.Evaluate(numberOfInvincibilityBlink * elapsedTime / spawnInvincibilityTime));
 
             yield return null;
         }
 
-        currentMaterial.color = baseColor;
+        //DynamicGI.UpdateEnvironment();
 
-        GetComponent<BoxCollider>().enabled = true;
+        gameObject.layer = defaultGameLayerForPlayer;
 
         yield break;
     }
+
+    private void UpdateMaterialColor(Material material, Color baseColor, float modifier)
+    {
+        material.SetColor(MATERIAL_COLOR, Color.Lerp(baseColor, invincibilityColor, modifier));
+    }
+
+    private void UpdateMaterialEmissiveColor(Material material, Color baseColor, float modifier)
+    {
+        material.SetColor(MATERIAL_EMISSIVE_COLOR, baseColor * (1 - modifier));
+    }
+    #endregion
 }
