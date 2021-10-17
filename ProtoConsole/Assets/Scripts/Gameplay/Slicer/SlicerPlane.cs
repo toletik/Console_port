@@ -18,6 +18,8 @@ public class SlicerPlane : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.LogWarning(gameObject.name);
+
         startPosition=transform.position;
         if(listOfPoint.Length>1) nextDirection = listOfPoint[1].position;
         else throw new Exception("List Is not long enough");

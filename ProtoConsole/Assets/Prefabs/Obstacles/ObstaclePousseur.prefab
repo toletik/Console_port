@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2369804487793264004}
   - component: {fileID: 7706766637508996185}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstaclePousseur
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 2369804488376574486}
   - component: {fileID: 2369804488376574481}
   - component: {fileID: 2369804488376574480}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 2369804488728943318}
   - component: {fileID: 8346749878779903958}
   - component: {fileID: 694836570920827118}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

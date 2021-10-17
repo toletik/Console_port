@@ -32,6 +32,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 294915994291591872, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1408835641598766892, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -156,6 +160,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3243058327313737135, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4356167924332149937, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -211,6 +219,10 @@ PrefabInstance:
     - target: {fileID: 7826172552243549741, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
       propertyPath: m_Name
       value: CapacityCollectible
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826172552243549741, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}

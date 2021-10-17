@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2369804487793264004}
   - component: {fileID: 1451870752348325503}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ObstaclesSlicer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 2369804488376574486}
   - component: {fileID: 2369804488376574481}
   - component: {fileID: 2369804488376574480}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 2369804488728943319}
   - component: {fileID: 2369804488728943318}
   - component: {fileID: 7687298402436439177}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
