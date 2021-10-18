@@ -29,6 +29,9 @@ public class Player : MonoBehaviour
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
+    [SerializeField] private float maxEjectionAltitude = 25;
+
+    [Header("Invincibility")]
     [SerializeField] private float spawnInvincibilityTime = 3;
     [SerializeField] private int numberOfInvincibilityBlink = 4;
     [SerializeField] private AnimationCurve invincibilityBlink = default;
@@ -381,6 +384,7 @@ public class Player : MonoBehaviour
 
             SetModeMove();
         }
+        else if (toCenter.magnitude > levelSettings.PlanetRadius + maxEjectionAltitude) Die();
     }
     #endregion
 
