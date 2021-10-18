@@ -17,9 +17,9 @@ public class Player : MonoBehaviour
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
     public event PlayerEventHandler OnCollectibleUpdate;
-    public event PlayerEventHandler OnNewBestScore;
-    public event PlayerEventHandler OnBestScoreLost;
     public event PlayerEventHandler OnScoreUpdated;
+    public event Action OnIsNewBestScore;
+    public event Action OnBestScoreLost;
 
     #region Serialize fields
     [Header("References")]
@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     public bool AssignationMode { get; private set; } = false;
 
     public bool IsBestPlayer => this == BestPlayer;
+    public int InitialScore => initialScore;
 
     private int Score
     {
@@ -93,7 +94,7 @@ public class Player : MonoBehaviour
             {
                 if (_score >= bestScore)
                 {
-                    BestPlayer?.OnBestScoreLost?.Invoke(BestPlayer, _score);
+                    BestPlayer?.OnBestScoreLost?.Invoke();
 
                     //Garde un seul joueur en tête
                     if (_score == bestScore)
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour
                     else
                     {
                         BestPlayer = this;
-                        OnNewBestScore?.Invoke(BestPlayer, _score);
+                        OnIsNewBestScore?.Invoke();
                     }
 
                     bestScore = _score;
@@ -172,7 +173,6 @@ public class Player : MonoBehaviour
         gravityCenter = levelSettings.GravityCenter;
     }
 
-    [ContextMenu("Set Mode Play")]
     public void SetModePlay() 
     {
         SetModeMove();
@@ -398,6 +398,8 @@ public class Player : MonoBehaviour
         Score += scoreToAdd;
     }
 
+    public static void ResetBestScore(int score) => bestScore = score;
+
     public void ResetValues(bool resetScore = false)
     {
         dashCapacity.ResetCapacity();
@@ -418,7 +420,7 @@ public class Player : MonoBehaviour
 
         GetComponent<BoxCollider>().enabled = false;
 
-        if (resetScore) Score = 0;
+        if (resetScore) Score = initialScore;
 
         gameObject.layer = defaultGameLayerForPlayer;
     }
@@ -484,4 +486,14 @@ public class Player : MonoBehaviour
         material.SetColor(MATERIAL_EMISSIVE_COLOR, baseColor * (1 - modifier));
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        OnPause = null;
+        OnDeath = null;
+        OnCollectibleUpdate = null;
+        OnScoreUpdated = null;
+        OnIsNewBestScore = null;
+        OnBestScoreLost = null;
+    }
 }

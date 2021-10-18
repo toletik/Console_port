@@ -55,16 +55,22 @@ public class PlayerManager : MonoBehaviour
     public void StartLevel(LevelManager currentLevelManager)
     {
         List<Player> playersAsPlayer = new List<Player>();
-        PlayerTag playerTag;
+        Player player = null;
+        PlayerTag playerTag;        
 
         for (int i = 0; i < players.Count; i++)
         {
-            playersAsPlayer.Add(players[i].GetComponent<Player>());
-            playerTag = playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true);
+            player = players[i].GetComponent<Player>();
+            playerTag = player.GetComponentInChildren<PlayerTag>(true);
+
+            playersAsPlayer.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerTagSettings.GetColorAtIndex(i), playerTagSettings.UpdateArrowColor);
-        
+            player.OnIsNewBestScore += playerTag.ActivateBestScore;
+            player.OnBestScoreLost += playerTag.DesativateBestScore;
         }
+
+        Player.ResetBestScore(player != null ? player.InitialScore : 0);
 
         currentLevelManager.InitPlayers(playersAsPlayer);
     }

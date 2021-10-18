@@ -10,6 +10,7 @@ public class PlayerTag : MonoBehaviour
     [Space(8)]
     [SerializeField] private TextMeshPro textfield = default;
     [SerializeField] private SpriteRenderer arrow = default;
+    [SerializeField] private GameObject bestPlayerFeedback = default;
 
     private Transform cameraTransform = default;
 
@@ -38,4 +39,7 @@ public class PlayerTag : MonoBehaviour
     {
         textfield.text = text;
     }
+
+    public void ActivateBestScore() => bestPlayerFeedback.SetActive(true);
+    public void DesativateBestScore() => bestPlayerFeedback.SetActive(false);
 }
