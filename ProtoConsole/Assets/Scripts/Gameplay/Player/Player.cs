@@ -5,15 +5,23 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    #region Variables
     private const string MATERIAL_EMISSIVE_KEYWORD = "_EMISSION";
     private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
     private const string MATERIAL_COLOR = "_Color";
+
+    public static Player BestPlayer { get; private set; } = default;
+    private static int bestScore = 0;
 
     public delegate void PlayerEventHandler(Player player, int possessedCollectibles = 0);
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
     public event PlayerEventHandler OnCollectibleUpdate;
+    public event PlayerEventHandler OnNewBestScore;
+    public event PlayerEventHandler OnBestScoreLost;
+    public event PlayerEventHandler OnScoreUpdated;
 
+    #region Serialize fields
     [Header("References")]
     [SerializeField] private new Rigidbody rigidbody = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
@@ -37,6 +45,13 @@ public class Player : MonoBehaviour
     [SerializeField] private string defaultGameLayerNameForPlayer = "Player";
     [SerializeField] private string invincibilityLayerNameForPlayer = "Invincibility";
 
+    [Header("Score")]
+    [SerializeField] private int initialScore = 100;
+    [SerializeField] private bool allowNegativeScore = false;
+    [SerializeField] private int scoreLostOnDeath = 10;
+    [SerializeField] private int scoreWonOnKill = 20;
+    [SerializeField] private int bonusScoreWonOnBestPlayerKill = 10;
+
     [Header("Capacities")]
     [SerializeField] private Jump jumpCapacity = default;
     [SerializeField] private Dash dashCapacity = default;
@@ -46,6 +61,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool activateAssignModeEvenWithoutAvailableSlot = false;
     [SerializeField] private bool keepAssignModeActivatedAfterAttributionSuccess = false;
     [SerializeField] private bool keepAssignModeActivatedAfterAttributionFail = true;
+    #endregion
 
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
@@ -54,6 +70,50 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool CanBeEjected = true;
 
     public bool AssignationMode { get; private set; } = false;
+
+    public bool IsBestPlayer => this == BestPlayer;
+
+    private int Score
+    {
+        get => _score;
+        set
+        {
+            //Update score du joueur
+            _score = value;
+            if (_score < 0 && !allowNegativeScore) _score = 0;
+
+            OnScoreUpdated?.Invoke(this, _score);
+
+            //Update bestscore si besoin
+            if (IsBestPlayer)
+            {
+                bestScore = _score;
+            }
+            else
+            {
+                if (_score >= bestScore)
+                {
+                    BestPlayer?.OnBestScoreLost?.Invoke(BestPlayer, _score);
+
+                    //Garde un seul joueur en tête
+                    if (_score == bestScore)
+                    {
+                        BestPlayer = null;
+                    }
+                    else
+                    {
+                        BestPlayer = this;
+                        OnNewBestScore?.Invoke(BestPlayer, _score);
+                    }
+
+                    bestScore = _score;
+                }
+            }
+        }
+    }
+    private int _score;
+
+    private Player collidedPlayer = null;
 
     private uint AvailableUnassignedCapacities 
     { 
@@ -86,6 +146,7 @@ public class Player : MonoBehaviour
     private int invincibilityLayerForPlayer;
 
     private Action doAction = default;
+    #endregion
 
     private void Awake()
     {
@@ -130,6 +191,8 @@ public class Player : MonoBehaviour
     #region Movement
     private void SetModeMove()
     {
+        collidedPlayer = null;
+
         doAction = DoActionMove;
         dashCapacity.gameObject.SetActive(true);        //dashCapacity en tant que gameobject de toutes les capacités
     }
@@ -263,6 +326,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Player otherPlayer))
         {
             Debug.Log("Aie !");
+            collidedPlayer = otherPlayer;
             Eject(rigidbody.position - collision.rigidbody.position, otherPlayer.IsUsingCapacity(Capacity.DASH) ? ejectionOnPlayerContactWithDashStrength : ejectionOnPlayerContactStrenght);
         }
     }
@@ -277,6 +341,9 @@ public class Player : MonoBehaviour
         enabled = false;
 
         OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
+
+        collidedPlayer?.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
+        UpdateScore(-scoreLostOnDeath);
     }
 
     public void Eject(Vector3 direction, float strength)
@@ -326,7 +393,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ResetValues()
+    public void UpdateScore(int scoreToAdd)
+    {
+        Score += scoreToAdd;
+    }
+
+    public void ResetValues(bool resetScore = false)
     {
         dashCapacity.ResetCapacity();
         digCapacity.ResetCapacity();
@@ -342,8 +414,11 @@ public class Player : MonoBehaviour
         AssignationMode = false;
         CanBeEjected = true;
         currentCapacityUsed = Capacity.NONE;
+        collidedPlayer = null;
 
         GetComponent<BoxCollider>().enabled = false;
+
+        if (resetScore) Score = 0;
 
         gameObject.layer = defaultGameLayerForPlayer;
     }

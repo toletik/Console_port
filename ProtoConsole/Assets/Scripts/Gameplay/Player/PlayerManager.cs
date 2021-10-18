@@ -55,11 +55,15 @@ public class PlayerManager : MonoBehaviour
     public void StartLevel(LevelManager currentLevelManager)
     {
         List<Player> playersAsPlayer = new List<Player>();
+        PlayerTag playerTag;
 
         for (int i = 0; i < players.Count; i++)
         {
             playersAsPlayer.Add(players[i].GetComponent<Player>());
-            playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true).DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerTagSettings.GetColorAtIndex(i), playerTagSettings.UpdateArrowColor);
+            playerTag = playersAsPlayer[i].GetComponentInChildren<PlayerTag>(true);
+
+            playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerTagSettings.GetColorAtIndex(i), playerTagSettings.UpdateArrowColor);
+        
         }
 
         currentLevelManager.InitPlayers(playersAsPlayer);

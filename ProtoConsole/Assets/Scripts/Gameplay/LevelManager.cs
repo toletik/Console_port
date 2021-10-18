@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            RespawnPlayer(players[i], false).OnDeath += Player_OnDeath;
+            RespawnPlayer(players[i], false, true).OnDeath += Player_OnDeath;
         }
 
         elapsedTime = 0;
@@ -99,14 +99,14 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
-        RespawnPlayer(player, true);
+        RespawnPlayer(player, true, false);
 
         yield break;
     }
 
-    private Player RespawnPlayer(Player player, bool enablePlay)
+    private Player RespawnPlayer(Player player, bool enablePlay, bool resetScore)
     {
-        player.ResetValues();
+        player.ResetValues(resetScore);
         player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
         if (enablePlay) player.SetModePlay();
