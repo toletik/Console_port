@@ -17,6 +17,7 @@ public class Sphere : MonoBehaviour
     private List<GameObject> sphereEntityUncuted = new List<GameObject>();
     private int cutLeft = default;
     private Action doAction = default;
+    private float timer = default;
     void Start()
     {
         sphereEntityUncuted.Add(gameObject);
@@ -27,6 +28,7 @@ public class Sphere : MonoBehaviour
 
 	private void Update() {
 		doAction();
+        timer+=Time.deltaTime;
 	}
 
     private void DoActionRotate(){
@@ -49,8 +51,8 @@ public class Sphere : MonoBehaviour
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
 
 
-        if(cutLeft>0){
-
+        if(cutLeft>0&& timer>=1){
+            timer=0;
             ResetRotation();
 
             sphereEntityUncuted=new List<GameObject>();
