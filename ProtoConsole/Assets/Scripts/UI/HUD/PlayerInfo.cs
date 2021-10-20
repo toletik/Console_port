@@ -36,7 +36,6 @@ public class PlayerInfo : MonoBehaviour
         ChangeTextColor(baseColor);
         text.text = TAG_PLAYER +" "+ playerId;
         CollectibleUpdate(0);
-        
     }
 
     private void Player_OnCollectibleUpdate(Player player, int possessedCollectibles )
@@ -48,13 +47,11 @@ public class PlayerInfo : MonoBehaviour
     {
         ChangeTextColor(Color.grey);
         timerRenderer.gameObject.SetActive(true);
-        Debug.Log("die");
         StartCoroutine(DeathTimerCoroutine(4));
     }
 
     private IEnumerator DeathTimerCoroutine(float timer)
     {
-        Debug.Log(deathTimer);
         while(deathTimer< timer)
         {
             deathTimer += Time.deltaTime;
@@ -62,10 +59,11 @@ public class PlayerInfo : MonoBehaviour
 
             yield return null;
         }
+
         deathTimer = 0;
-        Debug.Log("EndCoroutine");
         timerRenderer.gameObject.SetActive(false);
         ChangeTextColor(baseColor);
+
         yield break;
     }
 
@@ -103,6 +101,5 @@ public class PlayerInfo : MonoBehaviour
         player = playerRef;
         playerId = PlayerId;
         baseColor = color;
-
     }
 }
