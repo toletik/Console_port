@@ -131,6 +131,7 @@ public class Sphere : MonoBehaviour
     private void SetModeSpacing(){
         StartCoroutine(Space());
         planetPartsRotation.ClearAllRotations();
+        Debug.Log("---> spacing !");
     }
 
 
