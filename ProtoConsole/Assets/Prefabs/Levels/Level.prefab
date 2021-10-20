@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLevelDelayDuration: 0
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
+  planetPartsRotation: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   obstacles:
   - {fileID: 5266986892180950230}
   - {fileID: 3987662190532009787}
@@ -319,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: attackCoolDown
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: attackDuration
@@ -423,6 +424,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5366093407587650061}
     m_Modifications:
+    - target: {fileID: 694836570920827118, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
+      propertyPath: ejectForce
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2369804487793264004, guid: f52394c2f6927ef4b86f7f195fb2bebc, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1266,42 +1271,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5366093406573543819}
     m_Modifications:
-    - target: {fileID: 51012078218123963, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 615928387562348274, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: m_Name
       value: Sphere Quarter
-      objectReference: {fileID: 0}
-    - target: {fileID: 615928387562348274, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2024032760997243904, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321113307399747766, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2994675167228495804, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3290440096189545975, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 5366093407587650062}
-    - target: {fileID: 5690609400890940238, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5710516636004721315, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 7376870341874976779, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: m_RootOrder
       value: 1

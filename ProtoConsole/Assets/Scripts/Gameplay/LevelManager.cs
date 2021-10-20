@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int startLevelDelayDuration = 3;
     [Space(8)]
     [SerializeField] private LevelSettings settings = default;
+    [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
     [Space(8)]
     [SerializeField] private List<Obstacle> obstacles = default;
 
@@ -43,6 +44,8 @@ public class LevelManager : MonoBehaviour
 
         elapsedTime = 0;
         levelDuration = settings.LevelDuration;
+
+        planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
         doAction = DoActionRunGame;
 
