@@ -19,13 +19,11 @@ public class HUD : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void CreatePlayerInfo(Player player, Color color,int PlayerId)
+    public void CreatePlayerInfo(Player player, Color color,int playerId)
     {
         PlayerInfo playerInfo = playerInfoPrefab;
-        playerInfo.player = player;
-        playerInfo.playerId = PlayerId;
+        playerInfo.SetAllParam(player, color, playerId);
         playerInfos.Add(playerInfo);
-        playerInfo.baseColor = color;
         Instantiate(playerInfo, verticalBox);
         
     }

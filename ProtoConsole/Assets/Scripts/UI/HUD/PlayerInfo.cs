@@ -27,20 +27,27 @@ public class PlayerInfo : MonoBehaviour
 
     void Start()
     {
-        //player.OnDeath += Player_OnDeath;
+        if (player)
+        {
+            player.OnDeath += Player_OnDeath;
+            player.OnCollectibleUpdate += Player_OnCollectibleUpdate;
+        }
+        
         ChangeTextColor(baseColor);
         text.text = TAG_PLAYER +" "+ playerId;
         CollectibleUpdate();
         
     }
 
-    private void Player_OnDeath(Player player)
+    private void Player_OnCollectibleUpdate(Player player, int possessedCollectibles = 0)
     {
-        ChangeTextColor(Color.gray);
-        timerRenderer.gameObject.SetActive(true);
-        respawning = true;
+        throw new NotImplementedException();
     }
 
+    private void Player_OnDeath(Player player, int possessedCollectibles = 0)
+    {
+       
+    }
 
     private void CollectibleUpdate()
     {
@@ -66,7 +73,11 @@ public class PlayerInfo : MonoBehaviour
     
     private void OnDestroy()
     {
-        //player.OnDeath -= Player_OnDeath;
+        if (player)
+        {
+            player.OnDeath -= Player_OnDeath;
+            player.OnCollectibleUpdate -= Player_OnCollectibleUpdate;
+        }
     }
     private void Update()
     {
@@ -84,5 +95,13 @@ public class PlayerInfo : MonoBehaviour
                 ChangeTextColor(baseColor);
             }
         }
+    }
+
+    public void SetAllParam(Player playerRef, Color color, int PlayerId)
+    {
+        player = playerRef;
+        playerId = PlayerId;
+        baseColor = color;
+
     }
 }
