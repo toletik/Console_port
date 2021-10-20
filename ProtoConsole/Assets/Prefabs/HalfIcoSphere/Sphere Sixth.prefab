@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!64 &488071142065689675
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799089635481058092}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2433754488877160938, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+--- !u!64 &8927200103351872313
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491041218430879548}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2433754488877160938, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
 --- !u!1 &6112226941947654496
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,9 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a87f309d8603949b34865522faeaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planetPartsRotation: {fileID: 0}
   typeOfSphere: 2
   rotationSpeed: []
   offSetRotation: 0
+  timeScaleSpacing: 0
 --- !u!135 &1269877027797093872
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -81,6 +111,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &2613971923302386614
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6693554379424224517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2433754488877160938, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+--- !u!64 &6948996321755231451
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722481768324088137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2433754488877160938, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
 --- !u!1001 &565067732245431933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,8 +206,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: oneSixthOfSphere (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+--- !u!1 &799089635481058092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+  m_PrefabInstance: {fileID: 565067732245431933}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &26246883109970326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
@@ -222,8 +289,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: oneThirdOfSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+--- !u!1 &1491041218430879548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+  m_PrefabInstance: {fileID: 1761003968626227821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2304416641996922246 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
@@ -296,8 +372,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: oneThirdOfSphere (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+--- !u!1 &6693554379424224517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
+  m_PrefabInstance: {fileID: 5775059410143045716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6318436558897090495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5a43f8ef5ab129242a11ca79f35f2cd3, type: 3}
@@ -370,8 +455,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: oneSixthOfSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+--- !u!1 &6722481768324088137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2147c89586b3444088207a6b7ad670c, type: 3}
+  m_PrefabInstance: {fileID: 5875619014284311576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6197196223402679283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2147c89586b3444088207a6b7ad670c, type: 3}

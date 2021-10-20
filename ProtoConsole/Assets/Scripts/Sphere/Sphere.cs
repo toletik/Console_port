@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Sphere : MonoBehaviour
 {
+    public static event Action OnResetRotation;
+
+    [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
+
     [Header("ScriptSettings")]
     [SerializeField] private SliceEnum typeOfSphere = default;
 
@@ -28,10 +32,19 @@ public class Sphere : MonoBehaviour
 		doAction();
 	}
 
-    private void DoActionRotate(){
+    private void DoActionRotate()
+    {
         float lenght = sphereEntityUncuted.Count;
-		for (int i = 0; i < lenght; i++) {
-            sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
+        Vector3 eulerRotation;
+        Debug.Log(lenght);
+
+		for (int i = 0; i < lenght; i++) 
+        {
+            eulerRotation = new Vector3(0, 0, rotationSpeed[i] * Time.deltaTime);
+
+            sphereEntityUncuted[i].transform.Rotate(eulerRotation);
+            planetPartsRotation.UpdateFrameRotationForPart(sphereEntityUncuted[i].transform, Quaternion.Euler(eulerRotation));
+
 		}
     }
 
@@ -47,6 +60,7 @@ public class Sphere : MonoBehaviour
 
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
 
+        Debug.LogWarning("CUT");
 
         if(cutLeft>0){
 
@@ -77,10 +91,13 @@ public class Sphere : MonoBehaviour
 
     private void SetModeRotate(){
         doAction = DoActionRotate;
+
+        Debug.Log("---> rotate !");
     }
 
     private void SetModeVoid(){
         doAction= DoActionVoid;
+        Debug.Log("---> nothing...");
     }
 
     private void SetModeSpacing(){
@@ -108,13 +125,21 @@ public class Sphere : MonoBehaviour
         doAction=DoActionSpacing;
     }
 
-	private void ResetRotation() {
-		for (int i = 0; i < sphereEntityUncuted.Count; i++) {
+	private void ResetRotation() 
+    {
+        OnResetRotation?.Invoke();
+
+        for (int i = 0; i < sphereEntityUncuted.Count; i++) {
             sphereEntityUncuted[i].transform.rotation= Quaternion.identity;
 		}
 	}
 
 	public SliceEnum GetTypeOfSphere(){
         return typeOfSphere;
+    }
+
+    private void OnDestroy()
+    {
+        OnResetRotation = null;
     }
 }
