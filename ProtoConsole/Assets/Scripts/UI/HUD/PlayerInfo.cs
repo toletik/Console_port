@@ -48,34 +48,36 @@ public class PlayerInfo : MonoBehaviour
     {
         ChangeTextColor(Color.grey);
         timerRenderer.gameObject.SetActive(true);
-        respawning = true;
+        Debug.Log("die");
+        StartCoroutine(DeathTimerCoroutine(4));
     }
 
     private IEnumerator DeathTimerCoroutine(float timer)
     {
+        Debug.Log(deathTimer);
         while(deathTimer< timer)
         {
             deathTimer += Time.deltaTime;
             timerRenderer.fillAmount = 1 - deathTimer / timer;
-        }
-        yield return null;
-        deathTimer = 0;
 
+            yield return null;
+        }
+        deathTimer = 0;
+        Debug.Log("EndCoroutine");
         timerRenderer.gameObject.SetActive(false);
         ChangeTextColor(baseColor);
+        yield break;
     }
 
     private void CollectibleUpdate(int nbrOfCollectible)
     {
         if (nbrOfCollectible> 0)
         {
-            
             objectOn.gameObject.SetActive(true);
             objectOff.gameObject.SetActive(false);
         }
         else 
         {
-           
             objectOn.gameObject.SetActive(false);
             objectOff.gameObject.SetActive(true);
         }
@@ -86,7 +88,7 @@ public class PlayerInfo : MonoBehaviour
         text.color = color;
     }
     // Update is called once per frame
-    
+
     private void OnDestroy()
     {
         if (player)
@@ -95,24 +97,6 @@ public class PlayerInfo : MonoBehaviour
             player.OnCollectibleUpdate -= Player_OnCollectibleUpdate;
         }
     }
-    private void Update()
-    {
-        //if (respawning)
-        //{
-        //    ChangeTextColor(Color.grey);
-        //    timerRenderer.gameObject.SetActive(true);
-        //    deathTimer += Time.deltaTime;
-        //    timerRenderer.fillAmount = 1-deathTimer / timer;
-        //    if (deathTimer >= timer)
-        //    {
-        //        deathTimer = 0;
-        //        respawning = false;
-        //        timerRenderer.gameObject.SetActive(false);
-        //        ChangeTextColor(baseColor);
-        //    }
-        //}
-    }
-
 
     public void SetAllParam(Player playerRef, Color color, int PlayerId)
     {
