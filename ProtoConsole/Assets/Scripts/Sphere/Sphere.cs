@@ -87,7 +87,7 @@ public class Sphere : MonoBehaviour
 
         if(cutLeft > 0 && timer >= 1)
         {
-            timer   -= 1;
+            timer   = 0;
             cutLeft -= 1;
             ResetRotation();
 
