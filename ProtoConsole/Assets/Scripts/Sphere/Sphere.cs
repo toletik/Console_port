@@ -11,6 +11,7 @@ public class Sphere : MonoBehaviour
 
     [Header("ScriptSettings")]
     [SerializeField] private SliceEnum typeOfSphere = default;
+    [SerializeField] private LevelManager levelManager = default;
 
     [Header("MovementSettings")]
     [SerializeField] private float[] rotationSpeed = new float[2];
@@ -20,6 +21,7 @@ public class Sphere : MonoBehaviour
     private List<GameObject> sphereEntityUncuted = new List<GameObject>();
     private int cutLeft = default;
     private Action doAction = default;
+    private float timer = default;
     void Start()
     {
         sphereEntityUncuted.Add(gameObject);
@@ -30,6 +32,7 @@ public class Sphere : MonoBehaviour
 
 	private void Update() {
 		doAction();
+        timer+=Time.deltaTime;
 	}
 
     private void DoActionRotate()
@@ -62,8 +65,8 @@ public class Sphere : MonoBehaviour
 
         Debug.LogWarning("CUT");
 
-        if(cutLeft>0){
-
+        if(cutLeft>0&& timer>=1){
+            timer=0;
             ResetRotation();
 
             sphereEntityUncuted=new List<GameObject>();
@@ -120,6 +123,7 @@ public class Sphere : MonoBehaviour
                 else d =1;
                 sphereEntityUncuted[i].transform.localPosition = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d)*timer;
 		    }
+            levelManager.Settings.SetPlanetMovingRadiusOffset(offSet*timer);
             yield return  null;
         }
         doAction=DoActionSpacing;
