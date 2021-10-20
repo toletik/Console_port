@@ -1,9 +1,0 @@
-{
-	"SuiteConfig":
-	{
-		"Targets":
-		[
-			"+Switch"
-		]
-	}
-}
