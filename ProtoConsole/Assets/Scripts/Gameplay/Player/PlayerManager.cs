@@ -1,3 +1,4 @@
+using nn.hid;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,17 @@ public class PlayerManager : MonoBehaviour
 
         playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
+
+        //Switch
+        Npad.Initialize();
+
+        Npad.SetSupportedStyleSet(NpadStyle.JoyLeft | NpadStyle.JoyRight);
+        NpadJoy.SetHoldType(NpadJoyHoldType.Horizontal);
+
+        NpadJoy.SetHandheldActivationMode(NpadHandheldActivationMode.Dual);
+
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
+        Npad.SetSupportedIdType(npadIds);
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -49,6 +61,8 @@ public class PlayerManager : MonoBehaviour
 
             players.Remove(player);
             OnPlayerRemoved?.Invoke(players.Count);
+
+            Destroy(player.gameObject);
         }
     }
 
