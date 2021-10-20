@@ -15,14 +15,14 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private Image timerRenderer = default;
 
     
-    public bool collectibleOn = false;
+   
     public bool respawning = false;
     public Player player = default;
     public int playerId = 0;
     public Color baseColor = default;
 
-    private float elapsedTime = 0;
-    public static float timer = 4;
+    private float deathTimer = 0;
+  
     private const string TAG_PLAYER = "Player";
 
     void Start()
@@ -35,33 +35,49 @@ public class PlayerInfo : MonoBehaviour
         
         ChangeTextColor(baseColor);
         text.text = TAG_PLAYER +" "+ playerId;
-        CollectibleUpdate();
-        
+        CollectibleUpdate(0);
     }
 
-    private void Player_OnCollectibleUpdate(Player player, int possessedCollectibles = 0)
+    private void Player_OnCollectibleUpdate(Player player, int possessedCollectibles )
     {
-        throw new NotImplementedException();
+        CollectibleUpdate(possessedCollectibles);
     }
 
-    private void Player_OnDeath(Player player, int possessedCollectibles = 0)
+    private void Player_OnDeath(Player player, int possessedCollectibles)
     {
-       
+        ChangeTextColor(Color.grey);
+        timerRenderer.gameObject.SetActive(true);
+        StartCoroutine(DeathTimerCoroutine(4));
     }
 
-    private void CollectibleUpdate()
+    private IEnumerator DeathTimerCoroutine(float timer)
     {
-        if (collectibleOn)
+        while(deathTimer< timer)
         {
-            collectibleOn = false;
-            objectOn.gameObject.SetActive(false);
-            objectOff.gameObject.SetActive(true);
+            deathTimer += Time.deltaTime;
+            timerRenderer.fillAmount = 1 - deathTimer / timer;
+
+            yield return null;
         }
-        else if (!collectibleOn)
+
+        deathTimer = 0;
+        timerRenderer.gameObject.SetActive(false);
+        ChangeTextColor(baseColor);
+
+        yield break;
+    }
+
+    private void CollectibleUpdate(int nbrOfCollectible)
+    {
+        if (nbrOfCollectible> 0)
         {
-            collectibleOn = true;
             objectOn.gameObject.SetActive(true);
             objectOff.gameObject.SetActive(false);
+        }
+        else 
+        {
+            objectOn.gameObject.SetActive(false);
+            objectOff.gameObject.SetActive(true);
         }
     }
 
@@ -70,7 +86,7 @@ public class PlayerInfo : MonoBehaviour
         text.color = color;
     }
     // Update is called once per frame
-    
+
     private void OnDestroy()
     {
         if (player)
@@ -79,29 +95,11 @@ public class PlayerInfo : MonoBehaviour
             player.OnCollectibleUpdate -= Player_OnCollectibleUpdate;
         }
     }
-    private void Update()
-    {
-        if (respawning)
-        {
-            ChangeTextColor(Color.grey);
-            timerRenderer.gameObject.SetActive(true);
-            elapsedTime += Time.deltaTime;
-            timerRenderer.fillAmount = 1-elapsedTime / timer;
-            if (elapsedTime >= timer)
-            {
-                elapsedTime = 0;
-                respawning = false;
-                timerRenderer.gameObject.SetActive(false);
-                ChangeTextColor(baseColor);
-            }
-        }
-    }
 
     public void SetAllParam(Player playerRef, Color color, int PlayerId)
     {
         player = playerRef;
         playerId = PlayerId;
         baseColor = color;
-
     }
 }
