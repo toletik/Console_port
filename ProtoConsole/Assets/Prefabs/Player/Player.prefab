@@ -678,8 +678,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.6, z: 0.6}
-  m_Center: {x: 0, y: -0.7, z: 0}
+  m_Size: {x: 0.6, y: 1, z: 0.6}
+  m_Center: {x: 0, y: -0.85, z: 0}
 --- !u!114 &7476492226898490751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,8 +692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c5f44864e8da241b456988a47fb9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToManage: {fileID: 2764149572851260100}
-  rotationInfos: {fileID: 0}
+  objectToManage: {fileID: 2764149572851260120}
+  rotationInfos: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   groundTag: Sphere
 --- !u!1001 &9016047205345522796
 PrefabInstance:

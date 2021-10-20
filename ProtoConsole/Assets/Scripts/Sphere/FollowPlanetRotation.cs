@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class FollowPlanetRotation : MonoBehaviour
 {
-    [SerializeField] private Transform objectToManage = default;
+    [SerializeField] private Rigidbody objectToManage = default;
     [SerializeField] private RotationForPlanetPart rotationInfos = default;
     [SerializeField] private string groundTag = "Sphere";
 
     private Transform onPlanetPart = default;
-    private Coroutine followCoroutineCurrentlyRunning = default;
+    private Coroutine followCoroutineCurrentlyRunning = null;
+
+    private bool modeFollow = false;
 
     private void Awake()
     {
@@ -42,12 +44,19 @@ public class FollowPlanetRotation : MonoBehaviour
 
     public void StartToFollowPlanet()
     {
+        modeFollow = true;
         if (followCoroutineCurrentlyRunning == null) followCoroutineCurrentlyRunning = StartCoroutine(FollowPlanet());
     }
 
     public void StopFollowingPlanet()
     {
-        if (followCoroutineCurrentlyRunning != null) StopCoroutine(followCoroutineCurrentlyRunning);
+        modeFollow = false;
+
+        if (followCoroutineCurrentlyRunning != null)
+        { 
+            StopCoroutine(followCoroutineCurrentlyRunning);
+            followCoroutineCurrentlyRunning = null;
+        }
     }
 
     private IEnumerator PauseFollowPlanetForFrame()
@@ -61,10 +70,11 @@ public class FollowPlanetRotation : MonoBehaviour
 
     private IEnumerator FollowPlanet()
     {
-        while(onPlanetPart)
+        while(modeFollow)
         {
-            Debug.Log("Rotaaaate");
-            objectToManage.position = rotationInfos.GetOrbitalPositionRotatedWithPlanet(onPlanetPart, objectToManage.position);
+            if (onPlanetPart) 
+                objectToManage.position = rotationInfos.GetOrbitalPositionRotatedWithPlanet(onPlanetPart, objectToManage.position);
+            
             yield return null;
         }
 

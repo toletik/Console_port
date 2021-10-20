@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: attackCoolDown
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1451870752348325503, guid: eecb53d9145504c4bbec49e3f5b8ad5a, type: 3}
       propertyPath: attackDuration
@@ -1275,34 +1275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sphere Quarter
       objectReference: {fileID: 0}
-    - target: {fileID: 615928387562348274, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2024032760997243904, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321113307399747766, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2994675167228495804, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3290440096189545975, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 5366093407587650062}
-    - target: {fileID: 5690609400890940238, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5710516636004721315, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 7376870341874976779, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: m_RootOrder
       value: 1

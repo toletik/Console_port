@@ -343,6 +343,8 @@ public class Player : MonoBehaviour
 
         //Animation + enabled = false;
 
+        followPlanetRotation.StopFollowingPlanet();
+
         gameObject.SetActive(false);
         enabled = false;
 

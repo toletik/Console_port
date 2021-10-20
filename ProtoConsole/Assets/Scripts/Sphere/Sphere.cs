@@ -38,17 +38,26 @@ public class Sphere : MonoBehaviour
     private void DoActionRotate()
     {
         float lenght = sphereEntityUncuted.Count;
-        Vector3 eulerRotation;
-        Debug.Log(lenght);
+        Transform planetPart;
+        Quaternion currentRotation;
 
 		for (int i = 0; i < lenght; i++) 
         {
-            eulerRotation = new Vector3(0, 0, rotationSpeed[i] * Time.deltaTime);
+            currentRotation = Quaternion.Euler(new Vector3(0, 0, rotationSpeed[i] * Time.deltaTime));
+            planetPart = sphereEntityUncuted[i].transform;
 
-            sphereEntityUncuted[i].transform.Rotate(eulerRotation);
-            planetPartsRotation.UpdateFrameRotationForPart(sphereEntityUncuted[i].transform, Quaternion.Euler(eulerRotation));
+            planetPart.rotation = currentRotation * planetPart.rotation;
 
-		}
+            UpdateRotationsInfo(planetPart, currentRotation);
+        }
+    }
+
+    private void UpdateRotationsInfo(Transform uncutedRotatingPart, Quaternion rotation)
+    {
+        for (int i = 0; i < uncutedRotatingPart.childCount; i++)
+        {
+            planetPartsRotation.UpdateFrameRotationForPart(uncutedRotatingPart.GetChild(i), rotation);
+        }
     }
 
     private void DoActionSpacing(){
@@ -105,6 +114,7 @@ public class Sphere : MonoBehaviour
 
     private void SetModeSpacing(){
         StartCoroutine("Space");
+        planetPartsRotation.ClearAllRotations();
     }
 
     private float offSet = 0.1f;

@@ -4,13 +4,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Settings/Planet Parts Rotation Infos")]
 public class RotationForPlanetPart : ScriptableObject
 {
-    private Dictionary<Transform, Quaternion> planetPartToRotation = default;
+    private Dictionary<Transform, Quaternion> planetPartToRotation = new Dictionary<Transform, Quaternion>();
     private Vector3 planetCenter = Vector3.zero;
 
     public void InitLevelValues(Vector3 planetCenter, bool clearPreviousValues = true)
     {
         this.planetCenter = planetCenter;
-        if (clearPreviousValues) planetPartToRotation = new Dictionary<Transform, Quaternion>();
+        if (clearPreviousValues) ClearAllRotations();
+    }
+
+    public void ClearAllRotations()
+    {
+        planetPartToRotation.Clear();
     }
 
     public void UpdateFrameRotationForPart(Transform part, Quaternion rotation)
