@@ -27,9 +27,13 @@ public class Player : MonoBehaviour
     [SerializeField] private new Rigidbody rigidbody = default;
     [SerializeField] private Transform capacityRenderersContainer = default;
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
+    [SerializeField] private FollowPlanetRotation followPlanetRotation = default;
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
+    [SerializeField] private float maxEjectionAltitude = 25;
+
+    [Header("Invincibility")]
     [SerializeField] private float spawnInvincibilityTime = 3;
     [SerializeField] private int numberOfInvincibilityBlink = 4;
     [SerializeField] private AnimationCurve invincibilityBlink = default;
@@ -200,6 +204,8 @@ public class Player : MonoBehaviour
     {
         collidedPlayer = null;
 
+        followPlanetRotation.StartToFollowPlanet();
+
         doAction = DoActionMove;
         dashCapacity.gameObject.SetActive(true);        //dashCapacity en tant que gameobject de toutes les capacités
     }
@@ -211,13 +217,13 @@ public class Player : MonoBehaviour
                                * (speed * Time.fixedDeltaTime);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
-        RotateAccordingToPlanet();
+        InclineAccordingToPlanet();
 
         AltitudeModifier = 0;
         ExternalVelocity = Vector3.zero;
     }
 
-    private void RotateAccordingToPlanet()
+    private void InclineAccordingToPlanet()
     {
         rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
         rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
@@ -350,6 +356,8 @@ public class Player : MonoBehaviour
 
         //Animation + enabled = false;
 
+        followPlanetRotation.StopFollowingPlanet();
+
         gameObject.SetActive(false);
         enabled = false;
 
@@ -373,6 +381,8 @@ public class Player : MonoBehaviour
         doAction = DoActionEjected;
         DisableAllCapacities();
 
+        followPlanetRotation.StopFollowingPlanet();
+
         MovementControlCoef = 1;
     }
 
@@ -385,7 +395,7 @@ public class Player : MonoBehaviour
 
         Vector3 toCenter = rigidbody.position - gravityCenter;
 
-        RotateAccordingToPlanet();
+        InclineAccordingToPlanet();
 
         if (toCenter.magnitude <= levelSettings.PlanetRadius)
         {
@@ -394,6 +404,7 @@ public class Player : MonoBehaviour
 
             SetModeMove();
         }
+        else if (toCenter.magnitude > levelSettings.PlanetRadius + maxEjectionAltitude) Die();
     }
     #endregion
 

@@ -11,7 +11,9 @@ public enum PlanetType
 
 public class Sphere : MonoBehaviour
 {
+    public static event Action OnResetRotation;
 
+    [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
 
     [Header("ScriptSettings")]
     [SerializeField] private PlanetType typeOfSphere = default;
@@ -47,10 +49,25 @@ public class Sphere : MonoBehaviour
 
     private void DoActionRotate()
     {
+        Transform planetPart;
+
 		for (int i = 0; i < sphereEntityUncuted.Count; i++) 
         {
-            sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
-		}
+            Quaternion currentRotation = Quaternion.Euler(new Vector3(0, 0, rotationSpeed[i] * Time.deltaTime));
+            planetPart = sphereEntityUncuted[i].transform;
+
+            planetPart.rotation = currentRotation * planetPart.rotation;
+
+            UpdateRotationsInfo(planetPart, currentRotation);
+        }
+    }
+
+    private void UpdateRotationsInfo(Transform uncutedRotatingPart, Quaternion rotation)
+    {
+        for (int i = 0; i < uncutedRotatingPart.childCount; i++)
+        {
+            planetPartsRotation.UpdateFrameRotationForPart(uncutedRotatingPart.GetChild(i), rotation);
+        }
     }
 
     private void DoActionSpacing()
@@ -66,6 +83,7 @@ public class Sphere : MonoBehaviour
 
         List<Transform> arrayOfGameObject = sphereEntityUncuted;
 
+        Debug.LogWarning("CUT");
 
         if(cutLeft > 0 && timer >= 1)
         {
@@ -100,16 +118,19 @@ public class Sphere : MonoBehaviour
     private void SetModeRotate()
     {
         doAction = DoActionRotate;
+
+        Debug.Log("---> rotate !");
     }
 
     private void SetModeVoid()
     {
         doAction= DoActionVoid;
+        Debug.Log("---> nothing...");
     }
 
-    private void SetModeSpacing()
-    {
+    private void SetModeSpacing(){
         StartCoroutine(Space());
+        planetPartsRotation.ClearAllRotations();
     }
 
 
@@ -139,16 +160,23 @@ public class Sphere : MonoBehaviour
         doAction = DoActionSpacing;
     }
 
-	private void ResetRotation()
+	private void ResetRotation() 
     {
-		for (int i = 0; i < sphereEntityUncuted.Count; i++)
-        {
-            sphereEntityUncuted[i].rotation = Quaternion.identity;
+        OnResetRotation?.Invoke();
+
+        for (int i = 0; i < sphereEntityUncuted.Count; i++)
+ 		{
+            sphereEntityUncuted[i].transform.rotation= Quaternion.identity;
 		}
 	}
 
 	public PlanetType GetTypeOfSphere()
     {
         return typeOfSphere;
+    }
+
+    private void OnDestroy()
+    {
+        OnResetRotation = null;
     }
 }

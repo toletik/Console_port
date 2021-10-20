@@ -11,21 +11,16 @@ public class HUD : MonoBehaviour
     private List<PlayerInfo> playerInfos = new List<PlayerInfo>();
     void Start()
     {
-        CreatePlayerInfo(new Player(), Color.red,1);
-        CreatePlayerInfo(new Player(), Color.blue,2);
-        CreatePlayerInfo(new Player(), Color.green, 3);
-        CreatePlayerInfo(new Player(), Color.black, 4);
+       
 
     }
 
     // Update is called once per frame
-    public void CreatePlayerInfo(Player player, Color color,int PlayerId)
+    public void CreatePlayerInfo(Player player, Color color,int playerId)
     {
         PlayerInfo playerInfo = playerInfoPrefab;
-        playerInfo.player = player;
-        playerInfo.playerId = PlayerId;
+        playerInfo.SetAllParam(player, color, playerId);
         playerInfos.Add(playerInfo);
-        playerInfo.baseColor = color;
         Instantiate(playerInfo, verticalBox);
         
     }
