@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private uint minNumberOfPlayers = 2;
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
-
+    [SerializeField] private HUD hud = default;
     private PlayerInputManager playerInputManager = default;
     private List<PlayerInput> players = new List<PlayerInput>();
 
@@ -56,18 +56,23 @@ public class PlayerManager : MonoBehaviour
     {
         List<Player> playersAsPlayer = new List<Player>();
         Player player = null;
-        PlayerTag playerTag;        
+        PlayerTag playerTag;
+        hud.gameObject.SetActive(true);
 
         for (int i = 0; i < players.Count; i++)
         {
+            Color playerColor = playerTagSettings.GetColorAtIndex(i);
             player = players[i].GetComponent<Player>();
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
             playersAsPlayer.Add(player);
 
-            playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerTagSettings.GetColorAtIndex(i), playerTagSettings.UpdateArrowColor);
+            playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
             player.OnIsNewBestScore += playerTag.ActivateBestScore;
             player.OnBestScoreLost += playerTag.DesativateBestScore;
+            hud.CreatePlayerInfo(player, playerColor, i + 1);
+
+
         }
 
         Player.ResetBestScore(player != null ? player.InitialScore : 0);

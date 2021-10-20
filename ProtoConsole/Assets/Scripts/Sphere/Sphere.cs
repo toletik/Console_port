@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Sphere : MonoBehaviour
 {
+    public static event Action OnResetRotation;
+
+    [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
+
     [Header("ScriptSettings")]
     [SerializeField] private SliceEnum typeOfSphere = default;
     [SerializeField] private LevelManager levelManager = default;
@@ -31,11 +35,29 @@ public class Sphere : MonoBehaviour
         timer+=Time.deltaTime;
 	}
 
-    private void DoActionRotate(){
+    private void DoActionRotate()
+    {
         float lenght = sphereEntityUncuted.Count;
-		for (int i = 0; i < lenght; i++) {
-            sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
-		}
+        Transform planetPart;
+        Quaternion currentRotation;
+
+		for (int i = 0; i < lenght; i++) 
+        {
+            currentRotation = Quaternion.Euler(new Vector3(0, 0, rotationSpeed[i] * Time.deltaTime));
+            planetPart = sphereEntityUncuted[i].transform;
+
+            planetPart.rotation = currentRotation * planetPart.rotation;
+
+            UpdateRotationsInfo(planetPart, currentRotation);
+        }
+    }
+
+    private void UpdateRotationsInfo(Transform uncutedRotatingPart, Quaternion rotation)
+    {
+        for (int i = 0; i < uncutedRotatingPart.childCount; i++)
+        {
+            planetPartsRotation.UpdateFrameRotationForPart(uncutedRotatingPart.GetChild(i), rotation);
+        }
     }
 
     private void DoActionSpacing(){
@@ -50,6 +72,7 @@ public class Sphere : MonoBehaviour
 
         List<GameObject> arrayOfGameObject = sphereEntityUncuted;
 
+        Debug.LogWarning("CUT");
 
         if(cutLeft>0&& timer>=1){
             timer=0;
@@ -80,14 +103,18 @@ public class Sphere : MonoBehaviour
 
     private void SetModeRotate(){
         doAction = DoActionRotate;
+
+        Debug.Log("---> rotate !");
     }
 
     private void SetModeVoid(){
         doAction= DoActionVoid;
+        Debug.Log("---> nothing...");
     }
 
     private void SetModeSpacing(){
         StartCoroutine("Space");
+        planetPartsRotation.ClearAllRotations();
     }
 
     private float offSet = 0.1f;
@@ -112,13 +139,21 @@ public class Sphere : MonoBehaviour
         doAction=DoActionSpacing;
     }
 
-	private void ResetRotation() {
-		for (int i = 0; i < sphereEntityUncuted.Count; i++) {
+	private void ResetRotation() 
+    {
+        OnResetRotation?.Invoke();
+
+        for (int i = 0; i < sphereEntityUncuted.Count; i++) {
             sphereEntityUncuted[i].transform.rotation= Quaternion.identity;
 		}
 	}
 
 	public SliceEnum GetTypeOfSphere(){
         return typeOfSphere;
+    }
+
+    private void OnDestroy()
+    {
+        OnResetRotation = null;
     }
 }
