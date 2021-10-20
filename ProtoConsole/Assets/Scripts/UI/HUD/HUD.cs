@@ -11,10 +11,7 @@ public class HUD : MonoBehaviour
     private List<PlayerInfo> playerInfos = new List<PlayerInfo>();
     void Start()
     {
-        CreatePlayerInfo(new Player(), Color.red,1);
-        CreatePlayerInfo(new Player(), Color.blue,2);
-        CreatePlayerInfo(new Player(), Color.green, 3);
-        CreatePlayerInfo(new Player(), Color.black, 4);
+       
 
     }
 
