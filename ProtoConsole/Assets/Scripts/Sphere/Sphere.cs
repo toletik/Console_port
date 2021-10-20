@@ -2,11 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum PlanetType
+{
+    Half,
+    Quarter,
+    Sixth
+}
 
 public class Sphere : MonoBehaviour
 {
+
+
     [Header("ScriptSettings")]
-    [SerializeField] private SliceEnum typeOfSphere = default;
+    [SerializeField] private PlanetType typeOfSphere = default;
     [SerializeField] private LevelManager levelManager = default;
 
     [Header("MovementSettings")]
@@ -14,15 +22,21 @@ public class Sphere : MonoBehaviour
     [SerializeField] private float offSetRotation = default;
     [SerializeField] private float timeScaleSpacing = default;
 
-    private List<GameObject> sphereEntityUncuted = new List<GameObject>();
+    private List<Transform> sphereEntityUncuted = new List<Transform>();
     private int cutLeft = default;
     private Action doAction = default;
     private float timer = default;
+    private float offSet = 0.1f;
+
     void Start()
     {
-        sphereEntityUncuted.Add(gameObject);
-        if(typeOfSphere == SliceEnum.Half)cutLeft=1;
-        else cutLeft=2;
+        sphereEntityUncuted.Add(transform);
+
+        if(typeOfSphere == PlanetType.Half)
+            cutLeft=1;
+        else 
+            cutLeft=2;
+
         doAction = DoActionVoid;
     }
 
@@ -31,94 +45,110 @@ public class Sphere : MonoBehaviour
         timer+=Time.deltaTime;
 	}
 
-    private void DoActionRotate(){
-        float lenght = sphereEntityUncuted.Count;
-		for (int i = 0; i < lenght; i++) {
+    private void DoActionRotate()
+    {
+		for (int i = 0; i < sphereEntityUncuted.Count; i++) 
+        {
             sphereEntityUncuted[i].transform.Rotate(new Vector3(0,0,rotationSpeed[i]*Time.deltaTime));
 		}
     }
 
-    private void DoActionSpacing(){
+    private void DoActionSpacing()
+    {
     }
 
-    private void DoActionVoid(){
+    private void DoActionVoid()
+    {
     }
 
-	public void CutTheSphere(){
-        int numberOfChildren;
-        int numberOfObjectInList;
+	public void CutTheSphere()
+    {
 
-        List<GameObject> arrayOfGameObject = sphereEntityUncuted;
+        List<Transform> arrayOfGameObject = sphereEntityUncuted;
 
 
-        if(cutLeft>0&& timer>=1){
-            timer=0;
+        if(cutLeft > 0 && timer >= 1)
+        {
+            timer   -= 1;
+            cutLeft -= 1;
             ResetRotation();
 
-            sphereEntityUncuted=new List<GameObject>();
-            cutLeft-=1;
-            numberOfObjectInList=arrayOfGameObject.Count;
+            sphereEntityUncuted = new List<Transform>();
 
-			for (int i = 0; i < numberOfObjectInList; i++) {
-                numberOfChildren = arrayOfGameObject[i].transform.childCount;
-				for (int j = 0; j < numberOfChildren; j++) {
-                    sphereEntityUncuted.Add(arrayOfGameObject[i].transform.GetChild(j).gameObject);
+			for (int i = 0; i < arrayOfGameObject.Count; i++) 
+            {
+				for (int j = 0; j < arrayOfGameObject[i].childCount; j++)
+                {
+                    sphereEntityUncuted.Add(arrayOfGameObject[i].GetChild(j));
                     
 				}
 			}
 
-            if(typeOfSphere==SliceEnum.Half&& cutLeft==0)SetModeRotate();
-
-            else if(typeOfSphere==SliceEnum.Quarter){
-                if(cutLeft==1)SetModeRotate();
-                else SetModeSpacing();
+            if(typeOfSphere==PlanetType.Half && cutLeft==0)
+                SetModeRotate();
+            else if(typeOfSphere==PlanetType.Quarter)
+            {
+                if(cutLeft==1)
+                    SetModeRotate();
+                else 
+                    SetModeSpacing();
             }
-
             else SetModeVoid();
         }
     }
 
-    private void SetModeRotate(){
+    private void SetModeRotate()
+    {
         doAction = DoActionRotate;
     }
 
-    private void SetModeVoid(){
+    private void SetModeVoid()
+    {
         doAction= DoActionVoid;
     }
 
-    private void SetModeSpacing(){
-        StartCoroutine("Space");
+    private void SetModeSpacing()
+    {
+        StartCoroutine(Space());
     }
 
-    private float offSet = 0.1f;
 
-    IEnumerator Space(){
+    IEnumerator Space()
+    {
         SetModeVoid();
 
-        float d = 1;
-        float lenght = sphereEntityUncuted.Count;
+        float direction = 1;
+        float length = sphereEntityUncuted.Count;
         float timer = 0;
 
-		while (timer<1) {
-            timer+= Time.deltaTime/timeScaleSpacing;
-            for (int i = 0; i < lenght; i++) {
-                if(i>=lenght/2)d=-1;
-                else d =1;
-                sphereEntityUncuted[i].transform.localPosition = new Vector3(0,offSet*(-offSet*2*(i%2)),-offSet*d)*timer;
+		while (timer < 1)
+        {
+            timer += Time.deltaTime/timeScaleSpacing;
+
+            for (int i = 0; i < length; i++) 
+            {
+                direction = (i >= length/2)? 1 : -1;
+
+                sphereEntityUncuted[i].localPosition = new Vector3(0, ((i % 2 == 0)?  offSet : -offSet), offSet * direction) * timer;
 		    }
-            levelManager.Settings.SetPlanetMovingRadiusOffset(offSet*timer);
+            levelManager.Settings.MovingPlanetRadiusOffset = offSet * timer;
+
             yield return  null;
         }
-        doAction=DoActionSpacing;
+
+        doAction = DoActionSpacing;
     }
 
-	private void ResetRotation() {
-		for (int i = 0; i < sphereEntityUncuted.Count; i++) {
-            sphereEntityUncuted[i].transform.rotation= Quaternion.identity;
+	private void ResetRotation()
+    {
+		for (int i = 0; i < sphereEntityUncuted.Count; i++)
+        {
+            sphereEntityUncuted[i].rotation = Quaternion.identity;
 		}
 	}
 
-	public SliceEnum GetTypeOfSphere(){
+	public PlanetType GetTypeOfSphere()
+    {
         return typeOfSphere;
     }
 }

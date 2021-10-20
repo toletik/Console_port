@@ -15,43 +15,30 @@ public class LevelManager : MonoBehaviour
 
     private List<Player> players = default;
 
-    private Action doAction = default;
-    private float elapsedTime = 0;
     private int levelDuration = 0;
 
-    public void InitPlayers(List<Player> players)
+    public void InitPlayers(List<Player> _players)
     {
-        this.players = players;
+        players = _players;
 
-        for (int i = 0; i < players.Count; i++)
-        {
-            RespawnPlayer(players[i], false, true).OnDeath += Player_OnDeath;
-        }
+        foreach (Player currentPlayer in players)
+            RespawnPlayer(currentPlayer, false, true).OnDeath += Player_OnDeath;
 
-        elapsedTime = 0;
-        doAction = DoActionDelayLevelStart;
-    }
-
-    private void Update()
-    {
-        doAction();
+        Invoke("StartLevel", startLevelDelayDuration);
     }
 
     private void StartLevel()
     {
-        int i;
-
-        elapsedTime = 0;
         levelDuration = settings.LevelDuration;
 
-        doAction = DoActionRunGame;
+        Invoke("EndGame", levelDuration);
 
-        for (i = 0; i < players.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         {
             players[i].SetModePlay();
         }
 
-        for (i = 0; i < obstacles.Count; i++)
+        for (int i = 0; i < obstacles.Count; i++)
         {
             obstacles[i].gameObject.SetActive(true);
         }
@@ -59,25 +46,10 @@ public class LevelManager : MonoBehaviour
         Debug.Log("START !!!");
     }
 
-    private void DoActionDelayLevelStart()
+    private void EndGame()
     {
-        elapsedTime += Time.deltaTime;
-
-        if (elapsedTime >= startLevelDelayDuration) 
-            StartLevel();
-    }
-
-    private void DoActionRunGame()
-    {
-        elapsedTime += Time.deltaTime;
-
-        if (elapsedTime >= levelDuration)
-        {
-            Debug.Log("End of Game !!!");
-            doAction = () => { };
-
-            StopAllCoroutines();
-        }
+        Debug.Log("End of Game !!!");
+        StopAllCoroutines();
     }
 
     #region Player cycle : Die / Respawn
@@ -88,20 +60,10 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator PlayerRespawnCooldown(Player player)
     {
-        float elapsedTime = 0;
-        float duration = settings.RespawnPlayerCooldownDuration;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            //Update hud
-
-            yield return null;
-        }
+        yield return new WaitForSeconds(settings.RespawnPlayerCooldownDuration);
 
         RespawnPlayer(player, true, false);
-
-        yield break;
+        
     }
 
     private Player RespawnPlayer(Player player, bool enablePlay, bool resetScore)
@@ -109,7 +71,8 @@ public class LevelManager : MonoBehaviour
         player.ResetValues(resetScore);
         player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
-        if (enablePlay) player.SetModePlay();
+        if (enablePlay) 
+            player.SetModePlay();
 
         return player;
     }
@@ -117,11 +80,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        for (int i = 0; i < players.Count; i++)
-        {
-            players[i].OnDeath -= Player_OnDeath;
-        }
+        foreach(Player currentPlayer in players)
+            currentPlayer.OnDeath -= Player_OnDeath;
 
-        players = null;
+        players.Clear();
     }
 }

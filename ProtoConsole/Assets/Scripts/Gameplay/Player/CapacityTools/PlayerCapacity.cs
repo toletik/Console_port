@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+public enum Capacity
+{
+    NONE,
+    DIG,
+    DASH,
+    JUMP,
+    DASH_AND_JUMP = 5
+}
 
 public abstract class PlayerCapacity : MonoBehaviour
 {
@@ -19,15 +27,17 @@ public abstract class PlayerCapacity : MonoBehaviour
     private Color coneColor = default;
     private Color coneColorOnCapacityUsed = default;
 
+
     public virtual void TryToActivate(InputAction.CallbackContext context)
     {
         if (context.action.triggered)
         {
-            if (player.AssignationMode) TryToAssignCapacity();
-            else if (isActiveAndEnabled && currentAction == null) LookToStartAction();
+            if (player.AssignationMode) 
+                TryToAssignCapacity();
+            else if (isActiveAndEnabled && currentAction == null)
+                TryStartCapacity();
         }
     }
-
     public Transform CreateRenderer(Transform rendererParent)
     {
         Transform renderer = capacityConeSpawner.CreateRendererForCapacity(Type, rendererParent);
@@ -37,46 +47,8 @@ public abstract class PlayerCapacity : MonoBehaviour
 
         return renderer;
     }
-
-    protected abstract MeshRenderer SaveRenderer(MeshRenderer renderer);
-    protected abstract bool TryToAssignCapacity();
-    protected abstract bool LookToStartAction();
-
-    protected Coroutine WaitForCooldown(List<MeshRenderer> renderers) => player.StartCoroutine(Cooldown(renderers));
-
+    protected Coroutine StartUpdateColor(List<MeshRenderer> renderers) => player.StartCoroutine(UpdateColor(renderers));
     protected void SetUsedColorOnRenderer(MeshRenderer renderer) => renderer.material.color = coneColorOnCapacityUsed;
-    
-    private IEnumerator Cooldown(List<MeshRenderer> renderer)
-    {
-        List<Material> capacityMaterials = new List<Material>();
-        AnimationCurve interpolation = capacityConeSpawner.ColorInterpolationCurveForCooldown;
-        Color color;
-        int numberOfMaterials = renderer.Count;
-        float elapsedTime = 0;
-
-        for (int i = 0; i < numberOfMaterials; i++)
-        {
-            capacityMaterials.Add(renderer[i].material);
-        }
-
-        while(elapsedTime <= cooldown)
-        {
-            elapsedTime += Time.deltaTime;
-            color = Color.Lerp(coneColorOnCapacityUsed, coneColor, interpolation.Evaluate(elapsedTime / cooldown));
-
-            for (int i = 0; i < numberOfMaterials; i++)
-            {
-                capacityMaterials[i].color = color;
-            }
-
-            yield return null;
-        }
-
-        yield break;
-    }
-
-    protected abstract void ClearCapacityEffects();
-
     public virtual void ResetCapacity()
     {
         if (currentAction != null)
@@ -87,4 +59,29 @@ public abstract class PlayerCapacity : MonoBehaviour
 
         enabled = false;
     }
+    private IEnumerator UpdateColor(List<MeshRenderer> renderers)
+    {
+        AnimationCurve interpolation = capacityConeSpawner.ColorInterpolationCurveForCooldown;
+
+        for (float elapsedTime = 0f; elapsedTime <= cooldown; elapsedTime += Time.deltaTime)
+        {
+            Color color = Color.Lerp(coneColorOnCapacityUsed, coneColor, interpolation.Evaluate(elapsedTime / cooldown));
+
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].material.color = color;
+            }
+
+            yield return null;
+        }
+
+    }
+ 
+
+    //Abstracts
+    protected abstract MeshRenderer SaveRenderer(MeshRenderer renderer);
+    protected abstract bool TryToAssignCapacity();
+    protected abstract bool TryStartCapacity();
+    protected abstract void EndCapacity();
+
 }

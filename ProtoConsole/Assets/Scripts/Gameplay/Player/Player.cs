@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+
     #region Variables
     private const string MATERIAL_EMISSIVE_KEYWORD = "_EMISSION";
     private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
@@ -76,28 +77,27 @@ public class Player : MonoBehaviour
 
     private int Score
     {
-        get => _score;
+        get => score;
         set
         {
             //Update score du joueur
-            _score = value;
-            if (_score < 0 && !allowNegativeScore) _score = 0;
+            score = value;
+            if (score < 0 && !allowNegativeScore)
+                score = 0;
 
-            OnScoreUpdated?.Invoke(this, _score);
+            OnScoreUpdated?.Invoke(this, score);
 
             //Update bestscore si besoin
-            if (IsBestPlayer)
+
+            if (score >= bestScore)
             {
-                bestScore = _score;
-            }
-            else
-            {
-                if (_score >= bestScore)
+
+                if (!IsBestPlayer)
                 {
                     BestPlayer?.OnBestScoreLost?.Invoke();
 
                     //Garde un seul joueur en tête
-                    if (_score == bestScore)
+                    if (score == bestScore)
                     {
                         BestPlayer = null;
                     }
@@ -106,37 +106,40 @@ public class Player : MonoBehaviour
                         BestPlayer = this;
                         OnIsNewBestScore?.Invoke();
                     }
-
-                    bestScore = _score;
                 }
+
+                bestScore = score;
+
             }
         }
     }
-    private int _score;
+    private int score;
 
     private Player collidedPlayer = null;
 
-    private uint AvailableUnassignedCapacities 
+    private int AvailableUnassignedCapacities 
     { 
-        get => _availableUnassignedCapacities; 
+        get => availableUnassignedCapacities; 
         set 
         {
-            if (!(value > 0 && _availableUnassignedCapacities > 0))
+            if (!(value > 0 && availableUnassignedCapacities > 0))
             {
-                meshRenderer.material = value == 0 ? defaultPlayerMaterial : hasCapacityToAssignMaterial;
+                meshRenderer.material = (value == 0 )? defaultPlayerMaterial : hasCapacityToAssignMaterial;
             }
 
-            _availableUnassignedCapacities = value;
-            OnCollectibleUpdate?.Invoke(this, (int)_availableUnassignedCapacities);
+            availableUnassignedCapacities = value;
+            OnCollectibleUpdate?.Invoke(this, availableUnassignedCapacities);
         } 
     }
 
-    private uint _availableUnassignedCapacities = 0;
+    private int availableUnassignedCapacities = 0;
+
     private Capacity currentCapacityUsed = Capacity.NONE;
 
     private MeshRenderer meshRenderer = default;
     private Material defaultPlayerMaterial = default;
-    
+    private BoxCollider boxCollider = default;
+
     private Vector2 inputs = Vector2.zero;
     private Vector3 gravityCenter = default;
     private Vector3 ejection = default;
@@ -149,19 +152,28 @@ public class Player : MonoBehaviour
     private Action doAction = default;
     #endregion
 
+    #region Functions
+
     private void Awake()
     {
+        boxCollider = GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
         meshRenderer = GetComponent<MeshRenderer>();
         defaultPlayerMaterial = meshRenderer.material;
 
         DisableAllCapacities(false);
-        GetComponent<BoxCollider>().enabled = false;
 
         defaultGameLayerForPlayer = LayerMask.NameToLayer(defaultGameLayerNameForPlayer);
         invincibilityLayerForPlayer = LayerMask.NameToLayer(invincibilityLayerNameForPlayer);
 
         doAction = () => { };
     }
+
+    public void FixedUpdate()
+    {
+        doAction.Invoke();
+    }
+
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
@@ -178,14 +190,9 @@ public class Player : MonoBehaviour
         SetModeMove();
 
         enabled = true;
-        GetComponent<BoxCollider>().enabled = true;
+        boxCollider.enabled = true;
 
         StartCoroutine(PlayInvincibilityTime());
-    }
-
-    public void FixedUpdate()
-    {
-        doAction.Invoke();
     }
 
     #region Movement
@@ -199,7 +206,9 @@ public class Player : MonoBehaviour
 
     private void DoActionMove()
     {
-        rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) * (speed * Time.fixedDeltaTime);
+        rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + 
+                               transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) 
+                               * (speed * Time.fixedDeltaTime);
         rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
         RotateAccordingToPlanet();
@@ -263,7 +272,8 @@ public class Player : MonoBehaviour
             return true;
         }
 
-        if (!keepAssignModeActivatedAfterAttributionFail) AssignationMode = false;
+        if (!keepAssignModeActivatedAfterAttributionFail)
+            AssignationMode = false;
 
         return false;
     }
@@ -293,8 +303,10 @@ public class Player : MonoBehaviour
 
     public bool IsUsingCapacity(Capacity capacity)
     {
-        if (capacity == currentCapacityUsed) return true;
-        else if (currentCapacityUsed == Capacity.DASH_AND_JUMP && (capacity == Capacity.JUMP || capacity == Capacity.DASH)) return true;
+        if (capacity == currentCapacityUsed)
+            return true;
+        else if (currentCapacityUsed == Capacity.DASH_AND_JUMP && (capacity == Capacity.JUMP || capacity == Capacity.DASH)) 
+            return true;
         else return false;
     }
 
@@ -310,7 +322,8 @@ public class Player : MonoBehaviour
 
     private void DisableAllCapacities(bool keepUnlock = true)
     {
-        if (keepUnlock) dashCapacity.gameObject.SetActive(false);
+        if (keepUnlock) 
+            dashCapacity.gameObject.SetActive(false);
         else 
         {
             dashCapacity.enabled = false;
@@ -418,9 +431,10 @@ public class Player : MonoBehaviour
         currentCapacityUsed = Capacity.NONE;
         collidedPlayer = null;
 
-        GetComponent<BoxCollider>().enabled = false;
+        boxCollider.enabled = false;
 
-        if (resetScore) Score = initialScore;
+        if (resetScore)
+            Score = initialScore;
 
         gameObject.layer = defaultGameLayerForPlayer;
     }
@@ -431,15 +445,12 @@ public class Player : MonoBehaviour
         Action<Material, Color, float> updateCorrectColorOnMaterial = default;
         Material currentMaterial = null;
         Color baseColor = default;
-        float elapsedTime = 0;
         bool emissiveMaterial = false;
         
         gameObject.layer = invincibilityLayerForPlayer;
 
-        while (elapsedTime < spawnInvincibilityTime)
+        for (float elapsedTime = 0f; elapsedTime < spawnInvincibilityTime; elapsedTime += Time.deltaTime)
         {
-            elapsedTime += Time.deltaTime;
-
             if (meshRenderer.material != currentMaterial)
             {
                 if (currentMaterial != null)
@@ -473,7 +484,6 @@ public class Player : MonoBehaviour
 
         gameObject.layer = defaultGameLayerForPlayer;
 
-        yield break;
     }
 
     private void UpdateMaterialColor(Material material, Color baseColor, float modifier)
@@ -496,4 +506,6 @@ public class Player : MonoBehaviour
         OnIsNewBestScore = null;
         OnBestScoreLost = null;
     }
+
+    #endregion
 }

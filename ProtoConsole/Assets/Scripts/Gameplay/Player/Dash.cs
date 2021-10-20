@@ -3,8 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Direction
+{
+    UP = 0,
+    RIGHT = -90,
+    DOWN = 180,
+    LEFT = 90
+}
+
+
+
 public class Dash : PlayerCapacity
 {
+
     [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
@@ -30,7 +41,9 @@ public class Dash : PlayerCapacity
         { Direction.LEFT, default }
     };
 
+
     private Direction currentDirection = default;
+
 
     protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
     {
@@ -50,9 +63,10 @@ public class Dash : PlayerCapacity
         return player.TryAddCapacity(Type, currentDirection);
     }
 
-    protected override bool LookToStartAction()
+    protected override bool TryStartCapacity()
     {
-        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return false;
+        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) 
+            return false;
 
         player.MovementControlCoef = planarMovementModifierCoef;
         player.StartCapacity(Type);
@@ -63,7 +77,7 @@ public class Dash : PlayerCapacity
             Direction.RIGHT => new Vector2(1, 0),
             Direction.DOWN => new Vector2(0, -1),
             Direction.LEFT => new Vector2(-1, 0),
-            _ => new Vector2(0, 1)
+            _ => new Vector2(0, 0)
         }));
 
         SetUsedColorOnRenderer(allDirectionsRenderer[currentDirection]);
@@ -74,29 +88,25 @@ public class Dash : PlayerCapacity
     /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>
     public void ChooseDirection(int directionIndex)
     {
-        if (directionIndex == (int)Direction.UP || 
-            directionIndex == (int)Direction.RIGHT || 
-            directionIndex == (int)Direction.DOWN || 
+        if (directionIndex == (int)Direction.UP ||
+            directionIndex == (int)Direction.RIGHT ||
+            directionIndex == (int)Direction.DOWN ||
             directionIndex == (int)Direction.LEFT)
-            {
-                currentDirection = (Direction)directionIndex;
-            }
+        {
+            currentDirection = (Direction)directionIndex;
+        }
     }
-
     private IEnumerator ExecuteDash(Vector2 direction)
     {
-        Direction dashDirection = currentDirection;
-        float elapsedTime = 0;
 
-        while (elapsedTime < dashDuration)
+        for (float elapsedTime = 0f; elapsedTime <= dashDuration; elapsedTime += Time.deltaTime)
         {
-            elapsedTime += Time.deltaTime;
             player.ExternalVelocity = direction * Mathf.LerpUnclamped(0, dashSpeed, speedCurve.Evaluate(elapsedTime / dashDuration));
 
             yield return null;
         }
 
-        ClearCapacityEffects();
+        EndCapacity();
 
         List<MeshRenderer> feedbackRenderers = new List<MeshRenderer>();
 
@@ -110,15 +120,14 @@ public class Dash : PlayerCapacity
                     feedbackRenderers.Add(allDirectionsRenderer[dir]);
             }
         }
-        else feedbackRenderers.Add(allDirectionsRenderer[dashDirection]);
+        else feedbackRenderers.Add(allDirectionsRenderer[currentDirection]);
 
-        yield return WaitForCooldown(feedbackRenderers);
+        yield return StartUpdateColor(feedbackRenderers);
 
         currentAction = null;
-        yield break;
     }
 
-    protected override void ClearCapacityEffects()
+    protected override void EndCapacity()
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Type);

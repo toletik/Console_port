@@ -11,6 +11,7 @@ public class Collectible : MonoBehaviour
             player.CollectCapacityToAssign();
             Destroy(gameObject);
         }
-        else Debug.Log("Invalid recuperation");
+        else
+            Debug.LogWarning("Invalid recuperation");
     }
 }
