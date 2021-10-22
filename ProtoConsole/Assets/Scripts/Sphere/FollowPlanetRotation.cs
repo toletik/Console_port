@@ -45,7 +45,7 @@ public class FollowPlanetRotation : MonoBehaviour
     public void StartToFollowPlanet()
     {
         modeFollow = true;
-        if (followCoroutineCurrentlyRunning == null) followCoroutineCurrentlyRunning = StartCoroutine(FollowPlanet());
+        if (followCoroutineCurrentlyRunning == null && enabled) followCoroutineCurrentlyRunning = StartCoroutine(FollowPlanet());
     }
 
     public void StopFollowingPlanet()

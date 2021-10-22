@@ -923,6 +923,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6227846927218486740, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 315287758}
     - target: {fileID: 6339248569211889844, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1189,26 +1193,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
---- !u!1 &1019214644 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5284635659127406960, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
+--- !u!114 &1019214645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6227846927218486740, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
   m_PrefabInstance: {fileID: 1019214643}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1019214645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1019214644}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c827c12ba8b4e434a9e723f3882de504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 315287758}
-  levelPrefabs:
-  - {fileID: 5366093407587650062, guid: 1adc90daf6d168740be27d94bc34f914, type: 3}
 --- !u!114 &1019214646 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3977144648212601302, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
@@ -1252,6 +1247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
@@ -1264,7 +1260,7 @@ MonoBehaviour:
   m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
+  m_PointerBehavior: 2
 --- !u!114 &1913427080
 MonoBehaviour:
   m_ObjectHideFlags: 0

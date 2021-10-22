@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using nn.hid;
 
 public class Player : MonoBehaviour
 {
@@ -153,6 +154,12 @@ public class Player : MonoBehaviour
     private Action doAction = default;
     #endregion
 
+    //Vibration
+    int vibrationDeviceCount;
+    const int VibrationDeviceCountMax = 2;
+    VibrationDeviceHandle[] vibrationDevices = new VibrationDeviceHandle[VibrationDeviceCountMax];
+    VibrationDeviceInfo info;
+
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -165,6 +172,26 @@ public class Player : MonoBehaviour
         invincibilityLayerForPlayer = LayerMask.NameToLayer(invincibilityLayerNameForPlayer);
 
         doAction = () => { };
+
+
+
+        NpadStyle npadStyle = NpadStyle.FullKey;// NpadStyleFullKey::Mask;
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2 };
+
+        // Initialize the Npad function.
+        Npad.SetSupportedStyleSet(npadStyle);
+        //SetSupportedNpadIdType(npadIds, sizeof(npadIds) / sizeof(npadIds[0]));
+        Npad.SetSupportedIdType(npadIds, npadIds.Length);
+
+        // Get the vibration device handle of NpadId::No1.
+        vibrationDeviceCount = Vibration.GetDeviceHandles(vibrationDevices, VibrationDeviceCountMax, npadIds[0], npadStyle);
+
+        for (int i = 0; i < vibrationDeviceCount; i++)
+        {
+            // Initialize the vibration devices.
+            Vibration.InitializeDevice(vibrationDevices[i]);
+            //nn::hid::InitializeVibrationDevice(vibrationDevices[i]);
+        }
     }
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
@@ -187,9 +214,41 @@ public class Player : MonoBehaviour
         StartCoroutine(PlayInvincibilityTime());
     }
 
+
+
     public void FixedUpdate()
     {
         doAction.Invoke();
+
+
+        // Set the left vibration device to vibrate at an amplitude of 0.5 and a frequency of 160 Hz.
+        VibrationValue v1 = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
+        for (int i = 0; i < vibrationDeviceCount; i++)
+        {
+            Vibration.GetDeviceInfo(ref info, vibrationDevices[i]);
+            //if (info.position == VibrationDevicePosition_Left)
+            {
+                Vibration.SendValue(vibrationDevices[i], v1);
+            }
+        }
+
+        //// Set the right vibration device to vibrate at an amplitude of 0.5 and a frequency of 320 Hz.
+        //VibrationValue v2 = VibrationValue.Make(0.0f, 160.0f, 0.5f, 320.0f);
+        //for (int i = 0; i < vibrationDeviceCount; i++)
+        //{
+        //    GetVibrationDeviceInfo(&info, vibrationDevices[i]);
+        //    if (info.position == VibrationDevicePosition_Right)
+        //    {
+        //        SendVibrationValue(vibrationDevices[i], v2);
+        //    }
+        //}
+
+        //// Set all vibration devices to stop vibrating.
+        //VibrationValue v0 = VibrationValue.Make();
+        //for (int i = 0; i < vibrationDeviceCount; i++)
+        //{
+        //    SendVibrationValue(vibrationDevices[i], v0);
+        //}
     }
 
     #region Movement
@@ -234,13 +293,13 @@ public class Player : MonoBehaviour
             if (AvailableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
             {
                 AssignationMode = true;
-                Debug.LogWarning("Start assignation");
+                Debug.LogError("Start assignation");
             }
         }
         else if (context.canceled) 
         { 
             AssignationMode = false; 
-            Debug.LogWarning("End assignation"); 
+            Debug.LogError("End assignation"); 
         }
     }
 
