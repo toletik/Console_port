@@ -11,7 +11,7 @@ public class Slice : MonoBehaviour
 	{
 		if(other.CompareTag(sphereTag))
 		{
-			if(other.TryGetComponent<Sphere>(out Sphere sphere)) 
+			if(other.TryGetComponent<Planet>(out Planet sphere)) 
 				sphere.CutTheSphere();
 		}
 	}

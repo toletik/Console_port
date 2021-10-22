@@ -9,7 +9,7 @@ public enum PlanetType
     Sixth
 }
 
-public class Sphere : MonoBehaviour
+public class Planet : MonoBehaviour
 {
     public static event Action OnResetRotation;
 
