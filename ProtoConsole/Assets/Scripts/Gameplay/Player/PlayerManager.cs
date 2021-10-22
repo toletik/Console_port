@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private HUD hud = default;
     private PlayerInputManager playerInputManager = default;
     private List<PlayerInput> players = new List<PlayerInput>();
+    VibrationManager vibrationManager = null;
 
     public bool EnoughPlayersToStart => players.Count >= minNumberOfPlayers;
 
@@ -25,16 +26,19 @@ public class PlayerManager : MonoBehaviour
         playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
 
-        //Switch
+        // Switch
         Npad.Initialize();
 
-        Npad.SetSupportedStyleSet(NpadStyle.JoyLeft | NpadStyle.JoyRight);
+        NpadStyle style = NpadStyle.JoyLeft | NpadStyle.JoyRight;
+        Npad.SetSupportedStyleSet(style);
         NpadJoy.SetHoldType(NpadJoyHoldType.Horizontal);
 
         NpadJoy.SetHandheldActivationMode(NpadHandheldActivationMode.Dual);
 
         NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
         Npad.SetSupportedIdType(npadIds);
+
+        vibrationManager = new VibrationManager(npadIds[0], style);
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -50,6 +54,9 @@ public class PlayerManager : MonoBehaviour
 
             players.Add(player);
             OnPlayerAdded?.Invoke(players.Count);
+
+            // Vibration test
+            vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f);
         }
     }
 
