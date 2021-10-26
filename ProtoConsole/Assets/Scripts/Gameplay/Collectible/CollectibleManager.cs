@@ -11,7 +11,7 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] private int startCollectible = 0;
     [SerializeField] private int minNbrOfCollectible = 2;
 
-    [SerializeField] private float radiusOnDeath = 5;
+    [SerializeField] static private float radiusOnDeath = 2;
     
 
 
@@ -20,7 +20,7 @@ public class CollectibleManager : MonoBehaviour
     {
        
         //LoseCollectibleWhenDead(debugTransform, 2);
-        SpawnCollectibleRandomlyOnSphere(100);
+        SpawnCollectibleRandomlyOnSphere(3);
         Collectible.OnCollect += Collectible_OnCollect;
     }
 
@@ -54,38 +54,34 @@ public class CollectibleManager : MonoBehaviour
             collectibles.Add(collectible);
         }        
     }
-    private void LoseCollectibleWhenDead(Transform playerTransform,int nbrOfCollectible)
+     public void LoseCollectibleWhenDead(Transform playerTransform,int nbrOfCollectible)
     {
         float angle;
-        float ratio;
+
         Vector3 newPos = default;
 
         for (int i = 0; i < nbrOfCollectible; i++)
         {
-            ratio = (float)i / nbrOfCollectible;
+            
 
-            angle = 2 * Mathf.PI * ratio;
-
-
+            angle = Random.Range(0, 2 * Mathf.PI );
 
             newPos  = new Vector3(radiusOnDeath * Mathf.Cos(angle),
                 0,
                 radiusOnDeath * Mathf.Sin(angle))+playerTransform.position;
 
-            CreateCollectible(prefabCollectible, newPos);
-
-
+            CreateCollectible(newPos);
         }
 
     }
-    private void CreateCollectible(Collectible prefab,Vector3 newPos)
+    private void CreateCollectible(Vector3 newPos)
     {
-        Collectible collectible = Instantiate(prefab, newPos, Quaternion.identity);
+        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
         collectibles.Add(collectible);
     }
-    private void CreateCollectible(Collectible prefab, Vector3 newPos,Transform parent)
+    private void CreateCollectible( Vector3 newPos,Transform parent)
     {
-        Collectible collectible = Instantiate(prefab, newPos, Quaternion.identity,parent);
+        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity,parent);
         collectibles.Add(collectible);
     }
     private void OnDestroy()

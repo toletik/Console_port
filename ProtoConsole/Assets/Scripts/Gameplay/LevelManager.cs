@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
     [Space(8)]
     [SerializeField] private List<Obstacle> obstacles = default;
+    [Space(8)]
+    [SerializeField] private CollectibleManager collectibleManager = default;
 
     public LevelSettings Settings => settings;
 
@@ -19,6 +21,7 @@ public class LevelManager : MonoBehaviour
     private Action doAction = default;
     private float elapsedTime = 0;
     private int levelDuration = 0;
+
 
     public void InitPlayers(List<Player> players)
     {
@@ -86,6 +89,7 @@ public class LevelManager : MonoBehaviour
     #region Player cycle : Die / Respawn
     private void Player_OnDeath(Player player, int numberOfPowerups)
     {
+        collectibleManager.LoseCollectibleWhenDead(player.transform, numberOfPowerups);
         StartCoroutine(PlayerRespawnCooldown(player));
     }
 

@@ -195,6 +195,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 5266986892180950230}
   - {fileID: 3987662190532009787}
+  collectibleManager: {fileID: 6905316725995849133}
 --- !u!114 &6905316725995849133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +212,6 @@ MonoBehaviour:
   prefabCollectible: {fileID: 4555949036239020911, guid: 8d75ffc844ca46043a149739ee74b92e, type: 3}
   startCollectible: 4
   minNbrOfCollectible: 2
-  radiusOnDeath: 2
-  cameraTest: {fileID: 5366093406225714321}
 --- !u!1001 &2553841583739558212
 PrefabInstance:
   m_ObjectHideFlags: 0
