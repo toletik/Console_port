@@ -11,7 +11,7 @@ public class KillZone : MonoBehaviour
 
     private void Start()
     {
-        transform.position = Quaternion.FromToRotation(Vector3.up, -cameraTest.transform.forward) * (transform.position - Vector3.zero);
+        transform.position = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (transform.position - Vector3.zero);
     }
     private void OnTriggerEnter(Collider other)
     {

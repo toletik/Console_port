@@ -12,7 +12,7 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] private int minNbrOfCollectible = 2;
 
     [SerializeField] private float radiusOnDeath = 5;
-    [SerializeField] private Camera cameraTest = default;
+    
 
 
     static public List<Collectible> collectibles = new List<Collectible>();
@@ -45,7 +45,7 @@ public class CollectibleManager : MonoBehaviour
         {
             newPos = Random.onUnitSphere * 13;
             newPos.y = Mathf.Abs(newPos.y);
-            newPos =   Quaternion.FromToRotation(Vector3.up, -cameraTest.transform.forward) *(newPos - Vector3.zero);
+            newPos =   Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) *(newPos - Vector3.zero);
 
 
 
