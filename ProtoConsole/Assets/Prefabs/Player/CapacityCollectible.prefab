@@ -25,6 +25,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea22dab080ce3ae48905cbc890bcf95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lerpDuration: 4
 --- !u!1001 &3217314120908576213
 PrefabInstance:
   m_ObjectHideFlags: 0

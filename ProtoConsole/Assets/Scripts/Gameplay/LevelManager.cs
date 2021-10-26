@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
     #region Player cycle : Die / Respawn
     private void Player_OnDeath(Player player, int numberOfPowerups)
     {
-        collectibleManager.LoseCollectibleWhenDead(player.transform, numberOfPowerups);
+        collectibleManager.LoseCollectibleWhenDead(player.transform, numberOfPowerups+100);
         StartCoroutine(PlayerRespawnCooldown(player));
     }
 

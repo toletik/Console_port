@@ -5,22 +5,23 @@ using UnityEngine;
 public class CollectibleManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private Transform planetOrigin = default;
+    [SerializeField] static public Transform planetPos = default;
+    [SerializeField] public Transform planetOrigin = default;
     [SerializeField] private Collectible prefabCollectible = default;
 
-    [SerializeField] private int startCollectible = 0;
+    [SerializeField] private int startCollectible = 5;
     [SerializeField] private int minNbrOfCollectible = 2;
 
-    [SerializeField] static private float radiusOnDeath = 2;
+    [SerializeField] private float radiusOnDeath = 2;
     
 
 
     static public List<Collectible> collectibles = new List<Collectible>();
     void Start()
     {
-       
+        planetPos = planetOrigin;
         //LoseCollectibleWhenDead(debugTransform, 2);
-        SpawnCollectibleRandomlyOnSphere(3);
+        SpawnCollectibleRandomlyOnSphere(startCollectible);
         Collectible.OnCollect += Collectible_OnCollect;
     }
 
@@ -77,6 +78,7 @@ public class CollectibleManager : MonoBehaviour
     private void CreateCollectible(Vector3 newPos)
     {
         Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
+        collectible.transform.rotation = Quaternion.AngleAxis(Vector3.Angle(planetOrigin.up, newPos), Vector3.Cross(planetOrigin.up - planetOrigin.position, newPos - planetOrigin.position)) * collectible.transform.rotation;
         collectibles.Add(collectible);
     }
     private void CreateCollectible( Vector3 newPos,Transform parent)
