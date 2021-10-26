@@ -174,7 +174,6 @@ Transform:
   - {fileID: 5366093406573543819}
   - {fileID: 218648198067053835}
   - {fileID: 257318446426070208}
-  - {fileID: 5682179784867538117}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -214,36 +213,6 @@ MonoBehaviour:
   minNbrOfCollectible: 2
   radiusOnDeath: 2
   cameraTest: {fileID: 5366093406225714321}
---- !u!1 &7229222178907236847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5682179784867538117}
-  m_Layer: 0
-  m_Name: DebugTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5682179784867538117
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7229222178907236847}
-  m_LocalRotation: {x: 0.23334078, y: 0.15680139, z: -0.4502913, w: 0.84746873}
-  m_LocalPosition: {x: 1.39, y: 8.202234, z: -9.685152}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5366093407587650061}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 32.46, y: 3.78, z: -54.866}
 --- !u!1001 &2553841583739558212
 PrefabInstance:
   m_ObjectHideFlags: 0
