@@ -73,8 +73,6 @@ public class PlayerManager : MonoBehaviour
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
             player.OnScoreUpdated += PlayerManagerScoreHandle;
             hud.CreatePlayerInfo(player, playerColor, i + 1);
-
-
         }
 
         bestScore = (player != null)? player.InitialScore : 0;

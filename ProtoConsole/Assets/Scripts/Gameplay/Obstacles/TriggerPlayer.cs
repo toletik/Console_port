@@ -6,7 +6,7 @@ using UnityEngine;
 public class TriggerPlayer : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float ejectForce = 0.5f;
+    [SerializeField] private float ejectForce = 2;
     private const string PLAYER_TAG = "Player";
     private void OnTriggerEnter(Collider other)
     {

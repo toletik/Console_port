@@ -16,7 +16,21 @@ public class PlayerTag : MonoBehaviour
 
     private void Awake()
     {
+        LevelManager.OnLevelDestroy += LevelManager_OnLevelDestroy; 
+        LevelManager.OnLevelSpawn += LevelManager_OnLevelSpawn;
+
+        gameObject.SetActive(false);
+    }
+
+    private void LevelManager_OnLevelSpawn(LevelManager obj)
+    {
+        gameObject.SetActive(true);
         cameraTransform = Camera.main.transform;
+    }
+
+    private void LevelManager_OnLevelDestroy(LevelManager obj)
+    {
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -27,8 +41,6 @@ public class PlayerTag : MonoBehaviour
 
     public void DisplayPlayer(string text, Color color, bool updateArrowColor = true)
     {
-        gameObject.SetActive(true);
-
         DisplayPlayer(text);
 
         textfield.color = color;
@@ -42,4 +54,10 @@ public class PlayerTag : MonoBehaviour
 
     public void ActivateBestScore() => bestPlayerFeedback.SetActive(true);
     public void DesativateBestScore() => bestPlayerFeedback.SetActive(false);
+
+    private void OnDestroy()
+    {
+        LevelManager.OnLevelDestroy -= LevelManager_OnLevelDestroy;
+        LevelManager.OnLevelSpawn -= LevelManager_OnLevelSpawn;
+    }
 }
