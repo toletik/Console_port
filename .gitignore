@@ -51,3 +51,4 @@ FMOD/**.unsaved
 FMOD/**.cache
 FMOD/**.restore
 run.bat
+ProtoConsole/SwitchIL2CPPCache/

@@ -1,7 +1,8 @@
+using Com.IsartDigital.Common.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConnexionScreen : Screen
+public class ConnexionScreen : UIScreen
 {
     [SerializeField] private PlayerManager playerManager = default;
     [SerializeField] private List<LevelManager> levelPrefabs = default;
@@ -16,12 +17,12 @@ public class ConnexionScreen : Screen
 
         playerManager.StartLevel(Instantiate(levelPrefabs[0]));
 
-        CloseScreen();
+        Desactivate();
     }
 
-    public override void OpenScreen()
+    protected override void Activate()
     {
-        base.OpenScreen();
+        base.Activate();
         playerManager.EnablePlayerConnexion(true);
 
         playerManager.OnPlayerAdded += PlayerManager_OnPlayerAdded;
@@ -38,9 +39,9 @@ public class ConnexionScreen : Screen
         
     }
 
-    public override void CloseScreen()
+    protected override void Desactivate()
     {
-        base.CloseScreen();
+        base.Desactivate();
         playerManager.EnablePlayerConnexion(false);
 
         ClearEvents();

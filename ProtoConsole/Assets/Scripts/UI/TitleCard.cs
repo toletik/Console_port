@@ -1,14 +1,9 @@
-using UnityEngine;
+using Com.IsartDigital.Common.UI;
 
-public class TitleCard : Screen
+public class TitleCard : UIScreen
 {
-    [SerializeField] Screen screenToInstantiate=default;
-
-	public override void PlayButton() 
+	public void OnPlayButtonClick() 
     {
-		base.PlayButton();
-
-        screenToInstantiate.OpenScreen();
-        gameObject.SetActive(false);
+        UIManager.Instance.AddScreen<ConnexionScreen>(true);
 	}
 }

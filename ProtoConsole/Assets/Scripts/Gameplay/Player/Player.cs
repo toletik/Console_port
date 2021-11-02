@@ -11,16 +11,11 @@ public class Player : MonoBehaviour
     private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
     private const string MATERIAL_COLOR = "_Color";
 
-    public static Player BestPlayer { get; private set; } = default;
-    private static int bestScore = 0;
-
     public delegate void PlayerEventHandler(Player player, int possessedCollectibles = 0);
     public static event PlayerEventHandler OnPause;
     public event PlayerEventHandler OnDeath;
     public event PlayerEventHandler OnCollectibleUpdate;
     public event PlayerEventHandler OnScoreUpdated;
-    public event Action OnIsNewBestScore;
-    public event Action OnBestScoreLost;
 
     #region Serialize fields
     [Header("References")]
@@ -76,10 +71,10 @@ public class Player : MonoBehaviour
 
     public bool AssignationMode { get; private set; } = false;
 
-    public bool IsBestPlayer => this == BestPlayer;
+    public bool IsBestPlayer = false;
     public int InitialScore => initialScore;
-
-    private int Score
+    private int score;
+    public int Score
     {
         get => score;
         set
@@ -90,34 +85,8 @@ public class Player : MonoBehaviour
                 score = 0;
 
             OnScoreUpdated?.Invoke(this, score);
-
-            //Update bestscore si besoin
-
-            if (score >= bestScore)
-            {
-
-                if (!IsBestPlayer)
-                {
-                    BestPlayer?.OnBestScoreLost?.Invoke();
-
-                    //Garde un seul joueur en tête
-                    if (score == bestScore)
-                    {
-                        BestPlayer = null;
-                    }
-                    else
-                    {
-                        BestPlayer = this;
-                        OnIsNewBestScore?.Invoke();
-                    }
-                }
-
-                bestScore = score;
-
-            }
         }
     }
-    private int score;
 
     private Player collidedPlayer = null;
 
@@ -422,8 +391,6 @@ public class Player : MonoBehaviour
         Score += scoreToAdd;
     }
 
-    public static void ResetBestScore(int score) => bestScore = score;
-
     public void ResetValues(bool resetScore = false)
     {
         dashCapacity.ResetCapacity();
@@ -514,8 +481,6 @@ public class Player : MonoBehaviour
         OnDeath = null;
         OnCollectibleUpdate = null;
         OnScoreUpdated = null;
-        OnIsNewBestScore = null;
-        OnBestScoreLost = null;
     }
 
     #endregion
