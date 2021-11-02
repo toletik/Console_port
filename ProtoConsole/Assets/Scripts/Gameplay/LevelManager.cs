@@ -54,7 +54,6 @@ public class LevelManager : MonoBehaviour
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
         Invoke("EndGame", levelDuration);
-        Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
         foreach(Player player in Players)
             player.SetModePlay();
@@ -73,10 +72,15 @@ public class LevelManager : MonoBehaviour
         StopAllCoroutines();
 
         banner.PlayBanner(endLevelBannerMessage);
-        banner.OnAnimationEnd += () => 
-        {
-            UIManager.Instance.AddScreen<WinScreen>(true);
-        };
+        banner.OnAnimationEnd += OpenLevelEndScreen;
+    }
+
+    private void OpenLevelEndScreen()
+    {
+        ClearLevel();
+
+        UIManager.Instance.AddScreen<WinScreen>(true);
+        Banner.Instance.OnAnimationEnd -= OpenLevelEndScreen;
     }
 
     private void ClearLevel()
