@@ -29,6 +29,8 @@ public class Banner : MonoBehaviour
 
     public void PlayBanner(string text)
     {
+        gameObject.SetActive(true);
+
         textfield.text = text;
         GetComponent<Animator>().enabled = true;
     }
@@ -36,7 +38,9 @@ public class Banner : MonoBehaviour
     public void EndBanner()
     {
         callOnEnd?.Invoke();
+
         GetComponent<Animator>().enabled = false;
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
