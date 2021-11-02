@@ -1,6 +1,7 @@
 using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -89,6 +90,8 @@ public class Player : MonoBehaviour
             OnScoreUpdated?.Invoke(this, score);
         }
     }
+
+    private ScoreDetails scoreDetails;
 
     private Player collidedPlayer = null;
 
@@ -336,7 +339,15 @@ public class Player : MonoBehaviour
 
         OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
 
-        collidedPlayer?.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
+        if (collidedPlayer)
+        {
+            collidedPlayer.scoreDetails.numberOfKills++;
+            collidedPlayer.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
+
+            scoreDetails.allDeaths.Add(DeathType.KILL);
+        }
+        else scoreDetails.allDeaths.Add(DeathType.ACCIDENT);
+
         UpdateScore(-scoreLostOnDeath);
 
         ResetValues(false);
@@ -396,6 +407,7 @@ public class Player : MonoBehaviour
     public void UpdateScore(int scoreToAdd)
     {
         Score += scoreToAdd;
+        scoreDetails.score = score;
     }
 
     public void ResetValues(bool resetScore = false)
@@ -418,8 +430,11 @@ public class Player : MonoBehaviour
 
         boxCollider.enabled = false;
 
-        if (resetScore)
+        if (resetScore) 
+        {
             Score = initialScore;
+            scoreDetails = new ScoreDetails() { score = Score, numberOfKills = 0, allDeaths = new List<DeathType>() };
+        }
 
         gameObject.layer = defaultGameLayerForPlayer;
     }
@@ -468,7 +483,6 @@ public class Player : MonoBehaviour
         //DynamicGI.UpdateEnvironment();
 
         gameObject.layer = defaultGameLayerForPlayer;
-
     }
 
     private void UpdateMaterialColor(Material material, Color baseColor, float modifier)
@@ -489,6 +503,5 @@ public class Player : MonoBehaviour
         OnCollectibleUpdate = null;
         OnScoreUpdated = null;
     }
-
     #endregion
 }
