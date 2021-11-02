@@ -9,31 +9,45 @@ public class VibrationManager
     //public static VibrationManager Instance { get { return instance == null ? (instance = new VibrationManager()) : instance; } }
 
     //Vibration
-    int vibrationDeviceCount;
-    const int VibrationDeviceCountMax = 2;
-    VibrationDeviceHandle[] vibrationDevices = new VibrationDeviceHandle[VibrationDeviceCountMax];
+    int vibrationDeviceCount = 0;
+    int vibrationDeviceCount2 = 0;
+    const int VibrationDeviceCountMax = 8;
+    //VibrationDeviceHandle[] vibrationDevices = new VibrationDeviceHandle[VibrationDeviceCountMax];
+    List<VibrationDeviceHandle> vibrationDevices = new List<VibrationDeviceHandle>();
     VibrationDeviceInfo info;
 
-    public VibrationManager(NpadId npadId, NpadStyle style)
+    public VibrationManager()
     {
-        // Npads should be initialized when this function is executed
+        // Npads should be initialized when this function is executed.
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
 
-        // Get the vibration device handle of NpadId::No1.
-        vibrationDeviceCount = Vibration.GetDeviceHandles(vibrationDevices, VibrationDeviceCountMax, npadId, NpadStyle.JoyRight);
-
-        // Init devices
-        for (int i = 0; i < vibrationDeviceCount; i++)
+        // Get the vibration device handle of all NpadIds.
+        foreach (NpadId id in npadIds)
         {
-            // Initialize the vibration devices.
+            NpadStyle currentStyle = Npad.GetStyleSet(id);
+
+            // If player is invalid
+            if (currentStyle == NpadStyle.None)
+                continue;
+
+            // Add the Device corresponding to the player (single joycon)
+            VibrationDeviceHandle[] vibrationDevicesLeft = new VibrationDeviceHandle[1];
+            Vibration.GetDeviceHandles(vibrationDevicesLeft, 1, id, currentStyle);
+            vibrationDevices.Add(vibrationDevicesLeft[0]);
+            
+        }
+
+        // Initialize all vibration devices.
+        for (int i = 0; i < vibrationDevices.Count; i++)
+        {
             Vibration.InitializeDevice(vibrationDevices[i]);
         }
     }
 
     void VibrateForAllDuring1Frame(VibrationValue vibration)
-
     {
         // Set the left vibration device to vibrate at an amplitude of 0.5 and a frequency of 160 Hz.
-        for (int i = 0; i < vibrationDeviceCount; i++)
+        for (int i = 0; i < vibrationDevices.Count; i++)
         {
             Vibration.GetDeviceInfo(ref info, vibrationDevices[i]);
             //if (info.position == VibrationDevicePosition_Left)
@@ -44,7 +58,6 @@ public class VibrationManager
     }
 
     void VibrateForOneDuring1Frame(VibrationValue vibration, int vibrationDeviceID)
-
     {
         Vibration.SendValue(vibrationDevices[vibrationDeviceID], vibration);
     }
@@ -53,7 +66,7 @@ public class VibrationManager
     {
         // Set all vibration devices to stop vibrating.
         VibrationValue v0 = VibrationValue.Make();
-        for (int i = 0; i < vibrationDeviceCount; i++)
+        for (int i = 0; i < vibrationDevices.Count; i++)
         {
             Vibration.SendValue(vibrationDevices[i], v0);
         }
@@ -117,4 +130,15 @@ public class VibrationManager
 
         StopOneVibration(vibrationDeviceID);
     }
+
+
+
+
+
+
+
+
+
+
+
 }

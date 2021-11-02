@@ -19,13 +19,8 @@ public class PlayerManager : MonoBehaviour
 
     public bool EnoughPlayersToStart => players.Count >= minNumberOfPlayers;
 
-    private void Awake()
+    void InitializeNPad()
     {
-        playerInputManager = GetComponent<PlayerInputManager>();
-
-        playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
-        playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
-
         // Switch
         Npad.Initialize();
 
@@ -37,8 +32,16 @@ public class PlayerManager : MonoBehaviour
 
         NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
         Npad.SetSupportedIdType(npadIds);
+    }
 
-        vibrationManager = new VibrationManager(npadIds[0], style);
+    private void Awake()
+    {
+        playerInputManager = GetComponent<PlayerInputManager>();
+
+        playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
+        playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
+
+        InitializeNPad();
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -56,7 +59,7 @@ public class PlayerManager : MonoBehaviour
             OnPlayerAdded?.Invoke(players.Count);
 
             // Vibration test
-            StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f));
+            //StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f));
         }
     }
 
@@ -100,8 +103,11 @@ public class PlayerManager : MonoBehaviour
 
         currentLevelManager.InitPlayers(playersAsPlayer);
 
+
+        vibrationManager = new VibrationManager();
+
         // Vibration test
-        StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f));
+        StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 5f));
     }
 
     private void OnDestroy()
