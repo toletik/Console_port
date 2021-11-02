@@ -71,8 +71,6 @@ public class PlayerManager : MonoBehaviour
             player.OnIsNewBestScore += playerTag.ActivateBestScore;
             player.OnBestScoreLost += playerTag.DesativateBestScore;
             hud.CreatePlayerInfo(player, playerColor, i + 1);
-
-
         }
 
         Player.ResetBestScore(player != null ? player.InitialScore : 0);
