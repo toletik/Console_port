@@ -6,7 +6,8 @@ using UnityEngine;
 public class Collectible : MonoBehaviour
 {
     [SerializeField] private float lerpDuration = 4;
-    [SerializeField] private ParticleSystem landingParticule = default;
+
+    private Animator animator = default;
     public delegate void CollectibleEventHandler(Collectible collectible);
     static public event CollectibleEventHandler OnCollect;
 
@@ -19,6 +20,7 @@ public class Collectible : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         list = CollectibleManager.collectibles;
         planetPos = CollectibleManager.planetPos.position;
         StartGravity();
@@ -62,8 +64,16 @@ public class Collectible : MonoBehaviour
     private void Landing()
     {
         StopAllCoroutines();
-        landingParticule.Play();
-    }
+        SetAnimFalling(false);
 
+    }
+    public void SetModeFalling()
+    {
+        SetAnimFalling(true);
+    }
+    private void SetAnimFalling(bool value)
+    {
+        animator.SetBool("Falling", value);
+    }
 
 }

@@ -20,7 +20,6 @@ public class CollectibleManager : MonoBehaviour
     void Start()
     {
         planetPos = planetOrigin;
-        //LoseCollectibleWhenDead(debugTransform, 2);
         SpawnCollectibleRandomlyOnSphere(startCollectible);
         Collectible.OnCollect += Collectible_OnCollect;
     }
@@ -71,15 +70,16 @@ public class CollectibleManager : MonoBehaviour
                 0,
                 radiusOnDeath * Mathf.Sin(angle))+playerTransform.position;
 
-            CreateCollectible(newPos);
+            CreateCollectibleInTheAir(newPos);
         }
 
     }
-    private void CreateCollectible(Vector3 newPos)
+    private void CreateCollectibleInTheAir(Vector3 newPos)
     {
         Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
         collectible.transform.rotation = Quaternion.AngleAxis(Vector3.Angle(planetOrigin.up, newPos), Vector3.Cross(planetOrigin.up - planetOrigin.position, newPos - planetOrigin.position)) * collectible.transform.rotation;
         collectibles.Add(collectible);
+        collectible.SetModeFalling();
     }
     private void CreateCollectible( Vector3 newPos,Transform parent)
     {
