@@ -1,3 +1,4 @@
+using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof (PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
-
     public event Action<int> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
     [SerializeField] private uint minNumberOfPlayers = 2;
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
     [SerializeField] private HUD hud = default;
+
     private PlayerInputManager playerInputManager = default;
 
     private List<Player> players = new List<Player>();
@@ -20,8 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     public bool EnoughPlayersToStart => playersInputs.Count >= minNumberOfPlayers;
 
-
-    private int    bestScore  = 0;
+    private int bestScore  = 0;
     private Player bestPlayer = null;
 
 
@@ -59,14 +59,18 @@ public class PlayerManager : MonoBehaviour
     }
     public void StartLevel(LevelManager currentLevelManager)
     {
-        Player player = null;
+        Color playerColor;
+        Player player = default;
+        PlayerTag playerTag;
+
         hud.gameObject.SetActive(true);
+        UIManager.Instance.CloseScreen<ConnexionScreen>();
 
         for (int i = 0; i < playersInputs.Count; i++)
         {
-            Color playerColor = playerTagSettings.GetColorAtIndex(i);
+            playerColor = playerTagSettings.GetColorAtIndex(i);
             player = playersInputs[i].GetComponent<Player>();
-            PlayerTag playerTag = player.GetComponentInChildren<PlayerTag>(true);
+            playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
             players.Add(player);
 
@@ -94,6 +98,7 @@ public class PlayerManager : MonoBehaviour
                 //Add BestPlayer and there can be only one BestPlayer
                 AddBestPlayer((score > bestScore) ? player : null);
 
+                HUD.UpdateBestPlayer();
             }
             
             bestScore = score;

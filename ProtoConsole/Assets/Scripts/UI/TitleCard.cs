@@ -1,22 +1,9 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using Com.IsartDigital.Common.UI;
 
-public class TitleCard : Screen
+public class TitleCard : UIScreen
 {
-	[SerializeField] private GameObject selectedButton= default;
-    [SerializeField] Screen screenToInstantiate=default;
-
-	public override void PlayButton() 
+	public void OnPlayButtonClick() 
     {
-		base.PlayButton();
-
-        screenToInstantiate.OpenScreen();
-        gameObject.SetActive(false);
-	}
-
-	private void OnEnable() {
-		EventSystem.current.firstSelectedGameObject = selectedButton;
-
+        UIManager.Instance.AddScreen<ConnexionScreen>(true);
 	}
 }

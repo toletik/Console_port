@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    [SerializeField] private float lerpDuration = 4;
+    [SerializeField] private ParticleSystem landingParticule = default;
     public delegate void CollectibleEventHandler(Collectible collectible);
     static public event CollectibleEventHandler OnCollect;
 
-    [SerializeField] private float lerpDuration = 4;
     private List<Collectible> list = new List<Collectible>();
 
     private Vector3 planetPos = default;
@@ -51,12 +52,18 @@ public class Collectible : MonoBehaviour
             transform.position = Vector3.Lerp(originalPos, planetPos, elapsedTime / lerpDuration);
             
             if( Physics.Raycast(transform.position,-transform.up,out hit, 1)&& hit.transform.gameObject.CompareTag(SPHERE_TAG)){
-                StopAllCoroutines();
+
+                Landing();
             }
             yield return null;
         }
        
     }
-   
+    private void Landing()
+    {
+        StopAllCoroutines();
+        landingParticule.Play();
+    }
+
 
 }

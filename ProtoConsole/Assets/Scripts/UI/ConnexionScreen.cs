@@ -1,26 +1,28 @@
+using Com.IsartDigital.Common.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class ConnexionScreen : Screen
+public class ConnexionScreen : UIScreen
 {
     [SerializeField] private PlayerManager playerManager = default;
-    [SerializeField] private GameObject button = default;
+    [SerializeField] private List<LevelManager> levelPrefabs = default;
 
-	public void OnStartGame()
+    public void OnStartGame()
     {
-        if (!playerManager.EnoughPlayersToStart)
+        if (levelPrefabs.Count == 0 || !playerManager.EnoughPlayersToStart)
         {
-            Debug.LogError("NOT ENOUGH PLAYERS");
+            Debug.LogError("NO LEVEL or NOT ENOUGH PLAYERS");
             return;
         }
 
-        //CloseScreen();
+        playerManager.StartLevel(Instantiate(levelPrefabs[0]));
+
+        Desactivate();
     }
 
-    public override void OpenScreen()
+    protected override void Activate()
     {
-        base.OpenScreen();
+        base.Activate();
         playerManager.EnablePlayerConnexion(true);
 
         playerManager.OnPlayerAdded += PlayerManager_OnPlayerAdded;
@@ -37,9 +39,9 @@ public class ConnexionScreen : Screen
         
     }
 
-    public override void CloseScreen()
+    protected override void Desactivate()
     {
-        base.CloseScreen();
+        base.Desactivate();
         playerManager.EnablePlayerConnexion(false);
 
         ClearEvents();

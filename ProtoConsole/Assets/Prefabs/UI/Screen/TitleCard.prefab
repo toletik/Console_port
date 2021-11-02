@@ -402,8 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdec2ecbfdf2e547b401879de7feac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedButton: {fileID: 5790449600546758073}
-  screenToInstantiate: {fileID: 0}
+  firstSelectedButton: {fileID: 5790449600546758073}
 --- !u!1 &8750059359363048477
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +479,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3012333733598059476}
+    - target: {fileID: 985687017140933633, guid: 283caf1022d79c342b3aa056bb0c8651, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayButtonClick
+      objectReference: {fileID: 0}
     - target: {fileID: 5268975117101915661, guid: 283caf1022d79c342b3aa056bb0c8651, type: 3}
       propertyPath: m_Name
       value: Button

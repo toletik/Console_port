@@ -52,13 +52,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5366093406225714323}
-  m_LocalRotation: {x: 0.48738977, y: -0.044314854, z: 0.07670955, w: 0.8686789}
-  m_LocalPosition: {x: -1.1, y: 16, z: -8.3}
+  m_LocalRotation: {x: 0.34751174, y: -0.038456313, z: 0.08236723, w: 0.93325895}
+  m_LocalPosition: {x: 0.3, y: 17.3, z: -19.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5366093407587650061}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 58.602, y: -0.244, z: 9.956}
+  m_LocalEulerAnglesHint: {x: 40.918, y: -1.102, z: 9.676}
 --- !u!20 &5366093406225714321
 Camera:
   m_ObjectHideFlags: 0
@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startLevelDelayDuration: 0
+  destroyLevelDelayDuration: 5
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   planetPartsRotation: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   obstacles:
