@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Com.IsartDigital.Common.UI
 {
@@ -13,11 +14,10 @@ namespace Com.IsartDigital.Common.UI
 		public delegate void UIScreenEventHander(UIScreen screen);
 		public static event UIScreenEventHander OnScreenClosed;
 
-		[SerializeField] protected GameObject firstSelectedButton = default;
-
-		virtual public void Init()
+		[SerializeField] protected GameObject selectedButton = default;
+		public void Init() 
 		{
-			if (firstSelectedButton) EventSystem.current.firstSelectedGameObject = firstSelectedButton;
+
 		}
 
 		virtual public void EnterScreen()
@@ -28,7 +28,8 @@ namespace Com.IsartDigital.Common.UI
 
 		virtual protected void Activate()
 		{
-
+			EventSystem.current.SetSelectedGameObject(selectedButton);
+			if(selectedButton.TryGetComponent(out Button buttonComponent))buttonComponent.OnSelect(null);
 		}
 
 		virtual protected void Desactivate()
