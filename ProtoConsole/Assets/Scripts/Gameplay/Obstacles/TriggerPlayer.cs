@@ -6,10 +6,11 @@ using UnityEngine;
 public class TriggerPlayer : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float ejectForce = 0.5f;
+    [SerializeField] private float ejectForce = 2;
     private const string PLAYER_TAG = "Player";
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(PLAYER_TAG)) other.GetComponent<Player>().Eject(-transform.up,ejectForce) ;
+        if (other.CompareTag(PLAYER_TAG)) 
+            other.GetComponent<Player>().Eject(-transform.up, ejectForce);
     }
 }

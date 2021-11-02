@@ -1,27 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Com.IsartDigital.Common.UI;
 
-public class PauseScreen : Screen
+public class PauseScreen : UIScreen
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ClickOnPlayButton()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void ClickOnPlayButton(){
         //GameManager play
-        gameObject.SetActive(false);
+        UIManager.Instance.CloseScreen<PauseScreen>();
     }
 
-    public void ClickOnQuitButton(){
+    public void ClickOnQuitButton()
+    {
         //Close the Game Or return To Menu and Wipe data
+
+        //UIManager.Instance.AddScreen<ConnexionScreen>(true);
     }
 }

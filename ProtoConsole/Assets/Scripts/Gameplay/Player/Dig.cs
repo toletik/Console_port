@@ -6,11 +6,11 @@ public class Dig : ChangeHeightCapacity
 
     protected override Capacity Type => Capacity.DIG;
 
-    protected override bool LookToStartAction()
+    protected override bool TryStartCapacity()
     {
         if (player.IsUsingCapacity(Capacity.NONE))
         {
-            if (base.LookToStartAction())
+            if (base.TryStartCapacity())
             {
                 player.CanBeEjected = !ejectionImmunityWhileInGround;
                 return true;
@@ -20,9 +20,9 @@ public class Dig : ChangeHeightCapacity
         return false;
     }
 
-    protected override void ClearCapacityEffects()
+    protected override void EndCapacity()
     {
-        base.ClearCapacityEffects();
+        base.EndCapacity();
         player.CanBeEjected = true;
     }
 }

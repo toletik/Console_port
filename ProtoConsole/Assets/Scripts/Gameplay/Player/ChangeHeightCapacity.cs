@@ -10,9 +10,10 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
     protected new MeshRenderer renderer = default;
 
-    protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
+
+    protected override MeshRenderer SaveRenderer(MeshRenderer _renderer)
     {
-        return this.renderer = renderer;
+        return renderer = _renderer;
     }
 
     protected override bool TryToAssignCapacity()
@@ -20,7 +21,7 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
         return player.TryAddCapacity(Type);
     }
 
-    protected override bool LookToStartAction()
+    protected override bool TryStartCapacity()
     {
         if (player.CanAddAltitudeModifier)
         {
@@ -40,25 +41,22 @@ public abstract class ChangeHeightCapacity : PlayerCapacity
 
     private IEnumerator UpdateHeight()
     {
-        float elapsedTime = 0;
 
-        while (elapsedTime < movementDuration)
+        for (float elapsedTime = 0f; elapsedTime <= movementDuration; elapsedTime += Time.deltaTime)
         {
-            elapsedTime += Time.deltaTime;
             player.AltitudeModifier = Mathf.LerpUnclamped(0, movementHeight, movementCurve.Evaluate(elapsedTime / movementDuration));
-
             yield return null;
         }
 
-        ClearCapacityEffects();
+        EndCapacity();
 
-        yield return WaitForCooldown(new List<MeshRenderer>() { renderer });
+        yield return StartUpdateColor(new List<MeshRenderer>() { renderer });
 
         currentAction = null;
         yield break;
     }
 
-    protected override void ClearCapacityEffects()
+    protected override void EndCapacity()
     {
         player.AltitudeModifier = 0;
         player.MovementControlCoef = 1;

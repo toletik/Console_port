@@ -8,12 +8,12 @@ public class PlayerTagParameters : ScriptableObject
     [SerializeField] private bool colorArrowUnderTag = true;
     [SerializeField] private List<Color> colors = default;
 
+    //Getter
     public string TagPrefix => tagPrefix;
-
     public bool UpdateArrowColor => colorArrowUnderTag;
 
     public Color GetColorAtIndex(int index)
     {
-        return index < colors.Count ? colors[index] : colors[index % colors.Count];
+        return colors[index % colors.Count];
     }
 }
