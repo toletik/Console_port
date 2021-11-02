@@ -60,8 +60,8 @@ public class Collectible : MonoBehaviour
     {
         StopAllCoroutines();
         SetAnimFalling(false);
-
     }
+
     public void SetModeFalling()
     {
         SetAnimFalling(true);

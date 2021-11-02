@@ -25,6 +25,8 @@ public class Banner : MonoBehaviour
         }
 
         Instance = this;
+
+        gameObject.SetActive(false);
     }
 
     public void PlayBanner(string text)
