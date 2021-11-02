@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     public event Action<int> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
-    [SerializeField] private uint minNumberOfPlayers = 2;
+    [SerializeField] private uint minNumberOfPlayers = 8;
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
     [SerializeField] private HUD hud = default;
     private PlayerInputManager playerInputManager = default;
@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
             OnPlayerAdded?.Invoke(players.Count);
 
             // Vibration test
-            //vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f);
+            StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f));
         }
     }
 
@@ -99,6 +99,9 @@ public class PlayerManager : MonoBehaviour
         Player.ResetBestScore(player != null ? player.InitialScore : 0);
 
         currentLevelManager.InitPlayers(playersAsPlayer);
+
+        // Vibration test
+        StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f));
     }
 
     private void OnDestroy()
