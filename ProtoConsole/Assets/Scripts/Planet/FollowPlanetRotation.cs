@@ -14,7 +14,7 @@ public class FollowPlanetRotation : MonoBehaviour
 
     private void Awake()
     {
-        Sphere.OnResetRotation += Sphere_OnResetRotation;
+        Planet.OnResetRotation += Sphere_OnResetRotation;
     }
 
     private void Sphere_OnResetRotation()
@@ -83,6 +83,6 @@ public class FollowPlanetRotation : MonoBehaviour
 
     private void OnDestroy()
     {
-        Sphere.OnResetRotation -= Sphere_OnResetRotation;
+        Planet.OnResetRotation -= Sphere_OnResetRotation;
     }
 }

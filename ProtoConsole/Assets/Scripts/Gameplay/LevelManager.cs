@@ -32,8 +32,11 @@ public class LevelManager : MonoBehaviour
     {
         Players = players;
 
-        foreach (Player currentPlayer in Players)
-            RespawnPlayer(currentPlayer, false, true).OnDeath += Player_OnDeath;
+        foreach (Player currentPlayer in players)
+        {
+            RespawnPlayer(currentPlayer, false, true);
+            currentPlayer.OnDeath += Player_OnDeath;
+        }
 
         Invoke("StartLevel", startLevelDelayDuration);
     }
@@ -47,15 +50,11 @@ public class LevelManager : MonoBehaviour
         Invoke("EndGame", levelDuration);
         Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
-        for (int i = 0; i < Players.Count; i++)
-        {
-            Players[i].SetModePlay();
-        }
+        foreach(Player player in players)
+            player.SetModePlay();
 
-        for (int i = 0; i < obstacles.Count; i++)
-        {
-            obstacles[i].gameObject.SetActive(true);
-        }
+        foreach(Obstacle obstacle in obstacles)
+            obstacle.gameObject.SetActive(true);
 
         Debug.Log("START !!!");
     }
