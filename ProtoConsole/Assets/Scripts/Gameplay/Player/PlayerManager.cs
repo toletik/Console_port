@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof (PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
+
     public event Action<int> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
@@ -13,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
     [SerializeField] private HUD hud = default;
     private PlayerInputManager playerInputManager = default;
+
     private List<Player> players = new List<Player>();
     private List<PlayerInput> playersInputs = new List<PlayerInput>();
 
@@ -35,7 +37,6 @@ public class PlayerManager : MonoBehaviour
     {
         playerInputManager.enabled = enable;
     }
-
     private void PlayerInputManager_OnPlayerJoined(PlayerInput player)
     {
         if (!playersInputs.Contains(player))
@@ -46,7 +47,6 @@ public class PlayerManager : MonoBehaviour
             OnPlayerAdded?.Invoke(playersInputs.Count);
         }
     }
-
     private void PlayerInputManager_OnPlayerLeft(PlayerInput player)
     {
         if (playersInputs.Contains(player))
@@ -57,7 +57,6 @@ public class PlayerManager : MonoBehaviour
             OnPlayerRemoved?.Invoke(playersInputs.Count);
         }
     }
-
     public void StartLevel(LevelManager currentLevelManager)
     {
         Player player = null;
@@ -82,7 +81,7 @@ public class PlayerManager : MonoBehaviour
         currentLevelManager.InitPlayers(players);
     }
 
-    //Score
+    #region Score
     private void PlayerManagerScoreHandle(Player player, int score = 0)
     {
         //If beat BestScore
@@ -142,6 +141,7 @@ public class PlayerManager : MonoBehaviour
             bestPlayer.GetComponentInChildren<PlayerTag>(true).ActivateBestScore();
         }
     }
+    #endregion
 
     private void OnDestroy()
     {

@@ -23,7 +23,10 @@ public class LevelManager : MonoBehaviour
         players = _players;
 
         foreach (Player currentPlayer in players)
-            RespawnPlayer(currentPlayer, false, true).OnDeath += Player_OnDeath;
+        {
+            RespawnPlayer(currentPlayer, false, true);
+            currentPlayer.OnDeath += Player_OnDeath;
+        }
 
         Invoke("StartLevel", startLevelDelayDuration);
     }
@@ -34,18 +37,14 @@ public class LevelManager : MonoBehaviour
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
-
         Invoke("EndGame", levelDuration);
 
-        for (int i = 0; i < players.Count; i++)
-        {
-            players[i].SetModePlay();
-        }
 
-        for (int i = 0; i < obstacles.Count; i++)
-        {
-            obstacles[i].gameObject.SetActive(true);
-        }
+        foreach(Player player in players)
+            player.SetModePlay();
+
+        foreach(Obstacle obstacle in obstacles)
+            obstacle.gameObject.SetActive(true);
 
         Debug.Log("START !!!");
     }
