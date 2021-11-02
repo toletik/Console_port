@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     public event PlayerEventHandler OnCollectibleUpdate;
     public event PlayerEventHandler OnScoreUpdated;
 
+    internal int playerID = 0;
+
     #region Serialize fields
     [Header("References")]
     [SerializeField] private new Rigidbody rigidbody = default;

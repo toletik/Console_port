@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     private int bestScore  = 0;
     private Player bestPlayer = null;
 
+    private VibrationValue onDeathVibration = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
 
     void InitializeNPad()
     {
@@ -91,6 +92,7 @@ public class PlayerManager : MonoBehaviour
             player = playersInputs[i].GetComponent<Player>();
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
+            player.playerID = i;
             players.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
@@ -100,6 +102,14 @@ public class PlayerManager : MonoBehaviour
 
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
+
+        vibrationManager = new VibrationManager();
+
+        foreach (Player currentPlayer in players)
+        {
+            currentPlayer.OnDeath += (Player player, int possessedCollectibles) => { StartCoroutine(vibrationManager.VibrateForOneDuringSeconds(onDeathVibration, player.playerID, 1)); };
+        }
+
     }
 
     #region Score
