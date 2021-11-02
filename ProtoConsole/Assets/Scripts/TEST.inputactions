@@ -1,0 +1,394 @@
+{
+    "name": "TEST",
+    "maps": [
+        {
+            "name": "JoyconTest",
+            "id": "e20758d4-7247-4792-a301-4831d6908a36",
+            "actions": [
+                {
+                    "name": "A",
+                    "type": "Button",
+                    "id": "d7c5172f-9746-4c39-8142-6fe6e4f188b1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "B",
+                    "type": "Button",
+                    "id": "ed6dedaa-e4eb-4e85-875f-f6433d400524",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "X",
+                    "type": "Button",
+                    "id": "d25cdad3-f4f8-46f6-bd86-030351b192c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Y",
+                    "type": "Button",
+                    "id": "7fde2238-364e-41fe-8fa6-ddd52d89f036",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Left_Joystick",
+                    "type": "Button",
+                    "id": "086973b7-6460-44db-acdf-700a8a58f770",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right-Joystick",
+                    "type": "Button",
+                    "id": "aae203d9-f77a-4483-bafb-5804c6ef5924",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ZR",
+                    "type": "Button",
+                    "id": "cc728445-b7f8-4125-bf20-c3ef5202677e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ZL",
+                    "type": "Button",
+                    "id": "16a0fa30-15c1-4ba7-8cfb-01e1674ccf98",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "R",
+                    "type": "Button",
+                    "id": "b002554c-6b17-414b-8ff4-6eb48b21d65e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "L",
+                    "type": "Button",
+                    "id": "d479d048-a3a0-482d-9b54-36f1964c1894",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Left_SL",
+                    "type": "Button",
+                    "id": "3f553295-0ad2-4a08-adc6-d1a2f48b5b45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_SL",
+                    "type": "Button",
+                    "id": "bf2bd922-7103-4fe9-88a8-ce5719b1b928",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Left_SR",
+                    "type": "Button",
+                    "id": "9d00ce3a-5592-4712-8403-eb1957ecbd59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right_SR",
+                    "type": "Button",
+                    "id": "aad4cb57-2bed-4b44-bb40-98e82619c33a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Up",
+                    "type": "Button",
+                    "id": "084171ae-be36-4605-bae5-66c205b9aabd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Down",
+                    "type": "Button",
+                    "id": "e617b543-1ed0-46de-b8ce-62fb33772c98",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "303a0c05-68dd-4ca3-9746-b5ab63237350",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "0afc50db-e2af-4bb8-93c1-a2b9ca9e1183",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Minus",
+                    "type": "Button",
+                    "id": "8a735daa-ab7e-49a6-9b58-1a873ffbfa90",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Plus",
+                    "type": "Button",
+                    "id": "e1256b07-68e6-452a-8739-60c8e0cb9f64",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f565b80b-423b-458f-9d09-ab3948d501cd",
+                    "path": "<NPad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "A",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b53c5496-d458-4584-840c-0c6d524b6371",
+                    "path": "<NPad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "B",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0bab17c-37f1-4e76-953b-0cab7a671d01",
+                    "path": "<NPad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05fa0239-b0d4-49d7-a065-725f670679d1",
+                    "path": "<NPad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Y",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "059331bc-03cc-4c40-abec-683cc5689901",
+                    "path": "<NPad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Left_Joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aade000c-9cf6-40c5-9ffd-b2c7d873b51d",
+                    "path": "<NPad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Right-Joystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b01634b5-81ef-4871-8db2-41095e50e100",
+                    "path": "<NPad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "ZR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c58652a-e638-4a03-ba89-61853e99e710",
+                    "path": "<NPad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "ZL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa55e89e-e289-44a2-94c4-b64fc5ef0c99",
+                    "path": "<NPad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "R",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5debe01a-794d-42ed-9751-7caeb82f08a4",
+                    "path": "<NPad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "L",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65720db4-31e4-4b1a-98b6-6c8d8336fc02",
+                    "path": "<NPad>/leftSL",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Left_SL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9105fff8-e26c-468a-979b-a1368952c70b",
+                    "path": "<NPad>/rightSL",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Right_SL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba1faa78-09df-4d90-888d-b0a9fce0efe9",
+                    "path": "<NPad>/leftSR",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Left_SR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aac25112-f199-43f9-b5fc-bc14d0280e74",
+                    "path": "<NPad>/rightSR",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Right_SR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80613152-0898-4ddd-aaec-4ead9138d3e5",
+                    "path": "<NPad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0c1ef16-7f3b-4562-84a9-7292a34d3068",
+                    "path": "<NPad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1fee96ca-03dd-40b6-b160-473e60732340",
+                    "path": "<NPad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1fd18b6-3e54-4ff0-a1b9-0463f0b3afd2",
+                    "path": "<NPad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2556dc0e-33f3-43a5-a7bd-e1217391a2bd",
+                    "path": "<NPad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Minus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09019741-d0e9-4810-ace6-15bb16787f1b",
+                    "path": "<NPad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joycon",
+                    "action": "Plus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1,4 +1,5 @@
 using Com.IsartDigital.Common.UI;
+using nn.hid;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,20 +11,37 @@ public class PlayerManager : MonoBehaviour
     public event Action<int> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
-    [SerializeField] private uint minNumberOfPlayers = 2;
+    [SerializeField] private uint minNumberOfPlayers = 8;
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
     [SerializeField] private HUD hud = default;
 
     private PlayerInputManager playerInputManager = default;
-
     private List<Player> players = new List<Player>();
     private List<PlayerInput> playersInputs = new List<PlayerInput>();
+
+    VibrationManager vibrationManager = null;
 
     public bool EnoughPlayersToStart => playersInputs.Count >= minNumberOfPlayers;
 
     private int bestScore  = 0;
     private Player bestPlayer = null;
 
+    private VibrationValue onDeathVibration = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
+
+    void InitializeNPad()
+    {
+        // Switch
+        Npad.Initialize();
+
+        NpadStyle style = NpadStyle.JoyLeft | NpadStyle.JoyRight;
+        Npad.SetSupportedStyleSet(style);
+        NpadJoy.SetHoldType(NpadJoyHoldType.Horizontal);
+
+        NpadJoy.SetHandheldActivationMode(NpadHandheldActivationMode.Dual);
+
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
+        Npad.SetSupportedIdType(npadIds);
+    }
 
     private void Awake()
     {
@@ -31,6 +49,8 @@ public class PlayerManager : MonoBehaviour
 
         playerInputManager.onPlayerJoined += PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
+
+        InitializeNPad();
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -72,6 +92,7 @@ public class PlayerManager : MonoBehaviour
             player = playersInputs[i].GetComponent<Player>();
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
+            player.playerID = i;
             players.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
@@ -81,6 +102,14 @@ public class PlayerManager : MonoBehaviour
 
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
+
+        vibrationManager = new VibrationManager();
+
+        foreach (Player currentPlayer in players)
+        {
+            currentPlayer.OnDeath += (Player player, int possessedCollectibles) => { StartCoroutine(vibrationManager.VibrateForOneDuringSeconds(onDeathVibration, player.playerID, 1)); };
+        }
+
     }
 
     #region Score
@@ -137,6 +166,9 @@ public class PlayerManager : MonoBehaviour
     private void AddBestPlayer(Player newBestPlayer)
     {
         bestPlayer = newBestPlayer;
+
+        // Vibration test
+        //StartCoroutine(vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 5f));
 
         if(bestPlayer)
         {

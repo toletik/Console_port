@@ -1,3 +1,4 @@
+using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     public event PlayerEventHandler OnDeath;
     public event PlayerEventHandler OnCollectibleUpdate;
     public event PlayerEventHandler OnScoreUpdated;
+
+    internal int playerID = 0;
 
     #region Serialize fields
     [Header("References")]
@@ -169,6 +172,7 @@ public class Player : MonoBehaviour
         StartCoroutine(PlayInvincibilityTime());
     }
 
+
     #region Movement
     private void SetModeMove()
     {
@@ -213,13 +217,13 @@ public class Player : MonoBehaviour
             if (AvailableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
             {
                 AssignationMode = true;
-                Debug.LogWarning("Start assignation");
+                Debug.LogError("Start assignation");
             }
         }
         else if (context.canceled) 
         { 
             AssignationMode = false; 
-            Debug.LogWarning("End assignation"); 
+            Debug.LogError("End assignation"); 
         }
     }
 
@@ -387,6 +391,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log(gameObject.name + " : Click to pause/unpause the game");
             OnPause?.Invoke(this);
+            UIManager.Instance.AddScreen<PauseScreen>();
         }
     }
 

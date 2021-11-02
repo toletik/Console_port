@@ -1,3 +1,4 @@
+using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private int startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
+    [SerializeField] private string startLevelBannerMessage = "Let's Go!!!";
+    [SerializeField] private string endLevelBannerMessage = "Time is up!";
     [Space(8)]
     [SerializeField] private LevelSettings settings = default;
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
@@ -26,6 +29,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         OnLevelSpawn?.Invoke(this);
+        PauseScreen.OnLevelQuit += ClearLevel;
     }
 
     public void InitPlayers(List<Player> players)
@@ -40,6 +44,8 @@ public class LevelManager : MonoBehaviour
         }
 
         Invoke("StartLevel", startLevelDelayDuration);
+
+        Banner.Instance.PlayBanner(startLevelBannerMessage);
     }
 
     private void StartLevel()
@@ -49,7 +55,6 @@ public class LevelManager : MonoBehaviour
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
         Invoke("EndGame", levelDuration);
-        Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
         foreach(Player player in Players)
             player.SetModePlay();
@@ -62,8 +67,21 @@ public class LevelManager : MonoBehaviour
 
     private void EndGame()
     {
+        Banner banner = Banner.Instance;
+
         Debug.Log("End of Game !!!");
         StopAllCoroutines();
+
+        banner.PlayBanner(endLevelBannerMessage);
+        banner.OnAnimationEnd += OpenLevelEndScreen;
+    }
+
+    private void OpenLevelEndScreen()
+    {
+        ClearLevel();
+
+        UIManager.Instance.AddScreen<WinScreen>(true);
+        Banner.Instance.OnAnimationEnd -= OpenLevelEndScreen;
     }
 
     private void ClearLevel()
@@ -106,5 +124,7 @@ public class LevelManager : MonoBehaviour
             currentPlayer.OnDeath -= Player_OnDeath;
 
         Players.Clear();
+
+        PauseScreen.OnLevelQuit -= ClearLevel;
     }
 }

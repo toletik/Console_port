@@ -28,12 +28,14 @@ namespace Com.IsartDigital.Common.UI
 
 			UIScreen.OnScreenClosed += UIScreen_OnScreenClosed;
 
-			foreach (GameObject screen in allScreens) {
+			foreach (GameObject screen in allScreens) 
+			{
 				screen.SetActive(false);
 				screen.GetComponent<UIScreen>().Init();
 			}
 
-			if (startScreen) AddScreen(startScreen.gameObject);
+			if (startScreen) 
+				AddScreen(startScreen.gameObject);
 		}
 
         #region Open screen

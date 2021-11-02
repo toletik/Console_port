@@ -104,10 +104,10 @@
                 {
                     "name": "",
                     "id": "4e0cbcec-3a00-4bf3-af54-1606753e94f0",
-                    "path": "<NPad>/leftSR",
+                    "path": "<NPad>/rightSR",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon;Joycon_L",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -184,7 +184,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -228,7 +228,7 @@
                     "path": "<NPad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "Dash_Right",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -239,7 +239,7 @@
                     "path": "<NPad>/dpad/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon_L",
                     "action": "Dash_Right",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -269,10 +269,10 @@
                 {
                     "name": "",
                     "id": "dc365113-4f72-4154-936f-88d1e6812db8",
-                    "path": "<NPad>/leftSL",
+                    "path": "<NPad>/rightSL",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon;Joycon_L",
                     "action": "Dig",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -305,7 +305,7 @@
                     "path": "<NPad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "Dash_Left",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -316,7 +316,7 @@
                     "path": "<NPad>/dpad/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "Dash_Left",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -349,7 +349,7 @@
                     "path": "<NPad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "Dash_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -360,7 +360,7 @@
                     "path": "<NPad>/dpad/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "Dash_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -393,7 +393,7 @@
                     "path": "<NPad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "Dash_Down",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -404,7 +404,7 @@
                     "path": "<NPad>/dpad/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "Dash_Down",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -437,7 +437,7 @@
                     "path": "<NPad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "PauseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -448,7 +448,7 @@
                     "path": "<NPad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "PauseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -481,7 +481,7 @@
                     "path": "<NPad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Joycon",
                     "action": "AssignationMode",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -492,7 +492,7 @@
                     "path": "<NPad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joycon",
+                    "groups": "Joycon_L",
                     "action": "AssignationMode",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -526,6 +526,11 @@
         {
             "name": "Joycon",
             "bindingGroup": "Joycon",
+            "devices": []
+        },
+        {
+            "name": "Joycon_L",
+            "bindingGroup": "Joycon_L",
             "devices": []
         }
     ]
