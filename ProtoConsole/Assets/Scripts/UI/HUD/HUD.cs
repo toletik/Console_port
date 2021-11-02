@@ -9,11 +9,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private Transform verticalBox = default;
 
     private List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-    void Start()
-    {
-       
-
-    }
+   
 
     // Update is called once per frame
     public void CreatePlayerInfo(Player player, Color color,int playerId)

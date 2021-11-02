@@ -10,6 +10,10 @@ public class PlayerInfo : MonoBehaviour
 
     // Start is called before the first frame update
     [SerializeField] private TextMeshProUGUI text = default;
+    [SerializeField] private TextMeshProUGUI textNbrCollectible = default;
+
+    [SerializeField] private TextMeshProUGUI scoreTxt = default;
+    [SerializeField] private MulticolorText multicolorText = default;
     [SerializeField] private Image objectOn = default;
     [SerializeField] private Image objectOff = default;
     [SerializeField] private Image timerRenderer = default;
@@ -31,11 +35,18 @@ public class PlayerInfo : MonoBehaviour
         {
             player.OnDeath += Player_OnDeath;
             player.OnCollectibleUpdate += Player_OnCollectibleUpdate;
+            player.OnScoreUpdated += Player_OnScoreUpdated;
         }
         
         ChangeTextColor(baseColor);
-        text.text = TAG_PLAYER +" "+ playerId;
-        CollectibleUpdate(0);
+        text.text = TAG_PLAYER + playerId;
+        scoreTxt.text = player.InitialScore.ToString();
+       CollectibleUpdate(0);
+    }
+
+    private void Player_OnScoreUpdated(Player player, int score = 0)
+    {
+        scoreTxt.text = score.ToString();
     }
 
     private void Player_OnCollectibleUpdate(Player player, int possessedCollectibles )
@@ -73,11 +84,14 @@ public class PlayerInfo : MonoBehaviour
         {
             objectOn.gameObject.SetActive(true);
             objectOff.gameObject.SetActive(false);
+            textNbrCollectible.gameObject.SetActive(true);
+            textNbrCollectible.text = nbrOfCollectible.ToString();
         }
         else 
         {
             objectOn.gameObject.SetActive(false);
             objectOff.gameObject.SetActive(true);
+            textNbrCollectible.gameObject.SetActive(false);
         }
     }
 
@@ -93,7 +107,17 @@ public class PlayerInfo : MonoBehaviour
         {
             player.OnDeath -= Player_OnDeath;
             player.OnCollectibleUpdate -= Player_OnCollectibleUpdate;
+            player.OnScoreUpdated -= Player_OnScoreUpdated;
         }
+    }
+
+    private void setAsBestPlayer()
+    {
+        multicolorText.enabled = true;
+    }
+    private void removeBestPlayer()
+    {
+        multicolorText.enabled = false;
     }
 
     public void SetAllParam(Player playerRef, Color color, int PlayerId)
