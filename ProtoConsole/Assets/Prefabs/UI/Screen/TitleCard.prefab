@@ -412,7 +412,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3012333733598059476}
         m_TargetAssemblyTypeName: TitleCard, Assembly-CSharp
-        m_MethodName: PlayButton
+        m_MethodName: OnPlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -535,7 +535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdec2ecbfdf2e547b401879de7feac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenToInstantiate: {fileID: 0}
 --- !u!1 &8597539645461020789
 GameObject:
   m_ObjectHideFlags: 0

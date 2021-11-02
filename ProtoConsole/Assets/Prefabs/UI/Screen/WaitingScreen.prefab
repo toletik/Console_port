@@ -2423,6 +2423,7 @@ GameObject:
   - component: {fileID: 340774971153066978}
   - component: {fileID: 2914327087924824815}
   - component: {fileID: 7065473938666561412}
+  - component: {fileID: 8546268477695019747}
   m_Layer: 5
   m_Name: WaitingScreen
   m_TagString: Untagged
@@ -2511,6 +2512,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8546268477695019747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8217208681827582841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c827c12ba8b4e434a9e723f3882de504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerManager: {fileID: 0}
+  levelPrefabs:
+  - {fileID: 5366093407587650062, guid: 1adc90daf6d168740be27d94bc34f914, type: 3}
 --- !u!1 &8271391749039669687
 GameObject:
   m_ObjectHideFlags: 0
