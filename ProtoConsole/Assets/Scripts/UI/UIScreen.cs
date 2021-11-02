@@ -15,6 +15,7 @@ namespace Com.IsartDigital.Common.UI
 		public static event UIScreenEventHander OnScreenClosed;
 
 		[SerializeField] protected GameObject selectedButton = default;
+
 		public void Init() 
 		{
 
@@ -29,7 +30,7 @@ namespace Com.IsartDigital.Common.UI
 		virtual protected void Activate()
 		{
 			EventSystem.current.SetSelectedGameObject(selectedButton);
-			if(selectedButton.TryGetComponent(out Button buttonComponent))buttonComponent.OnSelect(null);
+			if (selectedButton.TryGetComponent(out Button buttonComponent)) buttonComponent.OnSelect(null);
 		}
 
 		virtual protected void Desactivate()
