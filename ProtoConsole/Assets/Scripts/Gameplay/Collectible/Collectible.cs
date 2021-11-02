@@ -59,6 +59,7 @@ public class Collectible : MonoBehaviour
     private void Landing()
     {
         StopAllCoroutines();
+        animator.SetTrigger("Land");
         SetAnimFalling(false);
     }
 

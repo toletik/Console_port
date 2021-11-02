@@ -1,3 +1,4 @@
+using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -388,6 +389,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log(gameObject.name + " : Click to pause/unpause the game");
             OnPause?.Invoke(this);
+            UIManager.Instance.AddScreen<PauseScreen>();
         }
     }
 

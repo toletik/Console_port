@@ -10,7 +10,7 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] private int startCollectible = 8;
     [SerializeField] private int minNbrOfCollectible = 2;
 
-    [SerializeField] private float radiusOnDeath = 2;
+    [SerializeField] private float radiusOnDeath = 5;
 
     static public List<Collectible> collectibles = new List<Collectible>();
 

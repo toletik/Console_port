@@ -206,6 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLevelDelayDuration: 0
   destroyLevelDelayDuration: 5
+  startLevelBannerMessage: Let's Go!!!
+  endLevelBannerMessage: Time is up!
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   planetPartsRotation: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   obstacles:
@@ -228,7 +230,7 @@ MonoBehaviour:
   prefabCollectible: {fileID: 4555949036239020911, guid: 8d75ffc844ca46043a149739ee74b92e, type: 3}
   startCollectible: 4
   minNbrOfCollectible: 2
-  radiusOnDeath: 2
+  radiusOnDeath: 5
 --- !u!1001 &2553841583739558212
 PrefabInstance:
   m_ObjectHideFlags: 0
