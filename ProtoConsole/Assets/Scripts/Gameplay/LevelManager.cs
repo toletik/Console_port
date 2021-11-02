@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
         Invoke("EndGame", levelDuration);
         Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
-        foreach(Player player in players)
+        foreach(Player player in Players)
             player.SetModePlay();
 
         foreach(Obstacle obstacle in obstacles)
