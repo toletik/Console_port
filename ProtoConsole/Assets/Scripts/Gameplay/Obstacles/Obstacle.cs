@@ -29,6 +29,7 @@ public class Obstacle : StateObjects
     protected virtual void SetModeIdle()
     {
         doAction = DoActionIdle;
+        
     }
     protected virtual void SetModeAttack()
     {
@@ -80,7 +81,7 @@ public class Obstacle : StateObjects
         
         angle += (Mathf.PI * 2) / idleDuration / (1 / Time.deltaTime);
 
-        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle)*radiusIdle) ;
+        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle)*radiusIdle)+ planet.position ;
 
     }
     private void ResetElapsedTime()

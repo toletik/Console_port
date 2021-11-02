@@ -9,7 +9,7 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] public Transform planetOrigin = default;
     [SerializeField] private Collectible prefabCollectible = default;
 
-    [SerializeField] private int startCollectible = 5;
+    [SerializeField] private int startCollectible = 8;
     [SerializeField] private int minNbrOfCollectible = 2;
 
     [SerializeField] private float radiusOnDeath = 2;
