@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform capacityRenderersContainer = default;
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
     [SerializeField] private FollowPlanetRotation followPlanetRotation = default;
+    [SerializeField] private GameObject tagContainer = default;
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
@@ -150,7 +151,8 @@ public class Player : MonoBehaviour
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
-        gameObject.SetActive(true);
+        tagContainer.SetActive(true);
+        meshRenderer.enabled = true;
 
         rigidbody.position = position;
 
@@ -160,11 +162,10 @@ public class Player : MonoBehaviour
 
     public void SetModePlay() 
     {
-        SetModeMove();
-
         enabled = true;
         boxCollider.enabled = true;
 
+        SetModeMove();
         StartCoroutine(PlayInvincibilityTime());
     }
 
@@ -327,13 +328,16 @@ public class Player : MonoBehaviour
 
         followPlanetRotation.StopFollowingPlanet();
 
-        gameObject.SetActive(false);
+        tagContainer.SetActive(false);
+        meshRenderer.enabled = false;
         enabled = false;
 
         OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
 
         collidedPlayer?.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
         UpdateScore(-scoreLostOnDeath);
+
+        ResetValues(false);
     }
 
     public void Eject(Vector3 direction, float strength)
