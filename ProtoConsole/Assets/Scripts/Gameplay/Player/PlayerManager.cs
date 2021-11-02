@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
             OnPlayerAdded?.Invoke(players.Count);
 
             // Vibration test
-            vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f);
+            //vibrationManager.VibrateForAllDuringSeconds(new nn.hid.VibrationValue(0.40f, 160.0f, 0.55f, 320.0f), 1f);
         }
     }
 

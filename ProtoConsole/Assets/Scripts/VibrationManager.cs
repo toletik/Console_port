@@ -10,7 +10,7 @@ public class VibrationManager
 
     //Vibration
     int vibrationDeviceCount;
-    const int VibrationDeviceCountMax = 8;
+    const int VibrationDeviceCountMax = 2;
     VibrationDeviceHandle[] vibrationDevices = new VibrationDeviceHandle[VibrationDeviceCountMax];
     VibrationDeviceInfo info;
 
@@ -19,7 +19,7 @@ public class VibrationManager
         // Npads should be initialized when this function is executed
 
         // Get the vibration device handle of NpadId::No1.
-        vibrationDeviceCount = Vibration.GetDeviceHandles(vibrationDevices, VibrationDeviceCountMax, npadId, style);
+        vibrationDeviceCount = Vibration.GetDeviceHandles(vibrationDevices, VibrationDeviceCountMax, npadId, NpadStyle.JoyRight);
 
         // Init devices
         for (int i = 0; i < vibrationDeviceCount; i++)
