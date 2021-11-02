@@ -1,22 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ConnexionScreen : Screen
 {
     [SerializeField] private PlayerManager playerManager = default;
-    [SerializeField] private List<LevelManager> levelPrefabs = default;
+    [SerializeField] private GameObject button = default;
 
-    public void OnStartGame()
+	public void OnStartGame()
     {
-        if (levelPrefabs.Count == 0 || !playerManager.EnoughPlayersToStart)
+        if (!playerManager.EnoughPlayersToStart)
         {
-            Debug.LogError("NO LEVEL or NOT ENOUGH PLAYERS");
+            Debug.LogError("NOT ENOUGH PLAYERS");
             return;
         }
 
-        playerManager.StartLevel(Instantiate(levelPrefabs[0]));
-
-        CloseScreen();
+        //CloseScreen();
     }
 
     public override void OpenScreen()
