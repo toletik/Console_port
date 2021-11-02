@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof (PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
+
     public event Action<int> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
@@ -13,9 +14,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerTagParameters playerTagSettings = default;
     [SerializeField] private HUD hud = default;
     private PlayerInputManager playerInputManager = default;
-    private List<PlayerInput> players = new List<PlayerInput>();
 
-    public bool EnoughPlayersToStart => players.Count >= minNumberOfPlayers;
+    private List<Player> players = new List<Player>();
+    private List<PlayerInput> playersInputs = new List<PlayerInput>();
+
+    public bool EnoughPlayersToStart => playersInputs.Count >= minNumberOfPlayers;
+
+
+    private int    bestScore  = 0;
+    private Player bestPlayer = null;
+
 
     private void Awake()
     {
@@ -29,56 +37,109 @@ public class PlayerManager : MonoBehaviour
     {
         playerInputManager.enabled = enable;
     }
-
     private void PlayerInputManager_OnPlayerJoined(PlayerInput player)
     {
-        if (!players.Contains(player)) 
+        if (!playersInputs.Contains(player))
         {
             Debug.Log("Bienvenue !");
 
-            players.Add(player);
-            OnPlayerAdded?.Invoke(players.Count);
+            playersInputs.Add(player);
+            OnPlayerAdded?.Invoke(playersInputs.Count);
         }
     }
-
     private void PlayerInputManager_OnPlayerLeft(PlayerInput player)
     {
-        if (players.Contains(player))
+        if (playersInputs.Contains(player))
         {
             Debug.Log("Good bye !");
 
-            players.Remove(player);
-            OnPlayerRemoved?.Invoke(players.Count);
+            playersInputs.Remove(player);
+            OnPlayerRemoved?.Invoke(playersInputs.Count);
         }
     }
-
     public void StartLevel(LevelManager currentLevelManager)
     {
-        List<Player> playersAsPlayer = new List<Player>();
         Player player = null;
-        PlayerTag playerTag;
         hud.gameObject.SetActive(true);
 
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < playersInputs.Count; i++)
         {
             Color playerColor = playerTagSettings.GetColorAtIndex(i);
-            player = players[i].GetComponent<Player>();
-            playerTag = player.GetComponentInChildren<PlayerTag>(true);
+            player = playersInputs[i].GetComponent<Player>();
+            PlayerTag playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
-            playersAsPlayer.Add(player);
+            players.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
-            player.OnIsNewBestScore += playerTag.ActivateBestScore;
-            player.OnBestScoreLost += playerTag.DesativateBestScore;
+            player.OnScoreUpdated += PlayerManagerScoreHandle;
             hud.CreatePlayerInfo(player, playerColor, i + 1);
-
-
         }
 
-        Player.ResetBestScore(player != null ? player.InitialScore : 0);
-
-        currentLevelManager.InitPlayers(playersAsPlayer);
+        bestScore = (player != null)? player.InitialScore : 0;
+        currentLevelManager.InitPlayers(players);
     }
+
+    #region Score
+    private void PlayerManagerScoreHandle(Player player, int score = 0)
+    {
+        //If beat BestScore
+        if (score >= bestScore)
+        {
+            //Update BestPlayer
+            if (player != bestPlayer)
+            {
+                //Remove BestPlayer
+                RemoveBestPlayer();
+
+                //Add BestPlayer and there can be only one BestPlayer
+                AddBestPlayer((score > bestScore) ? player : null);
+
+            }
+            
+            bestScore = score;
+        }
+        //if lost score, we need to check if someone become BestPlayer
+        else if (player == bestPlayer)
+        {
+            //Remove BestPlayer
+            RemoveBestPlayer();
+
+            Player tempBestPlayer = null;
+            int tempBestScore = 0;    
+            
+            foreach (Player currentPlayer in players)
+            {
+                if (currentPlayer.Score >= tempBestScore)
+                {
+                    //Set tempBestPlayer and there can be only one BestPlayer
+                    tempBestPlayer = (currentPlayer.Score > tempBestScore) ? currentPlayer : null;
+                    tempBestScore = currentPlayer.Score;
+                }
+            }
+
+            AddBestPlayer(tempBestPlayer);
+            bestScore = tempBestScore;
+        }
+    }
+    private void RemoveBestPlayer()
+    {
+        if (bestPlayer)
+        {
+            bestPlayer.GetComponentInChildren<PlayerTag>(true).DesativateBestScore();
+            bestPlayer.IsBestPlayer = false;
+        }
+    }
+    private void AddBestPlayer(Player newBestPlayer)
+    {
+        bestPlayer = newBestPlayer;
+
+        if(bestPlayer)
+        {
+            bestPlayer.IsBestPlayer = true;
+            bestPlayer.GetComponentInChildren<PlayerTag>(true).ActivateBestScore();
+        }
+    }
+    #endregion
 
     private void OnDestroy()
     {

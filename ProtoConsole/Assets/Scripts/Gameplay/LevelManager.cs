@@ -5,106 +5,87 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static event Action<LevelManager> OnLevelSpawn;
+    public static event Action<LevelManager> OnLevelDestroy;
+
     [SerializeField] private int startLevelDelayDuration = 3;
+    [SerializeField] private int destroyLevelDelayDuration = 5;
     [Space(8)]
     [SerializeField] private LevelSettings settings = default;
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
     [Space(8)]
     [SerializeField] private List<Obstacle> obstacles = default;
+    [Space(8)]
+    [SerializeField] private CollectibleManager collectibleManager = default;
 
     public LevelSettings Settings => settings;
+    public List<Player> Players { get; private set; } = default;
 
-    private List<Player> players = default;
-
-    private Action doAction = default;
-    private float elapsedTime = 0;
     private int levelDuration = 0;
+
+    private void Awake()
+    {
+        OnLevelSpawn?.Invoke(this);
+    }
 
     public void InitPlayers(List<Player> players)
     {
-        this.players = players;
+        Players = players;
 
-        for (int i = 0; i < players.Count; i++)
+        foreach (Player currentPlayer in players)
         {
-            RespawnPlayer(players[i], false, true).OnDeath += Player_OnDeath;
+            RespawnPlayer(currentPlayer, false, true);
+            currentPlayer.OnDeath += Player_OnDeath;
         }
 
-        elapsedTime = 0;
-        doAction = DoActionDelayLevelStart;
-    }
-
-    private void Update()
-    {
-        doAction();
+        Invoke("StartLevel", startLevelDelayDuration);
     }
 
     private void StartLevel()
     {
-        int i;
-
-        elapsedTime = 0;
         levelDuration = settings.LevelDuration;
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
-        doAction = DoActionRunGame;
+        Invoke("EndGame", levelDuration);
+        Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
-        for (i = 0; i < players.Count; i++)
-        {
-            players[i].SetModePlay();
-        }
+        foreach(Player player in Players)
+            player.SetModePlay();
 
-        for (i = 0; i < obstacles.Count; i++)
-        {
-            obstacles[i].gameObject.SetActive(true);
-        }
+        foreach(Obstacle obstacle in obstacles)
+            obstacle.gameObject.SetActive(true);
 
         Debug.Log("START !!!");
     }
 
-    private void DoActionDelayLevelStart()
+    private void EndGame()
     {
-        elapsedTime += Time.deltaTime;
-
-        if (elapsedTime >= startLevelDelayDuration) 
-            StartLevel();
+        Debug.Log("End of Game !!!");
+        StopAllCoroutines();
     }
 
-    private void DoActionRunGame()
+    private void ClearLevel()
     {
-        elapsedTime += Time.deltaTime;
+        Debug.Log("Clear Level");
+        OnLevelDestroy?.Invoke(this);
 
-        if (elapsedTime >= levelDuration)
-        {
-            Debug.Log("End of Game !!!");
-            doAction = () => { };
-
-            StopAllCoroutines();
-        }
+        Destroy(gameObject);
     }
 
     #region Player cycle : Die / Respawn
     private void Player_OnDeath(Player player, int numberOfPowerups)
     {
+        collectibleManager.LoseCollectibleWhenDead(player.transform, numberOfPowerups);
         StartCoroutine(PlayerRespawnCooldown(player));
     }
 
     private IEnumerator PlayerRespawnCooldown(Player player)
     {
-        float elapsedTime = 0;
-        float duration = settings.RespawnPlayerCooldownDuration;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            //Update hud
-
-            yield return null;
-        }
+        yield return new WaitForSeconds(settings.RespawnPlayerCooldownDuration);
 
         RespawnPlayer(player, true, false);
-
-        yield break;
+        
     }
 
     private Player RespawnPlayer(Player player, bool enablePlay, bool resetScore)
@@ -112,7 +93,8 @@ public class LevelManager : MonoBehaviour
         player.ResetValues(resetScore);
         player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
 
-        if (enablePlay) player.SetModePlay();
+        if (enablePlay) 
+            player.SetModePlay();
 
         return player;
     }
@@ -120,11 +102,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        for (int i = 0; i < players.Count; i++)
-        {
-            players[i].OnDeath -= Player_OnDeath;
-        }
+        foreach(Player currentPlayer in Players)
+            currentPlayer.OnDeath -= Player_OnDeath;
 
-        players = null;
+        Players.Clear();
     }
 }

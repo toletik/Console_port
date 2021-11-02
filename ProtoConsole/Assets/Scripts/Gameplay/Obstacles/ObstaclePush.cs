@@ -17,12 +17,10 @@ public class ObstaclePush : Obstacle
 
     private bool growingScaleX = true;
     private bool growingScaleZ = true;
-
     private bool movingLeft = false;
 
-    private float elapsedTimeX = 0;
-    private float elapsedTimeZ = 0;
-
+    private float elapsedTimeX    = 0;
+    private float elapsedTimeZ    = 0;
     private float elapsedTimeMove = 0;
 
     private const float  OFFSET_LEFT = 0.2f;
@@ -32,7 +30,8 @@ public class ObstaclePush : Obstacle
 
     void Start()
     {
-        sides = new Transform[]{
+        sides = new Transform[]
+        {
                 side1,
                 side2 
         };
@@ -40,38 +39,26 @@ public class ObstaclePush : Obstacle
         SetModeIdle();
     }
     
-    // Update is called once per frame
-    void Update()
-    {
-        IncrementeElapseTime(Time.deltaTime);
-        doAction();
-    }
 
-    private void IncrementeElapseTime(float deltaTime)
-    {
-       
-        elapsedTime += deltaTime;
-    }
     private void ManageElapseTimeScale(float deltaTime)
     { 
-        elapsedTimeZ += deltaTime / timeScaleZ;
-        elapsedTimeX += deltaTime /timeScaleX;
-        elapsedTimeMove += deltaTime/timeScaleMove;
-        
+        elapsedTimeZ    += deltaTime / timeScaleZ;
+        elapsedTimeX    += deltaTime / timeScaleX;
+        elapsedTimeMove += deltaTime / timeScaleMove;
        
-        if(elapsedTimeX>= 1)
+        if(elapsedTimeX >= 1)
         {
-            elapsedTimeX = 0;
+            elapsedTimeX -= 1;
             growingScaleX = !growingScaleX;
         }
         if (elapsedTimeZ >= 1)
         {
-            elapsedTimeZ = 0;
+            elapsedTimeZ -= 1;
             growingScaleZ = !growingScaleZ;
         }
         if (elapsedTimeMove >= 1)
         {
-            elapsedTimeMove = 0;
+            elapsedTimeMove -= 1;
             movingLeft = !movingLeft;
         }
 
@@ -87,11 +74,8 @@ public class ObstaclePush : Obstacle
 
     private void ManageScale()
     {
-        float newScaleX = 0;
-        float newScaleZ = 0;
-
-        newScaleZ = TestElapsedTimeScale(growingScaleX, elapsedTimeX);
-        newScaleX= TestElapsedTimeScale(growingScaleZ, elapsedTimeZ);
+        float newScaleZ = TestElapsedTimeScale(growingScaleX, elapsedTimeX);
+        float newScaleX = TestElapsedTimeScale(growingScaleZ, elapsedTimeZ);
 
         for (int i = 0; i < sides.Length; i++)
         {
@@ -100,26 +84,27 @@ public class ObstaclePush : Obstacle
     }
     private void ManageMove()
     {
-        float newPos = 0;
-
-        newPos = TestElapsedTimeMove(movingLeft, elapsedTimeMove);
+        float newPosX = TestElapsedTimeMove(movingLeft, elapsedTimeMove);
 
         for (int i = 0; i < sides.Length; i++)
         {
-            Transform currentSide = sides[i];
-            currentSide.localPosition =new Vector3(newPos, 1, 0);
+            sides[i].localPosition = new Vector3(newPosX, 1, 0);
         }
     }
 
     private float TestElapsedTimeScale(bool growing,float elapsedTime)
     {
-        if(growing) return Mathf.Lerp(OFFSET_RIGHT, OFFSET_LEFT, elapsedTime);
-        else return  Mathf.Lerp(OFFSET_LEFT, OFFSET_RIGHT, elapsedTime);
+        if(growing) 
+            return Mathf.Lerp(OFFSET_RIGHT, OFFSET_LEFT, elapsedTime);
+        
+        return  Mathf.Lerp(OFFSET_LEFT, OFFSET_RIGHT, elapsedTime);
     }
     private float TestElapsedTimeMove(bool direction,float elapsedTime)
     {
-        if (movingLeft) return Mathf.Lerp(-1, 1, elapsedTimeMove);
-        else return Mathf.Lerp(1, -1,elapsedTimeMove);
+        if (movingLeft)
+            return Mathf.Lerp(-1, 1, elapsedTimeMove);
+        
+        return Mathf.Lerp(1, -1,elapsedTimeMove);
     }
     
     

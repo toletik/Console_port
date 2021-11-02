@@ -3,8 +3,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Direction
+{
+    UP = 0,
+    RIGHT,
+    DOWN,
+    LEFT
+
+    //UP = 0,
+    //RIGHT = -90,
+    //DOWN = 180,
+    //LEFT = 90
+}
+
+public struct DirectionProperties
+{
+    public Direction dir;
+    public bool isEnabled;
+    public MeshRenderer renderer;
+    public Vector2 directionVector;
+
+    public DirectionProperties(Direction newDir, bool becomeEnabled, Vector2 newDirVec)
+    {
+        dir = newDir;
+        isEnabled = becomeEnabled;
+        renderer = null;
+        directionVector = newDirVec;
+    }
+
+    public static float RetrieveRotation(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.UP => 0,
+            Direction.RIGHT => 3 * 90,
+            Direction.DOWN => 2 * 90,
+            Direction.LEFT => 1 * 90
+        };
+    }
+}
+
+public class DirectionList
+{
+    public DirectionProperties[] directions = new DirectionProperties[]
+    {
+        new DirectionProperties(Direction.UP, false, Vector2.up),
+        new DirectionProperties(Direction.RIGHT, false, Vector2.right),
+        new DirectionProperties(Direction.DOWN, false, Vector2.down),
+        new DirectionProperties(Direction.LEFT, false, Vector2.left)
+    };
+
+    public ref DirectionProperties this[int i]
+    {
+        get
+        {
+            return ref directions[i];
+        }
+    }
+
+
+    public ref DirectionProperties this[Direction direction]
+    {
+        get
+        {
+            return ref directions[(int)direction];
+        }
+    }
+};
+
+
 public class Dash : PlayerCapacity
 {
+
     [SerializeField] private float dashDuration = 0.6f;
     [SerializeField] private float dashSpeed = 1.5f;
     [SerializeField] private AnimationCurve speedCurve = default;
@@ -14,35 +84,23 @@ public class Dash : PlayerCapacity
 
     protected override Capacity Type => Capacity.DASH;
 
-    private readonly Dictionary<Direction, bool> directionEnabled = new Dictionary<Direction, bool>()
-    {
-        { Direction.UP, false },
-        { Direction.RIGHT, false },
-        { Direction.DOWN, false },
-        { Direction.LEFT, false }
-    };
-
-    private readonly Dictionary<Direction, MeshRenderer> allDirectionsRenderer = new Dictionary<Direction, MeshRenderer>()
-    {
-        { Direction.UP, default },
-        { Direction.RIGHT, default },
-        { Direction.DOWN, default },
-        { Direction.LEFT, default }
-    };
+    DirectionList directionList = new DirectionList();
 
     private Direction currentDirection = default;
 
+
     protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
     {
-        return allDirectionsRenderer[currentDirection] = renderer;
+        return directionList[currentDirection].renderer = renderer;
     }
 
     public bool TryAddDirection(Direction direction)
     {
-        if (directionEnabled[direction]) 
+        ref DirectionProperties dirProps = ref directionList[direction];
+        if (dirProps.isEnabled) 
             return false;
         
-        return directionEnabled[direction] = true;
+        return dirProps.isEnabled = true;
     }
 
     protected override bool TryToAssignCapacity()
@@ -50,23 +108,17 @@ public class Dash : PlayerCapacity
         return player.TryAddCapacity(Type, currentDirection);
     }
 
-    protected override bool LookToStartAction()
+    protected override bool TryStartCapacity()
     {
-        if (!directionEnabled[currentDirection] || player.IsUsingCapacity(Capacity.DIG)) return false;
+        if (!directionList[currentDirection].isEnabled || player.IsUsingCapacity(Capacity.DIG)) 
+            return false;
 
         player.MovementControlCoef = planarMovementModifierCoef;
         player.StartCapacity(Type);
 
-        currentAction = player.StartCoroutine(ExecuteDash(currentDirection switch
-        {
-            Direction.UP => new Vector2(0, 1),
-            Direction.RIGHT => new Vector2(1, 0),
-            Direction.DOWN => new Vector2(0, -1),
-            Direction.LEFT => new Vector2(-1, 0),
-            _ => new Vector2(0, 1)
-        }));
+        currentAction = player.StartCoroutine(ExecuteDash(directionList[currentDirection].directionVector));
 
-        SetUsedColorOnRenderer(allDirectionsRenderer[currentDirection]);
+        SetUsedColorOnRenderer(directionList[currentDirection].renderer);
 
         return true;
     }
@@ -74,29 +126,29 @@ public class Dash : PlayerCapacity
     /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>
     public void ChooseDirection(int directionIndex)
     {
-        if (directionIndex == (int)Direction.UP || 
-            directionIndex == (int)Direction.RIGHT || 
-            directionIndex == (int)Direction.DOWN || 
+        if (directionIndex == (int)Direction.UP ||
+            directionIndex == (int)Direction.RIGHT ||
+            directionIndex == (int)Direction.DOWN ||
             directionIndex == (int)Direction.LEFT)
-            {
-                currentDirection = (Direction)directionIndex;
-            }
+        {
+            currentDirection = (Direction)directionIndex;
+        }
+        else
+        {
+            Debug.LogError("directionIndex should be a valid Direction enum (between 0 and 4).");
+        }
     }
-
     private IEnumerator ExecuteDash(Vector2 direction)
     {
-        Direction dashDirection = currentDirection;
-        float elapsedTime = 0;
 
-        while (elapsedTime < dashDuration)
+        for (float elapsedTime = 0f; elapsedTime <= dashDuration; elapsedTime += Time.deltaTime)
         {
-            elapsedTime += Time.deltaTime;
             player.ExternalVelocity = direction * Mathf.LerpUnclamped(0, dashSpeed, speedCurve.Evaluate(elapsedTime / dashDuration));
 
             yield return null;
         }
 
-        ClearCapacityEffects();
+        EndCapacity();
 
         List<MeshRenderer> feedbackRenderers = new List<MeshRenderer>();
 
@@ -106,19 +158,19 @@ public class Dash : PlayerCapacity
 
             foreach (Direction dir in directions)
             {
-                if (allDirectionsRenderer[dir] != default)
-                    feedbackRenderers.Add(allDirectionsRenderer[dir]);
+                if (directionList[dir].renderer != default)
+                    feedbackRenderers.Add(directionList[dir].renderer);
             }
         }
-        else feedbackRenderers.Add(allDirectionsRenderer[dashDirection]);
+        else 
+            feedbackRenderers.Add(directionList[currentDirection].renderer);
 
-        yield return WaitForCooldown(feedbackRenderers);
+        yield return StartUpdateColor(feedbackRenderers);
 
         currentAction = null;
-        yield break;
     }
 
-    protected override void ClearCapacityEffects()
+    protected override void EndCapacity()
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Type);
@@ -132,8 +184,8 @@ public class Dash : PlayerCapacity
 
         foreach (Direction direction in directions)
         {
-            directionEnabled[direction] = false;
-            allDirectionsRenderer[direction] = default;
+            directionList[direction].isEnabled = false;
+            directionList[direction].renderer = default;
         }
     }
 }

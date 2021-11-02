@@ -13,6 +13,9 @@ public class LevelSettings : ScriptableObject
 
     private float movingPlanetRadiusOffset = 0;
 
+
+
+    //Getter
     public Vector3 GravityCenter => gravityCenter;
     public float PlanetRadius => planetRadius + movingPlanetRadiusOffset;
 
@@ -22,8 +25,11 @@ public class LevelSettings : ScriptableObject
     /// <summary> Respawn duration in seconds </summary>
     public float RespawnPlayerCooldownDuration => respawnPlayerCooldownInSeconds;
 
-    public void SetPlanetMovingRadiusOffset(float distance)
+    public float MovingPlanetRadiusOffset
     {
-        movingPlanetRadiusOffset = distance;
+        set
+        {
+            movingPlanetRadiusOffset = value;
+        }
     }
 }

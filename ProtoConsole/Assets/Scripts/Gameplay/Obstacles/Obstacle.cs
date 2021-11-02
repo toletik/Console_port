@@ -12,7 +12,7 @@ public class Obstacle : StateObjects
     [SerializeField] protected AnimationCurve attackCurve = default;
     [SerializeField] protected float attackCoolDown = 10;
 
-    private Vector3 Offset = default;
+    private Vector3 offset = default;
     private float angleOffset = default;
     private float attackElapsedTime = 0;
     protected float elapsedTime = 0;
@@ -26,9 +26,11 @@ public class Obstacle : StateObjects
         SetModeIdle();
     
     }
+
     protected virtual void SetModeIdle()
     {
         doAction = DoActionIdle;
+        
     }
     protected virtual void SetModeAttack()
     {
@@ -36,10 +38,24 @@ public class Obstacle : StateObjects
         SetAttackPosition();
     }
 
+    protected virtual void DoActionIdle()
+    {
+        ManageOrbit();
+        ManageRotation();
+        attackElapsedTime += Time.deltaTime;
+
+        if (attackElapsedTime >= attackCoolDown)
+        {
+            ResetElapsedTime();
+
+            SetModeAttack();
+        }
+    }
     private void DoActionAttack()
     {
-        transform.position = Vector3.Lerp(attackStartPosition,attackEndPosition,attackCurve.Evaluate(elapsedTime/attackDuration));
-        if (elapsedTime >= attackDuration) {
+        transform.position = Vector3.Lerp(attackStartPosition, attackEndPosition, attackCurve.Evaluate(elapsedTime / attackDuration));
+        if (elapsedTime >= attackDuration)
+        {
             ResetElapsedTime();
             angle -= Mathf.PI;
                  
@@ -58,29 +74,16 @@ public class Obstacle : StateObjects
        
       
     }
-     private void ManageRotation()
+    private void ManageRotation()
     {
         transform.rotation = Quaternion.LookRotation((planet.position - transform.position).normalized);
     }
-    protected virtual void DoActionIdle()
-    {
-        ManageOrbit();
-        ManageRotation();
-        attackElapsedTime += Time.deltaTime;
-
-        if (attackElapsedTime >= attackCoolDown) {
-            ResetElapsedTime();
-
-            SetModeAttack();
-        }
-    }
 
     private void ManageOrbit()
-    {
-        
+    {        
         angle += (Mathf.PI * 2) / idleDuration / (1 / Time.deltaTime);
 
-        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle)*radiusIdle) ;
+        transform.position = new Vector3(Mathf.Cos(angle) * radiusIdle, 0, Mathf.Sin(angle) * radiusIdle)+ planet.position ;
 
     }
     private void ResetElapsedTime()
@@ -89,7 +92,7 @@ public class Obstacle : StateObjects
         elapsedTime = 0;
     }
  
-    private void Update()
+    protected void Update()
     {
         elapsedTime += Time.deltaTime;
         doAction();
