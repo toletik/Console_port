@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         OnLevelSpawn?.Invoke(this);
+        PauseScreen.OnLevelQuit += ClearLevel;
     }
 
     public void InitPlayers(List<Player> players)
@@ -123,5 +124,7 @@ public class LevelManager : MonoBehaviour
             currentPlayer.OnDeath -= Player_OnDeath;
 
         Players.Clear();
+
+        PauseScreen.OnLevelQuit -= ClearLevel;
     }
 }
