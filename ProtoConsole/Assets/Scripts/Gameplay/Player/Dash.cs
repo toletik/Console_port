@@ -30,6 +30,17 @@ public struct DirectionProperties
         renderer = null;
         directionVector = newDirVec;
     }
+
+    public static float RetrieveRotation(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.UP => 0,
+            Direction.RIGHT => 3 * 90,
+            Direction.DOWN => 2 * 90,
+            Direction.LEFT => 1 * 90
+        };
+    }
 }
 
 public class DirectionList
