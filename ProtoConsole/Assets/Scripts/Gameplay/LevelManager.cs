@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static event Action<LevelManager> OnLevelSpawn;
+    public static event Action<LevelManager> OnLevelDestroy;
+
     [SerializeField] private int startLevelDelayDuration = 3;
+    [SerializeField] private int destroyLevelDelayDuration = 5;
     [Space(8)]
     [SerializeField] private LevelSettings settings = default;
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
@@ -19,6 +23,11 @@ public class LevelManager : MonoBehaviour
     private List<Player> players = default;
 
     private int levelDuration = 0;
+
+    private void Awake()
+    {
+        OnLevelSpawn?.Invoke(this);
+    }
 
     public void InitPlayers(List<Player> _players)
     {
@@ -36,8 +45,8 @@ public class LevelManager : MonoBehaviour
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
-
         Invoke("EndGame", levelDuration);
+        Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
         for (int i = 0; i < players.Count; i++)
         {
@@ -56,6 +65,14 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("End of Game !!!");
         StopAllCoroutines();
+    }
+
+    private void ClearLevel()
+    {
+        Debug.Log("Clear Level");
+        OnLevelDestroy?.Invoke(this);
+
+        Destroy(gameObject);
     }
 
     #region Player cycle : Die / Respawn
