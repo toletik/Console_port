@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityCenter: {x: 0, y: 0, z: 0}
   planetRadius: 12.5
-  levelDurationInSeconds: 3
+  levelDurationInSeconds: 120
   respawnPlayerCooldownInSeconds: 4
