@@ -19,8 +19,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CollectibleManager collectibleManager = default;
 
     public LevelSettings Settings => settings;
-
-    private List<Player> players = default;
+    public List<Player> Players { get; private set; } = default;
 
     private int levelDuration = 0;
 
@@ -29,9 +28,9 @@ public class LevelManager : MonoBehaviour
         OnLevelSpawn?.Invoke(this);
     }
 
-    public void InitPlayers(List<Player> _players)
+    public void InitPlayers(List<Player> players)
     {
-        players = _players;
+        Players = players;
 
         foreach (Player currentPlayer in players)
         {
@@ -52,8 +51,7 @@ public class LevelManager : MonoBehaviour
         Invoke("EndGame", levelDuration);
         Invoke("ClearLevel", levelDuration + destroyLevelDelayDuration);
 
-
-        foreach(Player player in players)
+        foreach(Player player in Players)
             player.SetModePlay();
 
         foreach(Obstacle obstacle in obstacles)
@@ -104,9 +102,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        foreach(Player currentPlayer in players)
+        foreach(Player currentPlayer in Players)
             currentPlayer.OnDeath -= Player_OnDeath;
 
-        players.Clear();
+        Players.Clear();
     }
 }
