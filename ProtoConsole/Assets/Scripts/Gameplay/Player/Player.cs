@@ -1,4 +1,5 @@
 using Com.IsartDigital.Common.UI;
+using nn.hid;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -72,6 +73,11 @@ public class Player : MonoBehaviour
     [HideInInspector] public float MovementControlCoef = 1;
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
     [HideInInspector] public bool CanBeEjected = true;
+
+    private VibrationValue onDeathVibration = VibrationValue.Make(0.9f, 160.0f, 0.0f, 320.0f);
+    private float onDeathVibrationDuration = 1f;
+    private VibrationValue onCollisionVibration = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
+    private float onCollisionVibrationDuration = 0.2f;
 
     public bool AssignationMode { get; private set; } = false;
 
@@ -321,6 +327,7 @@ public class Player : MonoBehaviour
             Debug.Log("Aie !");
             collidedPlayer = otherPlayer;
             Eject(rigidbody.position - collision.rigidbody.position, otherPlayer.IsUsingCapacity(Capacity.DASH) ? ejectionOnPlayerContactWithDashStrength : ejectionOnPlayerContactStrenght);
+            StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onCollisionVibration, playerID, onCollisionVibrationDuration));
         }
     }
 
@@ -342,6 +349,8 @@ public class Player : MonoBehaviour
         UpdateScore(-scoreLostOnDeath);
 
         ResetValues(false);
+
+        StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onDeathVibration, playerID, onDeathVibrationDuration));
     }
 
     public void Eject(Vector3 direction, float strength)

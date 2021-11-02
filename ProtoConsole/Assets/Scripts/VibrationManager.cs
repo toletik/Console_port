@@ -16,7 +16,17 @@ public class VibrationManager
     List<VibrationDeviceHandle> vibrationDevices = new List<VibrationDeviceHandle>();
     VibrationDeviceInfo info;
 
-    public VibrationManager()
+    private static VibrationManager instance = null;
+    public static void MakeNewSingleton()
+    {
+        instance = new VibrationManager();
+    }
+    public static VibrationManager GetSingleton()
+    {
+        return instance;
+    }
+
+    private VibrationManager()
     {
         // Npads should be initialized when this function is executed.
         NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
