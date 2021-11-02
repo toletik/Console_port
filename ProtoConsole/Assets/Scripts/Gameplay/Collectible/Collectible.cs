@@ -1,13 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    [SerializeField] private Animator animator = default;
     [SerializeField] private float lerpDuration = 4;
 
-    private Animator animator = default;
     public delegate void CollectibleEventHandler(Collectible collectible);
     static public event CollectibleEventHandler OnCollect;
 
@@ -20,7 +19,6 @@ public class Collectible : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
         list = CollectibleManager.collectibles;
         planetPos = CollectibleManager.planetPos.position;
         StartGravity();
@@ -40,27 +38,24 @@ public class Collectible : MonoBehaviour
             OnCollect?.Invoke(this);
             Destroy(gameObject);
         }
-        else
-            Debug.LogWarning("Invalid recuperation");
-        
+        else Debug.LogWarning("Invalid recuperation");
     }
 
     private IEnumerator GravityCoroutine()
     {
         RaycastHit hit;
-        while (elapsedTime< lerpDuration)
+
+        while (elapsedTime < lerpDuration)
         {
             elapsedTime += Time.deltaTime;
             transform.position = Vector3.Lerp(originalPos, planetPos, elapsedTime / lerpDuration);
             
-            if( Physics.Raycast(transform.position,-transform.up,out hit, 1)&& hit.transform.gameObject.CompareTag(SPHERE_TAG)){
-
-                Landing();
-            }
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1) && hit.transform.gameObject.CompareTag(SPHERE_TAG)) Landing();
+            
             yield return null;
         }
-       
     }
+
     private void Landing()
     {
         StopAllCoroutines();
@@ -71,9 +66,9 @@ public class Collectible : MonoBehaviour
     {
         SetAnimFalling(true);
     }
+
     private void SetAnimFalling(bool value)
     {
         animator.SetBool("Falling", value);
     }
-
 }
