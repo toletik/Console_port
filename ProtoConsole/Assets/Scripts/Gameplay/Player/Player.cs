@@ -169,6 +169,7 @@ public class Player : MonoBehaviour
         StartCoroutine(PlayInvincibilityTime());
     }
 
+
     #region Movement
     private void SetModeMove()
     {
@@ -213,13 +214,13 @@ public class Player : MonoBehaviour
             if (AvailableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
             {
                 AssignationMode = true;
-                Debug.LogWarning("Start assignation");
+                Debug.LogError("Start assignation");
             }
         }
         else if (context.canceled) 
         { 
             AssignationMode = false; 
-            Debug.LogWarning("End assignation"); 
+            Debug.LogError("End assignation"); 
         }
     }
 
