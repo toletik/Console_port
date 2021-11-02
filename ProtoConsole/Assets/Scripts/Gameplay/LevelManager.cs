@@ -1,3 +1,4 @@
+using Com.IsartDigital.Common.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private int startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
+    [SerializeField] private string startLevelBannerMessage = "Let's Go!!!";
+    [SerializeField] private string endLevelBannerMessage = "Time is up!";
     [Space(8)]
     [SerializeField] private LevelSettings settings = default;
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
@@ -40,6 +43,8 @@ public class LevelManager : MonoBehaviour
         }
 
         Invoke("StartLevel", startLevelDelayDuration);
+
+        Banner.Instance.PlayBanner(startLevelBannerMessage);
     }
 
     private void StartLevel()
@@ -62,8 +67,16 @@ public class LevelManager : MonoBehaviour
 
     private void EndGame()
     {
+        Banner banner = Banner.Instance;
+
         Debug.Log("End of Game !!!");
         StopAllCoroutines();
+
+        banner.PlayBanner(endLevelBannerMessage);
+        banner.OnAnimationEnd += () => 
+        {
+            UIManager.Instance.AddScreen<WinScreen>(true);
+        };
     }
 
     private void ClearLevel()
