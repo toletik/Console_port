@@ -23,6 +23,7 @@ public abstract class PlayerCapacity : MonoBehaviour
     {
         if (context.action.triggered)
         {
+            Debug.Log(context.action.name);
             if (player.AssignationMode) TryToAssignCapacity();
             else if (isActiveAndEnabled && currentAction == null) LookToStartAction();
         }
