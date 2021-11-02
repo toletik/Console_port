@@ -2405,6 +2405,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedButton: {fileID: 8699563485061403690}
   playerManager: {fileID: 0}
+  playerTag: {fileID: 11400000, guid: b25a7b18e4a93a648aa2534555223553, type: 2}
+  playerIMG: {fileID: 11400000, guid: 7146a298e00aec040a63c006aaacad15, type: 2}
+  playerIndicatorList:
+  - {fileID: 8271391749039669687}
+  - {fileID: 7969016233862820914}
+  - {fileID: 3266212262522231122}
+  - {fileID: 2036340060563344322}
+  - {fileID: 7585698258429849974}
+  - {fileID: 5860686774667774513}
+  - {fileID: 2633018169854709286}
+  - {fileID: 4176763666361283312}
+  playerTypeOfController:
+  - {fileID: 6404792667247753617}
+  - {fileID: 5862895418968211180}
+  - {fileID: 2191010451445001258}
+  - {fileID: 5789180155792147715}
+  - {fileID: 6390477704992592440}
+  - {fileID: 5824557296360307548}
+  - {fileID: 4153636773505855542}
+  - {fileID: 1066818361490727078}
 --- !u!1 &8271391749039669687
 GameObject:
   m_ObjectHideFlags: 0
