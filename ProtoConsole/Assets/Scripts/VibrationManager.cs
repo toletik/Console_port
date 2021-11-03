@@ -89,6 +89,9 @@ public sealed class VibrationManager
 
     void StopOneVibration(int vibrationDeviceID)
     {
+        if (vibrationDeviceID < 0)
+            return;
+
         Vibration.SendValue(vibrationDevices[vibrationDeviceID], VibrationValue.Make());
     }
 

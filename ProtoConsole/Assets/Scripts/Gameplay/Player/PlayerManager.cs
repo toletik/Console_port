@@ -181,6 +181,15 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    public void SetupAllNPads()
+    {
+        //InputDevice d;
+        //d.
+        //playerInputManager.JoinPlayer(i, -1, null, d);
+        //public PlayerInput JoinPlayer(int playerIndex = -1, int splitScreenIndex = -1, string controlScheme = null, InputDevice pairWithDevice = null);
+
+    }
+
     int GetPlayerID(PlayerInput playerInput)
     {
         return playerInput.devices[0].name switch
