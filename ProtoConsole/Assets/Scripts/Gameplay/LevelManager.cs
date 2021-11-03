@@ -37,6 +37,8 @@ public class LevelManager : MonoBehaviour
         LevelDuration = settings.LevelDuration;
         OnLevelSpawn?.Invoke(this);
         PauseScreen.OnLevelQuit += ClearLevel;
+        foreach(Obstacle obstacle in obstacles)
+            obstacle.gameObject.SetActive(true);
     }
 
     public void InitPlayers(List<Player> players)
@@ -66,8 +68,6 @@ public class LevelManager : MonoBehaviour
         foreach(Player player in Players)
             player.SetModePlay();
 
-        foreach(Obstacle obstacle in obstacles)
-            obstacle.gameObject.SetActive(true);
 
         OnLevelStart?.Invoke();
         Debug.Log("START !!!");

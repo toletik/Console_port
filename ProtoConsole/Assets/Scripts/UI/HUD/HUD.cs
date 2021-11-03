@@ -21,15 +21,30 @@ public class HUD : MonoBehaviour
     {
         
           LevelManager.OnLevelSpawn += LevelManager_OnLevelSpawn;
-          
+        LevelManager.OnLevelDestroy += LevelManager_OnLevelDestroy;
+
+    }
+
+    private void LevelManager_OnLevelDestroy(LevelManager obj)
+    {
+        levelManager.OnLevelEnd -= LevelManager_OnLevelEnd;
+        levelManager.OnLevelStart -= LevelManager_OnLevelStart;
+        RemovePlayerInfos();
+        levelManager = null;
     }
 
     private void LevelManager_OnLevelStart()
     {
-       
+        StartCoroutine(TimerCoroutine());
     }
 
-   
+    private void RemovePlayerInfos()
+    {
+        for (int i = 0; i < playerInfos.Count; i++)
+        {
+            Destroy(playerInfos[i].gameObject);
+        }
+    }
 
     private void LevelManager_OnLevelSpawn(LevelManager _levelManager)
     {
@@ -37,15 +52,16 @@ public class HUD : MonoBehaviour
         levelManager.OnLevelStart += LevelManager_OnLevelStart;
         levelManager.OnLevelEnd += LevelManager_OnLevelEnd;
         Debug.Log("HEHO UPDATE TOI LE COMPTEUR");
-        UpdateTimeText();
+        UpdateTimeText(levelManager.LevelDuration);
     }
 
     private void LevelManager_OnLevelEnd()
     {
         levelManager.OnLevelEnd -= LevelManager_OnLevelEnd;
         levelManager.OnLevelStart -= LevelManager_OnLevelStart;
+        RemovePlayerInfos();
         levelManager = null;
-      
+        
     }
 
    
@@ -61,7 +77,7 @@ public class HUD : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
     public void CreatePlayerInfo(Player player, Color color,int playerId)
     {
         PlayerInfo playerInfo = playerInfoPrefab;
@@ -80,9 +96,17 @@ public class HUD : MonoBehaviour
         sec = (int)timeleft - (60 * min);
         return min + ":" + sec;
     }
-    private void UpdateTimeText()
+    private void UpdateTimeText(float timer)
     {
-        timeText.text = CalculateTimeLeft(levelManager.LevelDuration);
+        timeText.text = CalculateTimeLeft(timer);
+    }
+    private IEnumerator TimerCoroutine()
+    {
+        while (levelManager.TimeRemainingInSeconds > 0)
+        {
+            UpdateTimeText(levelManager.TimeRemainingInSeconds);
+            yield return null;
+        }
     }
     private void OnDestroy()
     {
