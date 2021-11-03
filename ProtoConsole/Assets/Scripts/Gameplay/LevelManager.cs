@@ -8,6 +8,9 @@ public class LevelManager : MonoBehaviour
 {
     public static event Action<LevelManager> OnLevelSpawn;
     public static event Action<LevelManager> OnLevelDestroy;
+    public event Action OnLevelStart;
+    public event Action OnLevelEnd;
+
 
     [SerializeField] private int startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
@@ -24,10 +27,14 @@ public class LevelManager : MonoBehaviour
     public LevelSettings Settings => settings;
     public List<Player> Players { get; private set; } = default;
 
-    private int levelDuration = 0;
+    public float TimeRemainingInSeconds => levelEndTime - Time.time;
+    private float levelEndTime = 0;
+
+    public  int LevelDuration { get; private set; } = 0;
 
     private void Awake()
     {
+        LevelDuration = settings.LevelDuration;
         OnLevelSpawn?.Invoke(this);
         PauseScreen.OnLevelQuit += ClearLevel;
     }
@@ -50,11 +57,11 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel()
     {
-        levelDuration = settings.LevelDuration;
+        levelEndTime = Time.time + LevelDuration;
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
-        Invoke("EndGame", levelDuration);
+        Invoke("EndGame", LevelDuration);
 
         foreach(Player player in Players)
             player.SetModePlay();
@@ -62,6 +69,7 @@ public class LevelManager : MonoBehaviour
         foreach(Obstacle obstacle in obstacles)
             obstacle.gameObject.SetActive(true);
 
+        OnLevelStart?.Invoke();
         Debug.Log("START !!!");
     }
 
@@ -117,6 +125,22 @@ public class LevelManager : MonoBehaviour
         return player;
     }
     #endregion
+
+    public List<Player> GetRankedPlayers()
+    {
+        int currentRank = 1;
+
+        Players.Sort((a, b) => { return a.Score < b.Score ? 1 : -1; });
+        Players[0].SetRank(currentRank);
+
+        for (int i = 1; i < Players.Count; i++)
+        {
+            Players[i].SetRank(Players[i].Score == Players[i - 1].Score ? currentRank : currentRank + 1);
+            currentRank++;
+        }
+
+        return Players;
+    }
 
     private void OnDestroy()
     {

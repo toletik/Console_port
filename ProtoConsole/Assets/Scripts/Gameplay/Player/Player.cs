@@ -1,12 +1,13 @@
 using Com.IsartDigital.Common.UI;
+using nn.hid;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-
     #region Variables
     private const string MATERIAL_EMISSIVE_KEYWORD = "_EMISSION";
     private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
@@ -73,6 +74,11 @@ public class Player : MonoBehaviour
     [HideInInspector] public Vector2 ExternalVelocity = Vector2.zero;
     [HideInInspector] public bool CanBeEjected = true;
 
+    private VibrationValue onDeathVibration = VibrationValue.Make(0.9f, 160.0f, 0.0f, 320.0f);
+    private float onDeathVibrationDuration = 1f;
+    private VibrationValue onCollisionVibration = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
+    private float onCollisionVibrationDuration = 0.2f;
+
     public bool AssignationMode { get; private set; } = false;
 
     public bool IsBestPlayer = false;
@@ -91,6 +97,11 @@ public class Player : MonoBehaviour
             OnScoreUpdated?.Invoke(this, score);
         }
     }
+
+    public ScoreDetails ScoreDetails => scoreDetails;
+    private ScoreDetails scoreDetails = default;
+
+    public void SetRank(int rank) => scoreDetails.rank = rank;
 
     private Player collidedPlayer = null;
 
@@ -130,7 +141,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Functions
-
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -150,7 +160,6 @@ public class Player : MonoBehaviour
     {
         doAction.Invoke();
     }
-
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
@@ -321,6 +330,7 @@ public class Player : MonoBehaviour
             Debug.Log("Aie !");
             collidedPlayer = otherPlayer;
             Eject(rigidbody.position - collision.rigidbody.position, otherPlayer.IsUsingCapacity(Capacity.DASH) ? ejectionOnPlayerContactWithDashStrength : ejectionOnPlayerContactStrenght);
+            StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onCollisionVibration, playerID, onCollisionVibrationDuration));
         }
     }
 
@@ -338,10 +348,20 @@ public class Player : MonoBehaviour
 
         OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
 
-        collidedPlayer?.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
+        if (collidedPlayer)
+        {
+            collidedPlayer.scoreDetails.numberOfKills++;
+            collidedPlayer.UpdateScore(scoreWonOnKill + (IsBestPlayer ? bonusScoreWonOnBestPlayerKill : 0));
+
+            scoreDetails.allDeaths.Add(DeathType.KILL);
+        }
+        else scoreDetails.allDeaths.Add(DeathType.ACCIDENT);
+
         UpdateScore(-scoreLostOnDeath);
 
         ResetValues(false);
+
+        StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onDeathVibration, playerID, onDeathVibrationDuration));
     }
 
     public void Eject(Vector3 direction, float strength)
@@ -398,6 +418,7 @@ public class Player : MonoBehaviour
     public void UpdateScore(int scoreToAdd)
     {
         Score += scoreToAdd;
+        scoreDetails.score = score;
     }
 
     public void ResetValues(bool resetScore = false)
@@ -420,8 +441,11 @@ public class Player : MonoBehaviour
 
         boxCollider.enabled = false;
 
-        if (resetScore)
+        if (resetScore) 
+        {
             Score = initialScore;
+            scoreDetails = new ScoreDetails() { score = Score, numberOfKills = 0, allDeaths = new List<DeathType>(), rank = 1 };
+        }
 
         gameObject.layer = defaultGameLayerForPlayer;
     }
@@ -470,7 +494,6 @@ public class Player : MonoBehaviour
         //DynamicGI.UpdateEnvironment();
 
         gameObject.layer = defaultGameLayerForPlayer;
-
     }
 
     private void UpdateMaterialColor(Material material, Color baseColor, float modifier)
@@ -491,6 +514,5 @@ public class Player : MonoBehaviour
         OnCollectibleUpdate = null;
         OnScoreUpdated = null;
     }
-
     #endregion
 }

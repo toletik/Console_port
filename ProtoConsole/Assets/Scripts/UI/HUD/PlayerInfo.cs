@@ -114,7 +114,7 @@ public class PlayerInfo : MonoBehaviour
     public void setAsBestPlayer()
     {
         multicolorText.enabled = true;
-        
+        Debug.Log("oui");
     }
     public void removeBestPlayer()
     {

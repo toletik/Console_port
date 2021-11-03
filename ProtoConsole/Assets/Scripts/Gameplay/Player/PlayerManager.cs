@@ -19,14 +19,10 @@ public class PlayerManager : MonoBehaviour
     private List<Player> players = new List<Player>();
     private List<PlayerInput> playersInputs = new List<PlayerInput>();
 
-    VibrationManager vibrationManager = null;
-
     public bool EnoughPlayersToStart => playersInputs.Count >= minNumberOfPlayers;
 
     private int bestScore  = 0;
     private Player bestPlayer = null;
-
-    private VibrationValue onDeathVibration = VibrationValue.Make(0.40f, 160.0f, 0.55f, 320.0f);
 
     void InitializeNPad()
     {
@@ -82,8 +78,7 @@ public class PlayerManager : MonoBehaviour
         Color playerColor;
         Player player = default;
         PlayerTag playerTag;
-
-        hud.gameObject.SetActive(true);
+            
         UIManager.Instance.CloseScreen<ConnexionScreen>();
 
         for (int i = 0; i < playersInputs.Count; i++)
@@ -92,24 +87,20 @@ public class PlayerManager : MonoBehaviour
             player = playersInputs[i].GetComponent<Player>();
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
-            player.playerID = i;
+            player.playerID = GetPlayerID(playersInputs[i]);
+
             players.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
             player.OnScoreUpdated += PlayerManagerScoreHandle;
+
             hud.CreatePlayerInfo(player, playerColor, i + 1);
         }
 
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
 
-        vibrationManager = new VibrationManager();
-
-        foreach (Player currentPlayer in players)
-        {
-            currentPlayer.OnDeath += (Player player, int possessedCollectibles) => { StartCoroutine(vibrationManager.VibrateForOneDuringSeconds(onDeathVibration, player.playerID, 1)); };
-        }
-
+        VibrationManager.MakeNewSingleton();
     }
 
     #region Score
@@ -177,6 +168,22 @@ public class PlayerManager : MonoBehaviour
         }
     }
     #endregion
+
+    int GetPlayerID(PlayerInput playerInput)
+    {
+        return playerInput.devices[0].name switch
+        {
+            "NPad1" => 0,
+            "NPad2" => 1,
+            "NPad3" => 2,
+            "NPad4" => 3,
+            "NPad5" => 4,
+            "NPad6" => 5,
+            "NPad7" => 6,
+            "NPad8" => 7,
+            _ => 0
+        };
+    }
 
     private void OnDestroy()
     {
