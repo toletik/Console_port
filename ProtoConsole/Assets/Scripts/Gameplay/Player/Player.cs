@@ -346,7 +346,7 @@ public class Player : MonoBehaviour
         meshRenderer.enabled = false;
         enabled = false;
 
-        OnDeath?.Invoke(this, capacityRenderersContainer.childCount + (int)AvailableUnassignedCapacities);
+        OnDeath?.Invoke(this, capacityRenderersContainer.childCount + AvailableUnassignedCapacities);
 
         if (collidedPlayer)
         {
