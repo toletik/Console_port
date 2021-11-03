@@ -71,11 +71,13 @@ public class HUD : MonoBehaviour
     static public void UpdateBestPlayer()
     {
         PlayerInfo playerInfo;
+
         for (int i = 0; i < playerInfos.Count; i++)
         {
             playerInfo = playerInfos[i];
-            if (playerInfo.player.IsBestPlayer) playerInfo.setAsBestPlayer();
-            else playerInfo.removeBestPlayer();
+
+            if (playerInfo.player.IsBestPlayer) playerInfo.SetAsBestPlayer();
+            else playerInfo.RemoveBestPlayer();
         }
     }
 
