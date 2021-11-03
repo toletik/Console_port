@@ -88,7 +88,9 @@ public class PlayerManager : MonoBehaviour
             player = playersInputs[i].GetComponent<Player>();
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
-            player.playerID = i;
+            player.playerID = GetPlayerID(playersInputs[i]);
+
+
             players.Add(player);
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
@@ -167,6 +169,22 @@ public class PlayerManager : MonoBehaviour
         }
     }
     #endregion
+
+    int GetPlayerID(PlayerInput playerInput)
+    {
+        return playerInput.devices[0].name switch
+        {
+            "NPad1" => 0,
+            "NPad2" => 1,
+            "NPad3" => 2,
+            "NPad4" => 3,
+            "NPad5" => 4,
+            "NPad6" => 5,
+            "NPad7" => 6,
+            "NPad8" => 7,
+            _ => 0
+        };
+    }
 
     private void OnDestroy()
     {
