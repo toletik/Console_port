@@ -80,6 +80,7 @@ public class PlayerManager : MonoBehaviour
         PlayerTag playerTag;
 
         hud.gameObject.SetActive(true);
+
         UIManager.Instance.CloseScreen<ConnexionScreen>();
 
         for (int i = 0; i < playersInputs.Count; i++)
@@ -95,6 +96,7 @@ public class PlayerManager : MonoBehaviour
 
             playerTag.DisplayPlayer(playerTagSettings.TagPrefix + (i + 1), playerColor, playerTagSettings.UpdateArrowColor);
             player.OnScoreUpdated += PlayerManagerScoreHandle;
+
             hud.CreatePlayerInfo(player, playerColor, i + 1);
         }
 
