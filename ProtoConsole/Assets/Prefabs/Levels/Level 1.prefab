@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killZone: {fileID: 5510219627510011977}
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
+  moveToPlayerDuration: 10
+  timeScaleOnStagger: 0.05
 --- !u!1 &5366093406573543820
 GameObject:
   m_ObjectHideFlags: 0
