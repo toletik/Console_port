@@ -30,6 +30,7 @@ public class HUD : MonoBehaviour
         levelManager.OnLevelEnd -= LevelManager_OnLevelEnd;
         levelManager.OnLevelStart -= LevelManager_OnLevelStart;
         RemovePlayerInfos();
+        StopAllCoroutines();
         levelManager = null;
     }
 
@@ -40,9 +41,10 @@ public class HUD : MonoBehaviour
 
     private void RemovePlayerInfos()
     {
-        for (int i = 0; i < playerInfos.Count; i++)
+        for (int i = playerInfos.Count - 1; i >= 0; i--)
         {
             Destroy(playerInfos[i].gameObject);
+            playerInfos.RemoveAt(i);
         }
     }
 
@@ -61,7 +63,7 @@ public class HUD : MonoBehaviour
         levelManager.OnLevelStart -= LevelManager_OnLevelStart;
         RemovePlayerInfos();
         levelManager = null;
-        
+        StopAllCoroutines();
     }
 
    
@@ -80,10 +82,10 @@ public class HUD : MonoBehaviour
     
     public void CreatePlayerInfo(Player player, Color color,int playerId)
     {
-        PlayerInfo playerInfo = playerInfoPrefab;
+        PlayerInfo playerInfo =  Instantiate(playerInfoPrefab, verticalBox);
         playerInfo.SetAllParam(player, color, playerId);
+      
         playerInfos.Add(playerInfo);
-        Instantiate(playerInfo, verticalBox);
         
     }
     
