@@ -78,9 +78,7 @@ public class PlayerManager : MonoBehaviour
         Color playerColor;
         Player player = default;
         PlayerTag playerTag;
-
-        hud.gameObject.SetActive(true);
-
+            
         UIManager.Instance.CloseScreen<ConnexionScreen>();
 
         for (int i = 0; i < playersInputs.Count; i++)
@@ -90,7 +88,6 @@ public class PlayerManager : MonoBehaviour
             playerTag = player.GetComponentInChildren<PlayerTag>(true);
 
             player.playerID = GetPlayerID(playersInputs[i]);
-
 
             players.Add(player);
 
