@@ -100,7 +100,17 @@ public class PlayerManager : MonoBehaviour
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
 
+        currentLevelManager.OnLevelEnd += CurrentLevelManager_OnLevelEnd;
+
         VibrationManager.MakeNewSingleton();
+    }
+
+    private void CurrentLevelManager_OnLevelEnd()
+    {
+        for (int i = 0; i < playersInputs.Count; i++)
+        {
+            playersInputs[i].GetComponent<Player>().OnScoreUpdated -= PlayerManagerScoreHandle;
+        }
     }
 
     #region Score
@@ -124,7 +134,7 @@ public class PlayerManager : MonoBehaviour
             bestScore = score;
         }
         //if lost score, we need to check if someone become BestPlayer
-        else if (player == bestPlayer)
+        else
         {
             //Remove BestPlayer
             RemoveBestPlayer();
@@ -187,6 +197,10 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        CurrentLevelManager_OnLevelEnd();
+
+        playersInputs.Clear();
+
         playerInputManager.onPlayerJoined -= PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft -= PlayerInputManager_OnPlayerLeft;
     }
