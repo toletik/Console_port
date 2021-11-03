@@ -7,7 +7,7 @@ public class WinScreen : UIScreen
 	[SerializeField] private PlayerTagParameters playertag = default;
 	[SerializeField] private List<ContainerRank> RankContainerList = default;
 
-	public void UpdateRanking()
+	public void UpdateRanking(List<Player> playerList)
 	{
 		/*for (int i = RankContainerList.count; i > length-1; i--) {
 			RankContainerList[i].Disable();
