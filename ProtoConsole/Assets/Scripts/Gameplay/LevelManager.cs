@@ -24,6 +24,9 @@ public class LevelManager : MonoBehaviour
     public LevelSettings Settings => settings;
     public List<Player> Players { get; private set; } = default;
 
+    public float TimeRemainingInSeconds => levelEndTime - Time.time;
+    private float levelEndTime = 0;
+
     private int levelDuration = 0;
 
     private void Awake()
@@ -51,6 +54,7 @@ public class LevelManager : MonoBehaviour
     private void StartLevel()
     {
         levelDuration = settings.LevelDuration;
+        levelEndTime = Time.time + levelDuration;
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
