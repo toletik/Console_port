@@ -129,7 +129,9 @@ public class Player : MonoBehaviour
     private BoxCollider boxCollider = default;
 
     private Vector2 inputs = Vector2.zero;
-    private Vector3 gravityCenter = default;
+    [SerializeField]
+    private List<Transform> allPossibleGravityCenters = new List<Transform>();
+    private Vector3 currentGravityCenter = Vector3.zero;
     private Vector3 ejection = default;
 
     private LevelSettings levelSettings = default;
@@ -158,6 +160,9 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
+        currentGravityCenter = GetClosestGravityCenter();
+        Debug.Log(currentGravityCenter);
+
         doAction.Invoke();
     }
 
@@ -169,7 +174,7 @@ public class Player : MonoBehaviour
         rigidbody.position = position;
 
         levelSettings = currentLevelSettings;
-        gravityCenter = levelSettings.GravityCenter;
+        //allPossibleGravityCenters.Add(levelSettings.GravityCenter);
     }
 
     public void SetModePlay() 
@@ -198,7 +203,7 @@ public class Player : MonoBehaviour
         rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + 
                                transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) 
                                * (speed * Time.fixedDeltaTime);
-        rigidbody.position = gravityCenter + (rigidbody.position - gravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
+        rigidbody.position = currentGravityCenter + (rigidbody.position - currentGravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
 
         InclineAccordingToPlanet();
 
@@ -208,7 +213,7 @@ public class Player : MonoBehaviour
 
     private void InclineAccordingToPlanet()
     {
-        rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - gravityCenter) * rigidbody.rotation;
+        rigidbody.rotation = Quaternion.FromToRotation(transform.up, rigidbody.position - currentGravityCenter) * rigidbody.rotation;
         rigidbody.rotation = Quaternion.FromToRotation(transform.forward, Vector3.ProjectOnPlane(transform.forward, Vector3.right).normalized) * rigidbody.rotation;
     }
 
@@ -296,7 +301,8 @@ public class Player : MonoBehaviour
             return true;
         else if (currentCapacityUsed == Capacity.DASH_AND_JUMP && (capacity == Capacity.JUMP || capacity == Capacity.DASH)) 
             return true;
-        else return false;
+        else 
+            return false;
     }
 
     public void StartCapacity(Capacity capacity)
@@ -387,16 +393,16 @@ public class Player : MonoBehaviour
     {
         rigidbody.position += ejection;
 
-        ejection -= (rigidbody.position - gravityCenter).normalized * ejectionGravity;
+        ejection -= (rigidbody.position - currentGravityCenter).normalized * ejectionGravity;
         ejection *= 1 - ejectionDeceleration;
 
-        Vector3 toCenter = rigidbody.position - gravityCenter;
+        Vector3 toCenter = rigidbody.position - currentGravityCenter;
 
         InclineAccordingToPlanet();
 
         if (toCenter.magnitude <= levelSettings.PlanetRadius)
         {
-            rigidbody.position = gravityCenter + toCenter.normalized * levelSettings.PlanetRadius;
+            rigidbody.position = currentGravityCenter + toCenter.normalized * levelSettings.PlanetRadius;
             ejection = Vector3.zero;
 
             SetModeMove();
@@ -515,4 +521,29 @@ public class Player : MonoBehaviour
         OnScoreUpdated = null;
     }
     #endregion
+
+
+    private Vector3 GetClosestGravityCenter()
+    {
+        Vector3 toReturn = Vector3.zero;
+        float distFromCenter = float.MaxValue;
+
+        foreach(Transform gravityCenter in allPossibleGravityCenters)
+        {
+            float tempMagnitude = (transform.position - gravityCenter.position).magnitude;
+
+            if(tempMagnitude < distFromCenter)
+            {
+                toReturn = gravityCenter.position;
+                distFromCenter = tempMagnitude;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public void SetAllPossibleGravityCenters(List<Transform> newList)
+    {
+        allPossibleGravityCenters = newList;
+    }
 }

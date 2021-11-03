@@ -214,6 +214,11 @@ MonoBehaviour:
   - {fileID: 5266986892180950230}
   - {fileID: 3987662190532009787}
   collectibleManager: {fileID: 6905316725995849133}
+  allFinalPlanetParts:
+  - {fileID: 5343698326463550447}
+  - {fileID: 6236172071403644244}
+  - {fileID: 1785524814280238241}
+  - {fileID: 9201231656187164755}
 --- !u!114 &6905316725995849133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,6 +539,26 @@ PrefabInstance:
 --- !u!4 &4263315186895105374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7376870341874976779, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+  m_PrefabInstance: {fileID: 6734498750602650965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5343698326463550447 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1683536737119123130, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+  m_PrefabInstance: {fileID: 6734498750602650965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6236172071403644244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 864387232067371009, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+  m_PrefabInstance: {fileID: 6734498750602650965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1785524814280238241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5022300512941900276, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+  m_PrefabInstance: {fileID: 6734498750602650965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9201231656187164755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2505384158124498182, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
   m_PrefabInstance: {fileID: 6734498750602650965}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7183095730982385651

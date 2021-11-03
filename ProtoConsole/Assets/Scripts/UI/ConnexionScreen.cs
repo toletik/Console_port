@@ -31,14 +31,18 @@ public class ConnexionScreen : UIScreen
 
     private void PlayerManager_OnPlayerAdded(int currentNumberOfPlayers)
     {
-        if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))image.color = playerTag.GetColorAtIndex(currentNumberOfPlayers-1);
-        if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))imageController.sprite = playerIMG.ImgController[0];
+        if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))
+            image.color = playerTag.GetColorAtIndex(currentNumberOfPlayers-1);
+        if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))
+            imageController.sprite = playerIMG.ImgController[0];
     }
 
     private void PlayerManager_OnPlayerRemoved(int currentNumberOfPlayers)
     {
-        if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))image.color = Color.white;
-        if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))imageController.sprite = default;
+        if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))
+            image.color = Color.white;
+        if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))
+            imageController.sprite = default;
     }
 
     protected override void Desactivate()
@@ -62,32 +66,31 @@ public class ConnexionScreen : UIScreen
     {
         // 1. Preprocessor Directive
 #if UNITY_SWITCH && !UNITY_EDITOR
+        // 2. Set the Arguments For the Applet
+        ControllerSupportArg controllerSupportArgs = new ControllerSupportArg();
+        controllerSupportArgs.SetDefault();
+        bool multiplayer = true;
 
-// 2. Set the Arguments For the Applet
-ControllerSupportArg controllerSupportArgs = new ControllerSupportArg();
-controllerSupportArgs.SetDefault();
-bool multiplayer = true;
+        if (multiplayer)
+        {
+           controllerSupportArgs.playerCountMax = 8; // This will show X controller setup boxes in the in the applet 
+           controllerSupportArgs.playerCountMin = 1; // Applet requires at least 1 player to connect
+        }
+        else // Single player
+        {
+           controllerSupportArgs.enableSingleMode = true; 
+        }
 
-if (multiplayer)
-{
-   controllerSupportArgs.playerCountMax = 8; // This will show X controller setup boxes in the in the applet 
-   controllerSupportArgs.playerCountMin = 1; // Applet requires at least 1 player to connect
-}
-else // Single player
-{
-   controllerSupportArgs.enableSingleMode = true; 
-}
+        // 3. (Optional) Suspend Unity Processes to Call the Applet 
+        UnityEngine.Switch.Applet.Begin(); //call before calling a system applet to stop all Unity threads (including audio and networking)
 
-// 3. (Optional) Suspend Unity Processes to Call the Applet 
-UnityEngine.Switch.Applet.Begin(); //call before calling a system applet to stop all Unity threads (including audio and networking)
+        // 4. Call the Applet
+        nn.hid.ControllerSupport.Show(controllerSupportArgs);
 
-// 4. Call the Applet
-nn.hid.ControllerSupport.Show(controllerSupportArgs);
+        // 5. (Optional) Resume the Suspended Unity Processes
+        UnityEngine.Switch.Applet.End(); //always call this if you called Switch.Applet.Begin()
 
-// 5. (Optional) Resume the Suspended Unity Processes
-UnityEngine.Switch.Applet.End(); //always call this if you called Switch.Applet.Begin()
-
-// End the Preprocessor Directive
+        // End the Preprocessor Directive
 #endif
     }
 

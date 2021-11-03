@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<Obstacle> obstacles = default;
     [Space(8)]
     [SerializeField] private CollectibleManager collectibleManager = default;
+    [SerializeField] private List<Transform> allFinalPlanetParts = new List<Transform>();
 
     public LevelSettings Settings => settings;
     public List<Player> Players { get; private set; } = default;
@@ -64,7 +65,10 @@ public class LevelManager : MonoBehaviour
         Invoke("EndGame", LevelDuration);
 
         foreach(Player player in Players)
+        {
+            player.SetAllPossibleGravityCenters(allFinalPlanetParts);
             player.SetModePlay();
+        }
 
         foreach(Obstacle obstacle in obstacles)
             obstacle.gameObject.SetActive(true);

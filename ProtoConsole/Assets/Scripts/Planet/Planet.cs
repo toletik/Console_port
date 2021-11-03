@@ -42,7 +42,8 @@ public class Planet : MonoBehaviour
         doAction = DoActionVoid;
     }
 
-	private void Update() {
+	private void Update() 
+    {
 		doAction();
         timer+=Time.deltaTime;
 	}
@@ -111,7 +112,8 @@ public class Planet : MonoBehaviour
                 else 
                     SetModeSpacing();
             }
-            else SetModeVoid();
+            else 
+                SetModeVoid();
         }
     }
 
