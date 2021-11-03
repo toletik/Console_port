@@ -344,6 +344,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2490918607778884249, guid: 0d19b566876d1b347b4ba19570ab8521, type: 3}
   m_PrefabInstance: {fileID: 2350099580884999602}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3977144648212601302 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1705910854559401060, guid: 0d19b566876d1b347b4ba19570ab8521, type: 3}
+  m_PrefabInstance: {fileID: 2350099580884999602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fdec569adf2cff498ce60aedb160d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4278331562936762889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1127,6 +1138,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6395597090685126756, guid: 55a70943665905442a3814381e74f76e, type: 3}
+      propertyPath: hud
+      value: 
+      objectReference: {fileID: 3977144648212601302}
     - target: {fileID: 6685763329313453862, guid: 55a70943665905442a3814381e74f76e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

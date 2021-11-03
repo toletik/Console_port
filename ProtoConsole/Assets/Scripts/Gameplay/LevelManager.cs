@@ -89,6 +89,7 @@ public class LevelManager : MonoBehaviour
         ClearLevel();
 
         UIManager.Instance.AddScreen<WinScreen>(true);
+        UIManager.Instance.GetScreen<WinScreen>().GetComponent<WinScreen>().UpdateRanking(GetRankedPlayers());
         Banner.Instance.OnAnimationEnd -= OpenLevelEndScreen;
     }
 
@@ -126,7 +127,7 @@ public class LevelManager : MonoBehaviour
     }
     #endregion
 
-    public List<Player> GetRankedPlayers()
+    private List<Player> GetRankedPlayers()
     {
         int currentRank = 1;
 
@@ -150,5 +151,12 @@ public class LevelManager : MonoBehaviour
         Players.Clear();
 
         PauseScreen.OnLevelQuit -= ClearLevel;
+    }
+
+    [ContextMenu("ShowID")]
+    public void Test(){
+		for (int i = 0; i < Players.Count ; i++) {
+            Debug.Log(Players[i].playerID);
+		}
     }
 }

@@ -397,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 147702176060772454, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 12.142303
+      value: 12.142273
       objectReference: {fileID: 0}
     - target: {fileID: 227817521450880591, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: m_AnchorMax.y
@@ -468,10 +468,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1202664523057831729, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
-      propertyPath: hud
-      value: 
-      objectReference: {fileID: 1019214646}
-    - target: {fileID: 1202664523057831729, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 315287758}
@@ -503,10 +499,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1664537015608180698, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1607405570}
     - target: {fileID: 1820096605669157622, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1227,14 +1219,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7668486995341132773, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
-      propertyPath: allScreens.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7668486995341132773, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
-      propertyPath: allScreens.Array.data[4]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7711394943236071344, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
       propertyPath: m_Name
       value: PlayButton
@@ -1424,11 +1408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdec569adf2cff498ce60aedb160d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &1607405570 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 4278331564203427979, guid: a7e11df859fc4d74b9a141c3aee05532, type: 3}
-  m_PrefabInstance: {fileID: 1019214643}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1913427078
 GameObject:
   m_ObjectHideFlags: 0
