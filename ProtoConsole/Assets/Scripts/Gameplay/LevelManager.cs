@@ -38,6 +38,8 @@ public class LevelManager : MonoBehaviour
         LevelDuration = settings.LevelDuration;
         OnLevelSpawn?.Invoke(this);
         PauseScreen.OnLevelQuit += ClearLevel;
+        foreach(Obstacle obstacle in obstacles)
+            obstacle.gameObject.SetActive(true);
     }
 
     public void InitPlayers(List<Player> players)
@@ -70,8 +72,6 @@ public class LevelManager : MonoBehaviour
             player.SetModePlay();
         }
 
-        foreach(Obstacle obstacle in obstacles)
-            obstacle.gameObject.SetActive(true);
 
         OnLevelStart?.Invoke();
         Debug.Log("START !!!");
@@ -93,6 +93,7 @@ public class LevelManager : MonoBehaviour
         ClearLevel();
 
         UIManager.Instance.AddScreen<WinScreen>(true);
+        UIManager.Instance.GetScreen<WinScreen>().GetComponent<WinScreen>().UpdateRanking(GetRankedPlayers());
         Banner.Instance.OnAnimationEnd -= OpenLevelEndScreen;
     }
 
@@ -121,16 +122,20 @@ public class LevelManager : MonoBehaviour
 
     private Player RespawnPlayer(Player player, bool enablePlay)
     {
+        Vector3 newPos;
+        newPos = UnityEngine.Random.onUnitSphere * settings.PlanetRadius;
+        newPos.y = Mathf.Abs(newPos.y);
+        newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
         if (enablePlay) 
             player.SetModePlay();
-        player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
+        player.SpawnOnLevel(newPos, settings);
 
 
         return player;
     }
     #endregion
 
-    public List<Player> GetRankedPlayers()
+    private List<Player> GetRankedPlayers()
     {
         int currentRank = 1;
 
@@ -154,5 +159,12 @@ public class LevelManager : MonoBehaviour
         Players.Clear();
 
         PauseScreen.OnLevelQuit -= ClearLevel;
+    }
+
+    [ContextMenu("ShowID")]
+    public void Test(){
+		for (int i = 0; i < Players.Count ; i++) {
+            Debug.Log(Players[i].playerID);
+		}
     }
 }

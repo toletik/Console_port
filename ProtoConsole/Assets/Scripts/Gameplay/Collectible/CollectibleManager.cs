@@ -4,8 +4,10 @@ using UnityEngine;
 public class CollectibleManager : MonoBehaviour
 {
     [SerializeField] static public Transform planetPos = default;
+    [SerializeField] public Transform level = default;
     [SerializeField] public Transform planetOrigin = default;
     [SerializeField] private Collectible prefabCollectible = default;
+    [SerializeField] private LevelSettings levelSettings = default;
 
     [SerializeField] private int startCollectible = 8;
     [SerializeField] private int minNbrOfCollectible = 2;
@@ -41,11 +43,11 @@ public class CollectibleManager : MonoBehaviour
       
         for (int i = 0; i < nbrCollectible; i++)
         {
-            newPos = Random.onUnitSphere * 13;
+            newPos = Random.onUnitSphere * levelSettings.PlanetRadius;
             newPos.y = Mathf.Abs(newPos.y);
             newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
 
-            Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
+            Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity,level);
             collectible.transform.rotation = Quaternion.AngleAxis(Vector3.Angle(planetOrigin.up, newPos), Vector3.Cross(planetOrigin.up - planetOrigin.position, newPos - planetOrigin.position)) * collectible.transform.rotation;
             collectibles.Add(collectible);
         }        
@@ -64,7 +66,7 @@ public class CollectibleManager : MonoBehaviour
 
     private void CreateCollectibleInTheAir(Vector3 newPos)
     {
-        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
+        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity,level) ;
 
         collectibles.Add(collectible);
 

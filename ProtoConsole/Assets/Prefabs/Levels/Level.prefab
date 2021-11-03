@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926fc46b3a8eac84a9eec71d1fe6da88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLevelDelayDuration: 0
+  startLevelDelayDuration: 3
   destroyLevelDelayDuration: 5
   startLevelBannerMessage: Let's Go!!!
   endLevelBannerMessage: Time is up!
@@ -231,8 +231,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea35a4850a184e40b24289a9ad0f871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 5366093406573543819}
   planetOrigin: {fileID: 4263315186895105374}
   prefabCollectible: {fileID: 4555949036239020911, guid: 8d75ffc844ca46043a149739ee74b92e, type: 3}
+  levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   startCollectible: 4
   minNbrOfCollectible: 2
   radiusOnDeath: 5

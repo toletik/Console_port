@@ -87,7 +87,7 @@ public class Dash : PlayerCapacity
     DirectionList directionList = new DirectionList();
 
     private Direction currentDirection = default;
-
+    private bool dashMovementFinished = true;
 
     protected override MeshRenderer SaveRenderer(MeshRenderer renderer)
     {
@@ -117,10 +117,24 @@ public class Dash : PlayerCapacity
         player.StartCapacity(Type);
 
         currentAction = player.StartCoroutine(ExecuteDash(directionList[currentDirection].directionVector));
+        player.OnDeath += Player_OnDeath;
 
         SetUsedColorOnRenderer(directionList[currentDirection].renderer);
 
         return true;
+    }
+
+    private void Player_OnDeath(Player player, int possessedCollectibles = 0)
+    {
+        player.OnDeath -= Player_OnDeath;
+
+        if (!dashMovementFinished)
+        { 
+            player.StopCoroutine(currentAction);
+
+            EndCapacity();
+            currentAction = null;
+        }
     }
 
     /// <param name="directionIndex"> -90 = right, 0 = up, 90 = left, 180 = down </param>
@@ -140,6 +154,7 @@ public class Dash : PlayerCapacity
     }
     private IEnumerator ExecuteDash(Vector2 direction)
     {
+        dashMovementFinished = false;
 
         for (float elapsedTime = 0f; elapsedTime <= dashDuration; elapsedTime += Time.deltaTime)
         {
@@ -167,6 +182,7 @@ public class Dash : PlayerCapacity
 
         yield return StartUpdateColor(feedbackRenderers);
 
+        player.OnDeath -= Player_OnDeath;
         currentAction = null;
     }
 
@@ -174,6 +190,8 @@ public class Dash : PlayerCapacity
     {
         player.MovementControlCoef = 1;
         player.EndCapacity(Type);
+
+        dashMovementFinished = true;
     }
 
     public override void ResetCapacity()

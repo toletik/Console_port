@@ -111,12 +111,12 @@ public class PlayerInfo : MonoBehaviour
         }
     }
 
-    public void setAsBestPlayer()
+    public void SetAsBestPlayer()
     {
         multicolorText.enabled = true;
         Debug.Log("oui");
     }
-    public void removeBestPlayer()
+    public void RemoveBestPlayer()
     {
         multicolorText.enabled = false;
     }

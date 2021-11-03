@@ -102,7 +102,17 @@ public class PlayerManager : MonoBehaviour
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
 
+        currentLevelManager.OnLevelEnd += CurrentLevelManager_OnLevelEnd;
+
         VibrationManager.GetSingleton().InitJoycons();
+    }
+
+    private void CurrentLevelManager_OnLevelEnd()
+    {
+        for (int i = 0; i < playersInputs.Count; i++)
+        {
+            playersInputs[i].GetComponent<Player>().OnScoreUpdated -= PlayerManagerScoreHandle;
+        }
     }
 
     #region Score
@@ -119,14 +129,12 @@ public class PlayerManager : MonoBehaviour
 
                 //Add BestPlayer and there can be only one BestPlayer
                 AddBestPlayer((score > bestScore) ? player : null);
-
-                HUD.UpdateBestPlayer();
             }
             
             bestScore = score;
         }
         //if lost score, we need to check if someone become BestPlayer
-        else if (player == bestPlayer)
+        else
         {
             //Remove BestPlayer
             RemoveBestPlayer();
@@ -147,6 +155,8 @@ public class PlayerManager : MonoBehaviour
             AddBestPlayer(tempBestPlayer);
             bestScore = tempBestScore;
         }
+
+        HUD.UpdateBestPlayer();
     }
     private void RemoveBestPlayer()
     {
@@ -198,6 +208,10 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        CurrentLevelManager_OnLevelEnd();
+
+        playersInputs.Clear();
+
         playerInputManager.onPlayerJoined -= PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft -= PlayerInputManager_OnPlayerLeft;
     }
