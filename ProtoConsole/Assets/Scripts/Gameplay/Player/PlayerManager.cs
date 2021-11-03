@@ -47,6 +47,8 @@ public class PlayerManager : MonoBehaviour
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
 
         InitializeNPad();
+
+        VibrationManager.MakeNewSingleton();
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -102,7 +104,7 @@ public class PlayerManager : MonoBehaviour
 
         currentLevelManager.OnLevelEnd += CurrentLevelManager_OnLevelEnd;
 
-        VibrationManager.MakeNewSingleton();
+        VibrationManager.GetSingleton().InitJoycons();
     }
 
     private void CurrentLevelManager_OnLevelEnd()

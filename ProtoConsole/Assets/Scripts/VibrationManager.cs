@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using nn.hid;
 
-public class VibrationManager 
+public sealed class VibrationManager 
 {
-    //static VibrationManager instance;
-    //public static VibrationManager Instance { get { return instance == null ? (instance = new VibrationManager()) : instance; } }
+    public bool enableVibrations = true;
 
-    //Vibration
-    int vibrationDeviceCount = 0;
-    int vibrationDeviceCount2 = 0;
-    const int VibrationDeviceCountMax = 8;
-    //VibrationDeviceHandle[] vibrationDevices = new VibrationDeviceHandle[VibrationDeviceCountMax];
     List<VibrationDeviceHandle> vibrationDevices = new List<VibrationDeviceHandle>();
     VibrationDeviceInfo info;
 
     private static VibrationManager instance = null;
     public static void MakeNewSingleton()
     {
-        instance = new VibrationManager();
+        if (instance == null)
+        {
+            instance = new VibrationManager();
+        }
     }
     public static VibrationManager GetSingleton()
     {
         return instance;
     }
 
-    private VibrationManager()
+    private VibrationManager() { }
+
+    public void InitJoycons()
     {
         // Npads should be initialized when this function is executed.
         NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
@@ -56,6 +55,9 @@ public class VibrationManager
 
     void VibrateForAllDuring1Frame(VibrationValue vibration)
     {
+        if (!enableVibrations) 
+            return;
+
         // Set the left vibration device to vibrate at an amplitude of 0.5 and a frequency of 160 Hz.
         for (int i = 0; i < vibrationDevices.Count; i++)
         {
@@ -69,7 +71,7 @@ public class VibrationManager
 
     void VibrateForOneDuring1Frame(VibrationValue vibration, int vibrationDeviceID)
     {
-        if (vibrationDeviceID < 0)
+        if ((!enableVibrations) || vibrationDeviceID < 0)
             return;
 
         Vibration.SendValue(vibrationDevices[vibrationDeviceID], vibration);
