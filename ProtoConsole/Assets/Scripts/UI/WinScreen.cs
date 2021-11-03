@@ -9,8 +9,11 @@ public class WinScreen : UIScreen
 
 	public void UpdateRanking(List<Player> playerList)
 	{
-		/*for (int i = RankContainerList.count; i > length-1; i--) {
+		for (int i = RankContainerList.Count-1; i > playerList.Count-1; i--) {
 			RankContainerList[i].Disable();
-		}*/
+		}
+		for (int j = 0; j < playerList.Count; j++) {
+			RankContainerList[j].ChangeRankInformation(playerList[j].Score.ToString(),(j+1).ToString(), playertag.GetColorAtIndex(j));
+		}
 	}
 }
