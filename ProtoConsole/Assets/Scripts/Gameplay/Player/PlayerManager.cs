@@ -182,7 +182,7 @@ public class PlayerManager : MonoBehaviour
             "NPad6" => 5,
             "NPad7" => 6,
             "NPad8" => 7,
-            _ => 0
+            _ => -1 // On keyboard, disables vibrations
         };
     }
 
