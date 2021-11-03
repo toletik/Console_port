@@ -7,6 +7,7 @@ public class CollectibleManager : MonoBehaviour
     [SerializeField] public Transform level = default;
     [SerializeField] public Transform planetOrigin = default;
     [SerializeField] private Collectible prefabCollectible = default;
+    [SerializeField] private LevelSettings levelSettings = default;
 
     [SerializeField] private int startCollectible = 8;
     [SerializeField] private int minNbrOfCollectible = 2;
@@ -42,7 +43,7 @@ public class CollectibleManager : MonoBehaviour
       
         for (int i = 0; i < nbrCollectible; i++)
         {
-            newPos = Random.onUnitSphere * 13;
+            newPos = Random.onUnitSphere * levelSettings.PlanetRadius;
             newPos.y = Mathf.Abs(newPos.y);
             newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
 

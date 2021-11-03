@@ -117,9 +117,13 @@ public class LevelManager : MonoBehaviour
 
     private Player RespawnPlayer(Player player, bool enablePlay)
     {
+        Vector3 newPos;
+        newPos = UnityEngine.Random.onUnitSphere * settings.PlanetRadius;
+        newPos.y = Mathf.Abs(newPos.y);
+        newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
         if (enablePlay) 
             player.SetModePlay();
-        player.SpawnOnLevel(new Vector3(0, settings.PlanetRadius, 0), settings);
+        player.SpawnOnLevel(newPos, settings);
 
 
         return player;
