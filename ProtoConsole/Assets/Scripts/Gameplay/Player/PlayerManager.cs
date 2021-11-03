@@ -129,8 +129,6 @@ public class PlayerManager : MonoBehaviour
 
                 //Add BestPlayer and there can be only one BestPlayer
                 AddBestPlayer((score > bestScore) ? player : null);
-
-                HUD.UpdateBestPlayer();
             }
             
             bestScore = score;
@@ -157,6 +155,8 @@ public class PlayerManager : MonoBehaviour
             AddBestPlayer(tempBestPlayer);
             bestScore = tempBestScore;
         }
+
+        HUD.UpdateBestPlayer();
     }
     private void RemoveBestPlayer()
     {
