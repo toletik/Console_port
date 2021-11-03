@@ -13,7 +13,6 @@ public class PauseScreen : UIScreen
     public void ClickOnPlayButton()
     {
         //GameManager play
-        OnLevelQuit?.Invoke();
         UIManager.Instance.CloseScreen<PauseScreen>();
     }
 
@@ -21,6 +20,7 @@ public class PauseScreen : UIScreen
     {
         //Close the Game Or return To Menu and Wipe data
 
+        OnLevelQuit?.Invoke();
         UIManager.Instance.AddScreen<ConnexionScreen>(true);
     }
     protected override void Desactivate()
