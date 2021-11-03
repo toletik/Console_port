@@ -122,6 +122,22 @@ public class LevelManager : MonoBehaviour
     }
     #endregion
 
+    public List<Player> GetRankedPlayers()
+    {
+        int currentRank = 1;
+
+        Players.Sort((a, b) => { return a.Score < b.Score ? 1 : -1; });
+        Players[0].SetRank(currentRank);
+
+        for (int i = 1; i < Players.Count; i++)
+        {
+            Players[i].SetRank(Players[i].Score == Players[i - 1].Score ? currentRank : currentRank + 1);
+            currentRank++;
+        }
+
+        return Players;
+    }
+
     private void OnDestroy()
     {
         foreach(Player currentPlayer in Players)

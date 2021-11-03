@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-
     #region Variables
     private const string MATERIAL_EMISSIVE_KEYWORD = "_EMISSION";
     private const string MATERIAL_EMISSIVE_COLOR = "_EmissionColor";
@@ -99,7 +98,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    private ScoreDetails scoreDetails;
+    public ScoreDetails ScoreDetails => scoreDetails;
+    private ScoreDetails scoreDetails = default;
+
+    public void SetRank(int rank) => scoreDetails.rank = rank;
 
     private Player collidedPlayer = null;
 
@@ -139,7 +141,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Functions
-
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -159,7 +160,6 @@ public class Player : MonoBehaviour
     {
         doAction.Invoke();
     }
-
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
     {
@@ -444,7 +444,7 @@ public class Player : MonoBehaviour
         if (resetScore) 
         {
             Score = initialScore;
-            scoreDetails = new ScoreDetails() { score = Score, numberOfKills = 0, allDeaths = new List<DeathType>() };
+            scoreDetails = new ScoreDetails() { score = Score, numberOfKills = 0, allDeaths = new List<DeathType>(), rank = 1 };
         }
 
         gameObject.layer = defaultGameLayerForPlayer;
