@@ -8,6 +8,9 @@ public class LevelManager : MonoBehaviour
 {
     public static event Action<LevelManager> OnLevelSpawn;
     public static event Action<LevelManager> OnLevelDestroy;
+    public event Action OnLevelStart;
+    public event Action OnLevelEnd;
+
 
     [SerializeField] private int startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
@@ -27,10 +30,11 @@ public class LevelManager : MonoBehaviour
     public float TimeRemainingInSeconds => levelEndTime - Time.time;
     private float levelEndTime = 0;
 
-    private int levelDuration = 0;
+    public  int LevelDuration { get; private set; } = 0;
 
     private void Awake()
     {
+        LevelDuration = settings.LevelDuration;
         OnLevelSpawn?.Invoke(this);
         PauseScreen.OnLevelQuit += ClearLevel;
     }
@@ -53,12 +57,11 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel()
     {
-        levelDuration = settings.LevelDuration;
-        levelEndTime = Time.time + levelDuration;
+        levelEndTime = Time.time + LevelDuration;
 
         planetPartsRotation.InitLevelValues(settings.GravityCenter);
 
-        Invoke("EndGame", levelDuration);
+        Invoke("EndGame", LevelDuration);
 
         foreach(Player player in Players)
             player.SetModePlay();
@@ -66,6 +69,7 @@ public class LevelManager : MonoBehaviour
         foreach(Obstacle obstacle in obstacles)
             obstacle.gameObject.SetActive(true);
 
+        OnLevelStart?.Invoke();
         Debug.Log("START !!!");
     }
 

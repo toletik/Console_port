@@ -79,7 +79,8 @@ public class PlayerManager : MonoBehaviour
         Player player = default;
         PlayerTag playerTag;
 
-        hud.gameObject.SetActive(true);
+      
+             
         UIManager.Instance.CloseScreen<ConnexionScreen>();
 
         for (int i = 0; i < playersInputs.Count; i++)
