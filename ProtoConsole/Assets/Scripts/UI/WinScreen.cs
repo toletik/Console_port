@@ -16,4 +16,14 @@ public class WinScreen : UIScreen
 			RankContainerList[j].ChangeRankInformation(playerList[j].Score.ToString(),(j+1).ToString(), playertag.GetColorAtIndex(j));
 		}
 	}
+
+	public void Replay()
+	{
+		UIManager.Instance.AddScreen<LevelSelectionScreen>(true);
+	}
+
+	public void ReturnToMenu()
+	{
+		UIManager.Instance.AddScreen<TitleCard>(true);
+	}
 }

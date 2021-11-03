@@ -57,4 +57,9 @@ public class ConnexionScreen : UIScreen
     {
         ClearEvents();
     }
+
+    public void Return()
+    {
+        UIManager.Instance.AddScreen<TitleCard>(true);
+    }
 }

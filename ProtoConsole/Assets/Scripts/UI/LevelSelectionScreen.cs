@@ -22,7 +22,6 @@ public class LevelSelectionScreen : UIScreen
     
     public void Return()
     {
-        UIManager.Instance.AddScreen<ConnexionScreen>();
-        UIManager.Instance.CloseScreen<LevelSelectionScreen>();
+        UIManager.Instance.AddScreen<ConnexionScreen>(true);
     }
 }
