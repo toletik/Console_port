@@ -47,6 +47,8 @@ public class PlayerManager : MonoBehaviour
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
 
         InitializeNPad();
+
+        VibrationManager.MakeNewSingleton();
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -100,7 +102,7 @@ public class PlayerManager : MonoBehaviour
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
 
-        VibrationManager.MakeNewSingleton();
+        VibrationManager.GetSingleton().InitJoycons();
     }
 
     #region Score
