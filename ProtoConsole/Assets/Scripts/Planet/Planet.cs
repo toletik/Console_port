@@ -86,6 +86,7 @@ public class Planet : MonoBehaviour
         if(cutLeft > 0 && timer >= 1)
         {
             List<Transform> arrayOfGameObject = sphereEntityUncuted;
+            Transform child;
 
             timer   = 0;
             cutLeft -= 1;
@@ -97,7 +98,8 @@ public class Planet : MonoBehaviour
             {
 				for (int j = 0; j < arrayOfGameObject[i].childCount; j++)
                 {
-                    sphereEntityUncuted.Add(arrayOfGameObject[i].GetChild(j));
+                    child = arrayOfGameObject[i].GetChild(j);
+                    if (child.CompareTag("Sphere")) sphereEntityUncuted.Add(child);
                     
 				}
 			}
