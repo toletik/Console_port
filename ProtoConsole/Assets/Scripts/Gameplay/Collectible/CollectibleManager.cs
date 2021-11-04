@@ -35,9 +35,8 @@ public class CollectibleManager : MonoBehaviour
 
     private void CheckCollectibles()
     {
-        int currentCollectible = collectibles.Count;
-
-        if(currentCollectible <= minNbrOfCollectible) SpawnCollectibleRandomlyOnSphere(1);
+        if (collectibles.Count <= minNbrOfCollectible) 
+            SpawnCollectibleRandomlyOnSphere(1);
     }
 
     private void SpawnCollectibleRandomlyOnSphere(int nbrCollectible)
