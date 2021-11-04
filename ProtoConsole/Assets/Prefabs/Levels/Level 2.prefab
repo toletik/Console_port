@@ -210,7 +210,7 @@ MonoBehaviour:
   startLevelDelayDuration: 1.5
   startLevelBannerMessage: Let's Go!!!
   endLevelBannerMessage: Time is up!
-  settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
+  settings: {fileID: 11400000, guid: 46b973a95d9bcee48b1cd3f3a816c40c, type: 2}
   planetPartsRotation: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   obstacles:
   - {fileID: 5266986892180950230}
@@ -542,7 +542,7 @@ PrefabInstance:
     - target: {fileID: 1282640825361352108, guid: f6937a6d2e3ff5e48b0f2e0fecaa1409, type: 3}
       propertyPath: cameraTest
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5366093406225714321}
     - target: {fileID: 3447294464166129594, guid: f6937a6d2e3ff5e48b0f2e0fecaa1409, type: 3}
       propertyPath: m_RootOrder
       value: 2
