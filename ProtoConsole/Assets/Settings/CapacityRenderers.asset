@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e80ace772b5d224a858566ec772853a, type: 3}
+  m_Name: CapacityRenderers
+  m_EditorClassIdentifier: 
+  capacityConePrefab: {fileID: 7826172552243549741, guid: ab3a70d5c0480024bb93a27fa713e228, type: 3}
+  colorFeedbackForCooldown:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9042499
+      value: 0.84425694
+      inSlope: -0.005897558
+      outSlope: -0.005897558
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.7241988
+    - serializedVersion: 3
+      time: 0.9987793
+      value: 1
+      inSlope: 4.369429
+      outSlope: 4.369429
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.23299494
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashMaterial: {fileID: 2100000, guid: be7ebfcffea868142a0aaf9b33e4a6df, type: 2}
+  jumpMaterial: {fileID: 2100000, guid: f71add941fb1d074fa9b5c41090e009c, type: 2}
+  digMaterial: {fileID: 2100000, guid: 61fc2fe9716cd1f428ca1b73e041668f, type: 2}
+  noneMaterial: {fileID: 2100000, guid: 97a9c0a5e145ef74fa55c2dcb4c22a98, type: 2}
+  dashMaterialUsed: {r: 1, g: 1, b: 1, a: 1}
+  jumpMaterialUsed: {r: 1, g: 1, b: 1, a: 1}
+  digMaterialUsed: {r: 1, g: 1, b: 1, a: 1}
