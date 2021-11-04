@@ -69,7 +69,8 @@ public abstract class PlayerCapacity : MonoBehaviour
 
             for (int i = 0; i < renderers.Count; i++)
             {
-                renderers[i].material.color = color;
+                if (renderers[i] != null)
+                    renderers[i].material.color = color;
             }
 
             yield return null;

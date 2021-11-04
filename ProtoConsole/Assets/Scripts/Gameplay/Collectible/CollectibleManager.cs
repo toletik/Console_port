@@ -29,7 +29,9 @@ public class CollectibleManager : MonoBehaviour
 
     private void Collectible_OnCollect(Collectible collectible)
     {
-        collectibles.RemoveAt(collectibles.IndexOf(collectible));
+        if (collectibles.Contains(collectible))
+            collectibles.Remove(collectible);
+
         CheckCollectibles();
     }
 
