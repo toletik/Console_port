@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 2440751189421998608}
   m_Layer: 6
   m_Name: Half2
-  m_TagString: Untagged
+  m_TagString: Sphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 5228451281131968998}
   m_Layer: 6
   m_Name: Half1
-  m_TagString: Untagged
+  m_TagString: Sphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
