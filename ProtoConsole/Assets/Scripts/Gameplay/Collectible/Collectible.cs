@@ -6,6 +6,8 @@ public class Collectible : MonoBehaviour
 {
     [SerializeField] private Animator animator = default;
     [SerializeField] private float lerpDuration = 4;
+    [Space(8)]
+    [SerializeField] private float fullPlayerEjectionForce = 0.3f;
 
     public delegate void CollectibleEventHandler(Collectible collectible);
     static public event CollectibleEventHandler OnCollect;
@@ -33,9 +35,12 @@ public class Collectible : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            player.CollectCapacityToAssign();
-            OnCollect?.Invoke(this);
-            Destroy(gameObject);
+            if (player.CollectCapacityToAssign())
+            {
+                OnCollect?.Invoke(this);
+                Destroy(gameObject);
+            }
+            else player.Eject(player.transform.position - transform.position, fullPlayerEjectionForce);
         }
         else 
             Debug.LogWarning("Invalid recuperation");
