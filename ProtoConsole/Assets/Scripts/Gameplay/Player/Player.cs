@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
 
     private void DoActionMove()
     {
-        if (IsOnPlanet() || IsUsingCapacity(Capacity.JUMP) || IsUsingCapacity(Capacity.DASH))
+        if (IsOnPlanet() || currentCapacityUsed == Capacity.JUMP || currentCapacityUsed == Capacity.DASH || currentCapacityUsed ==  Capacity.DASH_AND_JUMP)
         {
             currentGravityCenter = GetClosestGravityCenter();
 

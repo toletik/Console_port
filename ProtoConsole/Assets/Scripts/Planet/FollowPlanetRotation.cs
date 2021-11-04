@@ -28,6 +28,11 @@ public class FollowPlanetRotation : MonoBehaviour
         StartCoroutine(PauseFollowPlanetForFrame());
     }
 
+    private void Update()
+    {
+        Debug.Log("nb parts on : " + planetPartsOn.ToString());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("<-- ENTER : " + other.name);        
@@ -46,6 +51,10 @@ public class FollowPlanetRotation : MonoBehaviour
         if (other.transform == onPlanetPart)
         {
             onPlanetPart = null;
+        }
+
+        if (other.CompareTag(groundTag))
+        {
             planetPartsOn -= 1;
         }
     }
