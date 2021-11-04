@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPlanetRotation : MonoBehaviour
@@ -7,38 +8,25 @@ public class FollowPlanetRotation : MonoBehaviour
     [SerializeField] private RotationForPlanetPart rotationInfos = default;
     [SerializeField] private string groundTag = "Sphere";
 
-    private Transform onPlanetPart = default;
-    private Coroutine followCoroutineCurrentlyRunning = null;
+    private List<Transform> overlapingPlanetParts = new List<Transform>();
 
+    private Coroutine followCoroutineCurrentlyRunning = null;
     private bool modeFollow = false;
 
-    private void Awake()
-    {
-        Planet.OnResetRotation += Sphere_OnResetRotation;
-    }
-
-    private void Sphere_OnResetRotation()
-    {
-        StartCoroutine(PauseFollowPlanetForFrame());
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("<-- ENTER : " + other.name);        
-
-        if (other.CompareTag(groundTag))
+        if (other.CompareTag(groundTag) && !overlapingPlanetParts.Contains(other.transform))
         {
-            onPlanetPart = other.transform;
+            overlapingPlanetParts.Add(other.transform);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(" --> EXIT : " + other.name);
-
-        if (other.transform == onPlanetPart)
+        if (overlapingPlanetParts.Contains(other.transform))
         {
-            onPlanetPart = null;
+            overlapingPlanetParts.Remove(other.transform);
         }
     }
 
@@ -59,30 +47,16 @@ public class FollowPlanetRotation : MonoBehaviour
         }
     }
 
-    private IEnumerator PauseFollowPlanetForFrame()
-    {
-        StopFollowingPlanet();
-        yield return null;
-
-        StartToFollowPlanet();
-        yield break;
-    }
-
     private IEnumerator FollowPlanet()
     {
         while(modeFollow)
         {
-            if (onPlanetPart) 
-                objectToManage.position = rotationInfos.GetOrbitalPositionRotatedWithPlanet(onPlanetPart, objectToManage.position);
+            if (overlapingPlanetParts.Count > 0) 
+                objectToManage.position = rotationInfos.GetOrbitalPositionRotatedWithPlanet(overlapingPlanetParts[overlapingPlanetParts.Count - 1], objectToManage.position);
             
             yield return null;
         }
 
         yield break;
-    }
-
-    private void OnDestroy()
-    {
-        Planet.OnResetRotation -= Sphere_OnResetRotation;
     }
 }

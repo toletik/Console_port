@@ -12,10 +12,14 @@ public class MulticolorText : MonoBehaviour
     private new TextMeshProUGUI renderer = default;
     private float progression;
 
+    private Color defaultColor = default;
+    
     private void Awake()
     {
         progression = Random.value;
         renderer = GetComponent<TextMeshProUGUI>();
+
+        defaultColor = renderer.color;
     }
 
     void Update()
@@ -24,5 +28,10 @@ public class MulticolorText : MonoBehaviour
         if (progression > 1) progression -= 1;
 
         renderer.color = colors.Evaluate(progression);
+    }
+
+    private void OnDisable()
+    {
+        renderer.color = defaultColor;
     }
 }

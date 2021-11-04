@@ -4,12 +4,17 @@ using UnityEngine;
 public class CollectibleManager : MonoBehaviour
 {
     [SerializeField] static public Transform planetPos = default;
+    [SerializeField] public Transform level = default;
     [SerializeField] public Transform planetOrigin = default;
     [SerializeField] private Collectible prefabCollectible = default;
+    [SerializeField] private LevelSettings levelSettings = default;
 
+    [Header("Collectible Spawn")]
     [SerializeField] private int startCollectible = 8;
     [SerializeField] private int minNbrOfCollectible = 2;
-
+    [SerializeField] private float collectibleSpawnZoneAngle = 50;
+    [SerializeField] private float collectibleMinSpawnZoneAngle = 20;
+    [SerializeField] private float collectibleSpawnPositionDelta = 1.5f;
     [SerializeField] private float radiusOnDeath = 5;
 
     static public List<Collectible> collectibles = new List<Collectible>();
@@ -37,16 +42,15 @@ public class CollectibleManager : MonoBehaviour
 
     private void SpawnCollectibleRandomlyOnSphere(int nbrCollectible)
     {
+        List<Vector3> randomPositions = RandomPositionOnPlanetZone.GeneratePositions((uint)nbrCollectible, -Camera.main.transform.forward, levelSettings.GravityCenter, levelSettings.PlanetRadius, collectibleSpawnZoneAngle, collectibleMinSpawnZoneAngle, collectibleSpawnPositionDelta);
         Vector3 newPos;
-      
+
         for (int i = 0; i < nbrCollectible; i++)
         {
-            newPos = Random.onUnitSphere * 13;
-            newPos.y = Mathf.Abs(newPos.y);
-            newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
+            newPos = randomPositions[i];
 
-            Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
-            collectible.transform.rotation = Quaternion.AngleAxis(Vector3.Angle(planetOrigin.up, newPos), Vector3.Cross(planetOrigin.up - planetOrigin.position, newPos - planetOrigin.position)) * collectible.transform.rotation;
+            Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity,level);
+            collectible.transform.rotation = Quaternion.AngleAxis(Vector3.Angle(planetOrigin.up, newPos - levelSettings.GravityCenter), Vector3.Cross(planetOrigin.up - planetOrigin.position, newPos - planetOrigin.position)) * collectible.transform.rotation;
             collectibles.Add(collectible);
         }        
     }
@@ -64,7 +68,7 @@ public class CollectibleManager : MonoBehaviour
 
     private void CreateCollectibleInTheAir(Vector3 newPos)
     {
-        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity);
+        Collectible collectible = Instantiate(prefabCollectible, newPos, Quaternion.identity,level) ;
 
         collectibles.Add(collectible);
 

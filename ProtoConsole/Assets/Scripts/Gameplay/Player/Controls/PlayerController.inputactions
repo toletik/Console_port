@@ -92,22 +92,11 @@
                 },
                 {
                     "name": "",
-                    "id": "7a1c6934-c756-4068-8321-5a70c06a48a7",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "344773d8-4a25-4b65-89af-33e4e78d48e5",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e0cbcec-3a00-4bf3-af54-1606753e94f0",
-                    "path": "<NPad>/rightSR",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon;Joycon_L",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -180,28 +169,6 @@
                 },
                 {
                     "name": "",
-                    "id": "62aef06d-c383-4547-9939-955a09366041",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dcefde4d-15dd-498b-b68d-7f9c4b150f64",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c1722d56-e581-4562-ad51-d1ee3df85f7e",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
@@ -224,28 +191,6 @@
                 },
                 {
                     "name": "",
-                    "id": "9bf7f449-9753-418d-b5c9-b0325da2c5ce",
-                    "path": "<NPad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "Dash_Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b4a0e828-2808-45c1-9c7d-2faef6ff7812",
-                    "path": "<NPad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
-                    "action": "Dash_Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8a1dc05f-4e53-4355-bfef-75f09f5864b5",
                     "path": "<Keyboard>/numpad0",
                     "interactions": "",
@@ -257,22 +202,11 @@
                 },
                 {
                     "name": "",
-                    "id": "766f9877-b2d7-4121-a1d9-38b5f54393cb",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "2b757cdb-984d-4094-b984-583ee4348fce",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Dig",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dc365113-4f72-4154-936f-88d1e6812db8",
-                    "path": "<NPad>/rightSL",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon;Joycon_L",
                     "action": "Dig",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -301,28 +235,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a3592ae7-45ae-4008-b61c-8f7bd7274fb2",
-                    "path": "<NPad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "Dash_Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a57d2c82-bd76-44f0-9c3a-0fbe89f5038c",
-                    "path": "<NPad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
-                    "action": "Dash_Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7229026b-21c1-4dc4-b936-cfb323db2e8d",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
@@ -339,28 +251,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Dash_Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "96492973-1098-4f81-9a52-675d0a5000a4",
-                    "path": "<NPad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "Dash_Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f2afb8ef-f9c1-4c96-88ea-a1c56b9e3e84",
-                    "path": "<NPad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
                     "action": "Dash_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -389,28 +279,6 @@
                 },
                 {
                     "name": "",
-                    "id": "97e33dbd-230c-4dcf-90ad-0bf158e80180",
-                    "path": "<NPad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "Dash_Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c07da8a5-b7f4-4056-b05a-d32b94b40827",
-                    "path": "<NPad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
-                    "action": "Dash_Down",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e9798e8a-6642-4db5-94aa-d65ba6e66e0c",
                     "path": "<Keyboard>/p",
                     "interactions": "",
@@ -433,28 +301,6 @@
                 },
                 {
                     "name": "",
-                    "id": "25fdae48-2e12-4b44-a913-789390488910",
-                    "path": "<NPad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "PauseGame",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ba2b4908-4470-4594-8018-59c5db57b60a",
-                    "path": "<NPad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
-                    "action": "PauseGame",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b15bca08-fbfc-4ce8-b65a-4fb34e489681",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -466,33 +312,11 @@
                 },
                 {
                     "name": "",
-                    "id": "130ad1b4-4084-499f-bee8-eb0d851cad53",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "65875de4-6e6f-44f7-b9ae-14255a426e95",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "AssignationMode",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d661a72f-9f58-43ba-9cc1-d66b52be6b6a",
-                    "path": "<NPad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon",
-                    "action": "AssignationMode",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c9f53e9d-6233-41e8-b5af-cb6913e40f4f",
-                    "path": "<NPad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joycon_L",
                     "action": "AssignationMode",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -522,16 +346,6 @@
                     "isOR": false
                 }
             ]
-        },
-        {
-            "name": "Joycon",
-            "bindingGroup": "Joycon",
-            "devices": []
-        },
-        {
-            "name": "Joycon_L",
-            "bindingGroup": "Joycon_L",
-            "devices": []
         }
     ]
 }

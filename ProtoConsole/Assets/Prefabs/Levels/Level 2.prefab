@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killZone: {fileID: 5510219627510011977}
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
+  moveToPlayerDuration: 3
+  timeScaleOnStagger: 0.05
 --- !u!1 &5366093406573543820
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,8 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926fc46b3a8eac84a9eec71d1fe6da88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLevelDelayDuration: 0
+  startLevelDelayDuration: 1.5
   destroyLevelDelayDuration: 5
+  startLevelBannerMessage: Let's Go!!!
+  endLevelBannerMessage: Time is up!
   settings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
   planetPartsRotation: {fileID: 11400000, guid: 799e90a0f0fae134583835dfec9546e3, type: 2}
   obstacles:
@@ -224,8 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea35a4850a184e40b24289a9ad0f871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetOrigin: {fileID: 0}
+  level: {fileID: 5366093406573543819}
+  planetOrigin: {fileID: 6392884153950441434}
   prefabCollectible: {fileID: 4555949036239020911, guid: 8d75ffc844ca46043a149739ee74b92e, type: 3}
+  levelSettings: {fileID: 11400000, guid: 237b4500e98a4bb4d958b73bae3a5e37, type: 2}
   startCollectible: 4
   minNbrOfCollectible: 2
   radiusOnDeath: 2

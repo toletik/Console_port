@@ -47,6 +47,8 @@ public class PlayerManager : MonoBehaviour
         playerInputManager.onPlayerLeft += PlayerInputManager_OnPlayerLeft;
 
         InitializeNPad();
+
+        VibrationManager.MakeNewSingleton();
     }
 
     public void EnablePlayerConnexion(bool enable = true)
@@ -100,7 +102,17 @@ public class PlayerManager : MonoBehaviour
         bestScore = (player != null)? player.InitialScore : 0;
         currentLevelManager.InitPlayers(players);
 
-        VibrationManager.MakeNewSingleton();
+        currentLevelManager.OnLevelEnd += CurrentLevelManager_OnLevelEnd;
+
+        VibrationManager.GetSingleton().InitJoycons();
+    }
+
+    private void CurrentLevelManager_OnLevelEnd()
+    {
+        for (int i = 0; i < playersInputs.Count; i++)
+        {
+            playersInputs[i].GetComponent<Player>().OnScoreUpdated -= PlayerManagerScoreHandle;
+        }
     }
 
     #region Score
@@ -117,14 +129,12 @@ public class PlayerManager : MonoBehaviour
 
                 //Add BestPlayer and there can be only one BestPlayer
                 AddBestPlayer((score > bestScore) ? player : null);
-
-                HUD.UpdateBestPlayer();
             }
             
             bestScore = score;
         }
         //if lost score, we need to check if someone become BestPlayer
-        else if (player == bestPlayer)
+        else
         {
             //Remove BestPlayer
             RemoveBestPlayer();
@@ -145,6 +155,8 @@ public class PlayerManager : MonoBehaviour
             AddBestPlayer(tempBestPlayer);
             bestScore = tempBestScore;
         }
+
+        HUD.UpdateBestPlayer();
     }
     private void RemoveBestPlayer()
     {
@@ -169,6 +181,15 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    public void SetupAllNPads()
+    {
+        //InputDevice d;
+        //d.
+        //playerInputManager.JoinPlayer(i, -1, null, d);
+        //public PlayerInput JoinPlayer(int playerIndex = -1, int splitScreenIndex = -1, string controlScheme = null, InputDevice pairWithDevice = null);
+
+    }
+
     int GetPlayerID(PlayerInput playerInput)
     {
         return playerInput.devices[0].name switch
@@ -181,12 +202,16 @@ public class PlayerManager : MonoBehaviour
             "NPad6" => 5,
             "NPad7" => 6,
             "NPad8" => 7,
-            _ => 0
+            _ => -1 // On keyboard, disables vibrations
         };
     }
 
     private void OnDestroy()
     {
+        CurrentLevelManager_OnLevelEnd();
+
+        playersInputs.Clear();
+
         playerInputManager.onPlayerJoined -= PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft -= PlayerInputManager_OnPlayerLeft;
     }

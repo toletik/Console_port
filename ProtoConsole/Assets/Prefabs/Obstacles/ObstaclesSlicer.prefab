@@ -181,8 +181,9 @@ GameObject:
   - component: {fileID: 2369804488728943313}
   - component: {fileID: 2369804488728943316}
   - component: {fileID: 2369804488728943319}
-  - component: {fileID: 2369804488728943318}
   - component: {fileID: 7687298402436439177}
+  - component: {fileID: 5084508343924247478}
+  - component: {fileID: 871807491929101572}
   m_Layer: 10
   m_Name: Plane (1)
   m_TagString: Untagged
@@ -253,20 +254,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2369804488728943318
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2369804488728943312}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &7687298402436439177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,3 +267,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sphereTag: Sphere
+--- !u!114 &5084508343924247478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369804488728943312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93cea99c016e3d64ca08405df0f279b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTest: {fileID: 0}
+--- !u!65 &871807491929101572
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369804488728943312}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.000002, y: 1, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
