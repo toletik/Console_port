@@ -81,13 +81,12 @@ public class Planet : MonoBehaviour
 
 	public void CutTheSphere()
     {
-
-        List<Transform> arrayOfGameObject = sphereEntityUncuted;
-
         Debug.LogWarning("CUT");
 
         if(cutLeft > 0 && timer >= 1)
         {
+            List<Transform> arrayOfGameObject = sphereEntityUncuted;
+
             timer   = 0;
             cutLeft -= 1;
             ResetRotation();
@@ -143,12 +142,9 @@ public class Planet : MonoBehaviour
 
         float direction = 1;
         float length = sphereEntityUncuted.Count;
-        float timer = 0;
 
-		while (timer < 1)
+		for (float timer = 0f; timer < 1f; timer += Time.deltaTime / timeScaleSpacing)
         {
-            timer += Time.deltaTime/timeScaleSpacing;
-
             for (int i = 0; i < length; i++) 
             {
                 direction = (i >= length/2)? 1 : -1;

@@ -108,13 +108,7 @@ public class PlayerManager : MonoBehaviour
         VibrationManager.GetSingleton().InitJoycons();
     }
 
-    private void CurrentLevelManager_OnLevelEnd()
-    {
-        for (int i = 0; i < playersInputs.Count; i++)
-        {
-            playersInputs[i].GetComponent<Player>().OnScoreUpdated -= PlayerManagerScoreHandle;
-        }
-    }
+
 
     #region Score
     private void PlayerManagerScoreHandle(Player player, int score = 0)
@@ -213,11 +207,18 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        CurrentLevelManager_OnLevelEnd();
+        //CurrentLevelManager_OnLevelEnd();
 
         playersInputs.Clear();
 
         playerInputManager.onPlayerJoined -= PlayerInputManager_OnPlayerJoined;
         playerInputManager.onPlayerLeft -= PlayerInputManager_OnPlayerLeft;
+    }
+    private void CurrentLevelManager_OnLevelEnd()
+    {
+        for (int i = 0; i < playersInputs.Count; i++)
+        {
+            playersInputs[i].GetComponent<Player>().OnScoreUpdated -= PlayerManagerScoreHandle;
+        }
     }
 }
