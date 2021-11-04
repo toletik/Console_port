@@ -205,6 +205,12 @@ public class PlayerManager : MonoBehaviour
         };
     }
 
+    public NpadId GetNPadID(int i)
+    {
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
+        return npadIds[i];
+    }
+
     private void OnDestroy()
     {
         //CurrentLevelManager_OnLevelEnd();
