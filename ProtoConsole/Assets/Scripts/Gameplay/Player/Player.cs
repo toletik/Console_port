@@ -545,6 +545,9 @@ public class Player : MonoBehaviour
 
         foreach(Transform gravityCenter in allPossibleGravityCenters)
         {
+            if (gravityCenter == null)
+                continue;
+
             float tempMagnitude = (transform.position - gravityCenter.position).magnitude;
 
             if(tempMagnitude < distFromCenter)
