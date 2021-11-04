@@ -36,8 +36,8 @@ public class ConnexionScreen : UIScreen
         int currentNumberOfPlayers = playerInput.Count;
         if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))
             image.color = playerTag.GetColorAtIndex(currentNumberOfPlayers-1);
-        if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))
-            imageController.sprite = Npad.GetStyleSet(playerManager.GetPlayerID(playerInput[currentNumberOfPlayers-1]));
+        //if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))
+         //   imageController.sprite = Npad.GetStyleSet(playerManager.GetNPadID(playerManager.GetPlayerID(playerInput[0])));
     }
 
     private void PlayerManager_OnPlayerRemoved(int currentNumberOfPlayers)

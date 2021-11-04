@@ -601,6 +601,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Sphere
       objectReference: {fileID: 0}
+    - target: {fileID: 2559285243601884944, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3290440096189545975, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: levelManager
       value: 
