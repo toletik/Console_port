@@ -13,7 +13,7 @@ public class WinScreen : UIScreen
 			RankContainerList[i].Disable();
 		}
 		for (int j = 0; j < playerList.Count; j++) {
-			RankContainerList[j].ChangeRankInformation(playerList[j].Score.ToString(),(j+1).ToString(), playertag.GetColorAtIndex(j));
+			RankContainerList[playerList[j].ScoreDetails.rank-1].ChangeRankInformation((j+1).ToString(), playertag.GetColorAtIndex(j),playerList[j].ScoreDetails);
 		}
 	}
 
