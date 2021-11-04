@@ -28,11 +28,6 @@ public class FollowPlanetRotation : MonoBehaviour
         StartCoroutine(PauseFollowPlanetForFrame());
     }
 
-    private void Update()
-    {
-        Debug.Log("nb parts on : " + planetPartsOn.ToString());
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("<-- ENTER : " + other.name);        
