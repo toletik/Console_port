@@ -81,7 +81,17 @@ public class Planet : MonoBehaviour
     {
     }
 
-	public void CutTheSphere()
+    static IEnumerator StartScreenShake(float shakeDuration, float shakeScale)
+    {
+        Vector3 camDefaultPos = Camera.main.transform.localPosition;
+        for (float timer = 0; timer < shakeDuration; timer += Time.deltaTime)
+        {
+            Camera.main.transform.localPosition = camDefaultPos + UnityEngine.Random.insideUnitSphere * shakeScale;
+            yield return null;
+        }
+        Camera.main.transform.localPosition = camDefaultPos;
+    }
+    public void CutTheSphere()
     {
         Debug.LogWarning("CUT");
 
@@ -94,6 +104,8 @@ public class Planet : MonoBehaviour
             cutLeft -= 1;
             ResetRotation();
             Instantiate(onCutParticule, transform.position, Quaternion.identity);
+
+            StartCoroutine(StartScreenShake(0.6f, 0.8f));
 
             sphereEntityUncuted = new List<Transform>();
 
