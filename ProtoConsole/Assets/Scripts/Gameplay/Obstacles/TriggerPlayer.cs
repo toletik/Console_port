@@ -9,6 +9,20 @@ public class TriggerPlayer : MonoBehaviour
     [SerializeField] private float ejectForce = 0.5F;
     [SerializeField] private ParticleSystem onHitParticule = default;
 
+    [SerializeField] private float shakeDuration = 0.5f;
+    [SerializeField] private float shakeScale = 0.4f;
+
+    static IEnumerator StartScreenShake(float shakeDuration, float shakeScale)
+    {
+        Vector3 camDefaultPos = Camera.main.transform.localPosition;
+        for (float timer = 0; timer < shakeDuration; timer += Time.deltaTime)
+        {
+            Camera.main.transform.localPosition = camDefaultPos + UnityEngine.Random.insideUnitSphere * shakeScale;
+            yield return null;
+        }
+        Camera.main.transform.localPosition = camDefaultPos;
+    }
+
     public static event Action<Player> OnCollision;
 
     private const string PLAYER_TAG = "Player";
@@ -20,9 +34,11 @@ public class TriggerPlayer : MonoBehaviour
             
             if(player.Eject(-transform.up, ejectForce))
             {
-               OnCollision?.Invoke(player);
-               onHitParticule.transform.position = player.transform.position;
-               onHitParticule.Play();
+                OnCollision?.Invoke(player);
+                onHitParticule.transform.position = player.transform.position;
+                onHitParticule.Play();
+
+                StartCoroutine(StartScreenShake(shakeDuration, shakeScale));
             }
         }
 
