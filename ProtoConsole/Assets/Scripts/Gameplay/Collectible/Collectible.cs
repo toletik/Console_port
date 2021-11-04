@@ -53,9 +53,12 @@ public class Collectible : MonoBehaviour
         for (float elapsedTime = 0f; elapsedTime < lerpDuration; elapsedTime += Time.deltaTime)
         {
             transform.position = Vector3.Lerp(originalPos, planetPos, elapsedTime / lerpDuration);
-            
-            if (Physics.Raycast(transform.position, -transform.up, out hit, 1) && hit.transform.gameObject.CompareTag(SPHERE_TAG)) 
+
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1) && hit.transform.gameObject.CompareTag(SPHERE_TAG))
+            {
+                transform.SetParent(hit.collider.gameObject.transform);
                 Landing();
+            }
             
             yield return null;
         }
