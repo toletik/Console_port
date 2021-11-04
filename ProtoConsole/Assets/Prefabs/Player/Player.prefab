@@ -576,6 +576,8 @@ MonoBehaviour:
   followPlanetRotation: {fileID: 7476492226898490751}
   tagContainer: {fileID: 4470284151685697858}
   speed: 10
+  speedToCore: 20
+  coreRadius: 5
   maxEjectionAltitude: 18
   spawnInvincibilityTime: 4
   numberOfInvincibilityBlink: 4
@@ -637,6 +639,7 @@ MonoBehaviour:
   ExternalVelocity: {x: 0, y: 0}
   CanBeEjected: 1
   IsBestPlayer: 0
+  allPossibleGravityCenters: []
 --- !u!1 &4244592319217827053
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +683,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1, z: 0.6}
+  m_Size: {x: 0.9, y: 1, z: 0.9}
   m_Center: {x: 0, y: -0.85, z: 0}
 --- !u!114 &7476492226898490751
 MonoBehaviour:

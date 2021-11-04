@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
+    [SerializeField] private float speedToCore = 1f;
+    [SerializeField] private float coreRadius = 5;
     [SerializeField] private float maxEjectionAltitude = 25;
 
     [Header("Invincibility")]
@@ -105,6 +107,7 @@ public class Player : MonoBehaviour
 
     private Player collidedPlayer = null;
 
+
     private int AvailableUnassignedCapacities 
     { 
         get => availableUnassignedCapacities; 
@@ -160,10 +163,12 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
-        currentGravityCenter = GetClosestGravityCenter();
-        Debug.Log(currentGravityCenter);
-
         doAction.Invoke();
+    }
+
+    bool IsOnPlanet()
+    {
+        return followPlanetRotation.IsOnPlanet;
     }
 
     public void SpawnOnLevel(Vector3 position, LevelSettings currentLevelSettings)
@@ -174,7 +179,6 @@ public class Player : MonoBehaviour
         rigidbody.position = position;
 
         levelSettings = currentLevelSettings;
-        //allPossibleGravityCenters.Add(levelSettings.GravityCenter);
     }
 
     public void SetModePlay() 
@@ -200,12 +204,23 @@ public class Player : MonoBehaviour
 
     private void DoActionMove()
     {
-        rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) + 
-                               transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) 
-                               * (speed * Time.fixedDeltaTime);
-        rigidbody.position = currentGravityCenter + (rigidbody.position - currentGravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
+        if (IsOnPlanet() || IsUsingCapacity(Capacity.JUMP) || IsUsingCapacity(Capacity.DASH))
+        {
+            currentGravityCenter = GetClosestGravityCenter();
 
-        InclineAccordingToPlanet();
+            rigidbody.position += (transform.right * (inputs.x * MovementControlCoef + ExternalVelocity.x) +
+                                   transform.forward * (inputs.y * MovementControlCoef + ExternalVelocity.y)) *
+                                   (speed * Time.fixedDeltaTime);
+
+            rigidbody.position = currentGravityCenter + (rigidbody.position - currentGravityCenter).normalized * (levelSettings.PlanetRadius + AltitudeModifier);
+            InclineAccordingToPlanet();
+        }
+        else
+        {
+            rigidbody.position += (Vector3.zero - rigidbody.position).normalized * (speedToCore * Time.fixedDeltaTime); // We use Vector.zero because it's the center of the planet
+            if ((Vector3.zero - rigidbody.position).sqrMagnitude < coreRadius * coreRadius)
+                Die();
+        }
 
         AltitudeModifier = 0;
         ExternalVelocity = Vector3.zero;
@@ -231,13 +246,13 @@ public class Player : MonoBehaviour
             if (AvailableUnassignedCapacities > 0 || activateAssignModeEvenWithoutAvailableSlot)
             {
                 AssignationMode = true;
-                Debug.LogError("Start assignation");
+                Debug.Log("Start assignation");
             }
         }
         else if (context.canceled) 
         { 
             AssignationMode = false; 
-            Debug.LogError("End assignation"); 
+            Debug.Log("End assignation"); 
         }
     }
 

@@ -12,6 +12,12 @@ public class FollowPlanetRotation : MonoBehaviour
 
     private bool modeFollow = false;
 
+    private int planetPartsOn = 0;
+    public bool IsOnPlanet
+    {
+        get { return planetPartsOn > 0; }
+    }
+
     private void Awake()
     {
         Planet.OnResetRotation += Sphere_OnResetRotation;
@@ -29,6 +35,7 @@ public class FollowPlanetRotation : MonoBehaviour
         if (other.CompareTag(groundTag))
         {
             onPlanetPart = other.transform;
+            planetPartsOn += 1;
         }
     }
 
@@ -39,6 +46,7 @@ public class FollowPlanetRotation : MonoBehaviour
         if (other.transform == onPlanetPart)
         {
             onPlanetPart = null;
+            planetPartsOn -= 1;
         }
     }
 

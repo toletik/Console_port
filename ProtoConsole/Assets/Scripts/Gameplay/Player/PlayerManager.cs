@@ -82,6 +82,7 @@ public class PlayerManager : MonoBehaviour
         PlayerTag playerTag;
             
         UIManager.Instance.CloseScreen<ConnexionScreen>();
+        //SetupAllNPads();
 
         for (int i = 0; i < playersInputs.Count; i++)
         {
@@ -185,7 +186,11 @@ public class PlayerManager : MonoBehaviour
     {
         //InputDevice d;
         //d.
-        //playerInputManager.JoinPlayer(i, -1, null, d);
+        for (int i = 0; i < 2; i++)
+        {
+            InputDevice pairWithDevice = null;
+            playerInputManager.JoinPlayer(i, -1, null, pairWithDevice);
+        }
         //public PlayerInput JoinPlayer(int playerIndex = -1, int splitScreenIndex = -1, string controlScheme = null, InputDevice pairWithDevice = null);
 
     }
