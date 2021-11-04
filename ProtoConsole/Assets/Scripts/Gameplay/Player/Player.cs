@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Material hasCapacityToAssignMaterial = default;
     [SerializeField] private FollowPlanetRotation followPlanetRotation = default;
     [SerializeField] private GameObject tagContainer = default;
+    [SerializeField] private GameObject ejectionTrail = default;
 
     [Header("Parameters")]
     [SerializeField] private float speed = 1;
@@ -200,6 +201,8 @@ public class Player : MonoBehaviour
 
         doAction = DoActionMove;
         dashCapacity.gameObject.SetActive(true);        //dashCapacity en tant que gameobject de toutes les capacités
+
+        ejectionTrail.SetActive(false);
     }
 
     private void DoActionMove()
@@ -364,12 +367,11 @@ public class Player : MonoBehaviour
     {
         Debug.Log(gameObject.name + " --> Die");
 
-        //Animation + enabled = false;
-
         followPlanetRotation.StopFollowingPlanet();
 
         tagContainer.SetActive(false);
         meshRenderer.enabled = false;
+        ejectionTrail.SetActive(false);
         enabled = false;
 
         OnDeath?.Invoke(this, capacityRenderersContainer.childCount + AvailableUnassignedCapacities);
@@ -407,6 +409,7 @@ public class Player : MonoBehaviour
         followPlanetRotation.StopFollowingPlanet();
 
         MovementControlCoef = 1;
+        ejectionTrail.SetActive(true);
     }
 
     private void DoActionEjected()
