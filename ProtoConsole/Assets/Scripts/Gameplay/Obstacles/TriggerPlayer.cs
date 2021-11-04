@@ -6,9 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class TriggerPlayer : MonoBehaviour
 {
+    [SerializeField] private float ejectForce = 0.5F;
+    [SerializeField] private ParticleSystem onHitParticule = default;
 
     public static event Action<Player> OnCollision;
-    [SerializeField] private float ejectForce = 0.5F;
 
     private const string PLAYER_TAG = "Player";
     private void OnTriggerEnter(Collider other)
@@ -18,6 +19,8 @@ public class TriggerPlayer : MonoBehaviour
         {
             player.Eject(-transform.up, ejectForce);
             OnCollision?.Invoke(player);
+            onHitParticule.transform.position = player.transform.position;
+            onHitParticule.Play();
         }
 
     }
