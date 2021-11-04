@@ -8,6 +8,8 @@ public static class RandomPositionOnPlanetZone
         List<Vector3> positions = new List<Vector3>();
         Vector3 toRadiusPosition = Quaternion.AngleAxis(maxAccessibleZoneAngle, Vector3.Cross(axis, new Vector3(axis.x, 0, 0))) * (axis.normalized * planetRadius);
 
+        if (numberOfPositions == 0) return positions;
+
         float currentAngle = Random.Range(0, 360);
         float deltaAngle = 360 / numberOfPositions;
 
