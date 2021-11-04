@@ -14,7 +14,6 @@ public class Collectible : MonoBehaviour
 
     private Vector3 planetPos = default;
     private Vector3 originalPos = default;
-    private float elapsedTime = default;
     private const string SPHERE_TAG = "Sphere";
 
     private void Start()
@@ -38,19 +37,20 @@ public class Collectible : MonoBehaviour
             OnCollect?.Invoke(this);
             Destroy(gameObject);
         }
-        else Debug.LogWarning("Invalid recuperation");
+        else 
+            Debug.LogWarning("Invalid recuperation");
     }
 
     private IEnumerator GravityCoroutine()
     {
         RaycastHit hit;
 
-        while (elapsedTime < lerpDuration)
+        for (float elapsedTime = 0f; elapsedTime < lerpDuration; elapsedTime += Time.deltaTime)
         {
-            elapsedTime += Time.deltaTime;
             transform.position = Vector3.Lerp(originalPos, planetPos, elapsedTime / lerpDuration);
             
-            if (Physics.Raycast(transform.position, -transform.up, out hit, 1) && hit.transform.gameObject.CompareTag(SPHERE_TAG)) Landing();
+            if (Physics.Raycast(transform.position, -transform.up, out hit, 1) && hit.transform.gameObject.CompareTag(SPHERE_TAG)) 
+                Landing();
             
             yield return null;
         }

@@ -81,13 +81,12 @@ public class Planet : MonoBehaviour
 
 	public void CutTheSphere()
     {
-
-        List<Transform> arrayOfGameObject = sphereEntityUncuted;
-
         Debug.LogWarning("CUT");
 
         if(cutLeft > 0 && timer >= 1)
         {
+            List<Transform> arrayOfGameObject = sphereEntityUncuted;
+
             timer   = 0;
             cutLeft -= 1;
             ResetRotation();
