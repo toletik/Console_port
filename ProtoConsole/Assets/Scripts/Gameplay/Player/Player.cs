@@ -177,6 +177,7 @@ public class Player : MonoBehaviour
         meshRenderer.enabled = true;
 
         rigidbody.position = position;
+        InclineAccordingToPlanet();
 
         levelSettings = currentLevelSettings;
     }
@@ -189,7 +190,6 @@ public class Player : MonoBehaviour
         SetModeMove();
         StartCoroutine(PlayInvincibilityTime());
     }
-
 
     #region Movement
     private void SetModeMove()
@@ -256,9 +256,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CollectCapacityToAssign() 
+    public bool CollectCapacityToAssign() 
     {
-        AvailableUnassignedCapacities++;
+        if (capacityRenderersContainer.childCount + AvailableUnassignedCapacities >= 6) return false;
+        else
+        {
+            AvailableUnassignedCapacities++;
+            return true;
+        }
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
@@ -536,7 +541,6 @@ public class Player : MonoBehaviour
         OnScoreUpdated = null;
     }
     #endregion
-
 
     private Vector3 GetClosestGravityCenter()
     {
