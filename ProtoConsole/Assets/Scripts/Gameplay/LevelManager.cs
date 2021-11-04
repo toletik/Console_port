@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour
     public event Action OnLevelStart;
     public event Action OnLevelEnd;
 
-
     [SerializeField] private int startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
     [SerializeField] private string startLevelBannerMessage = "Let's Go!!!";
@@ -21,6 +20,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private RotationForPlanetPart planetPartsRotation = default;
     [Space(8)]
     [SerializeField] private List<Obstacle> obstacles = default;
+    [Space(8)]
+    [SerializeField] private float spawnPlayersRadiusZone = 10;
     [Space(8)]
     [SerializeField] private CollectibleManager collectibleManager = default;
     [SerializeField] private List<Transform> allFinalPlanetParts = new List<Transform>();
@@ -46,10 +47,15 @@ public class LevelManager : MonoBehaviour
     {
         Players = players;
 
-        foreach (Player currentPlayer in players)
+        List<Vector3> randomPositions = RandomPositionOnPlanetZone.GeneratePositions((uint)players.Count, -Camera.main.transform.forward, settings.GravityCenter, settings.PlanetRadius, spawnPlayersRadiusZone, spawnPlayersRadiusZone, 0);
+        Player currentPlayer;
+
+        for (int i = 0; i < Players.Count; i++)
         {
+            currentPlayer = Players[i];
+
             currentPlayer.ResetValues(true);
-            RespawnPlayer(currentPlayer, false);
+            RespawnPlayer(currentPlayer, randomPositions[i], false);
             currentPlayer.OnDeath += Player_OnDeath;
         }
 
@@ -116,20 +122,16 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(settings.RespawnPlayerCooldownDuration);
 
-        RespawnPlayer(player, true);
+        RespawnPlayer(player, settings.GravityCenter - Camera.main.transform.forward * settings.PlanetRadius, true);
         
     }
 
-    private Player RespawnPlayer(Player player, bool enablePlay)
+    private Player RespawnPlayer(Player player, Vector3 position, bool enablePlay)
     {
-        Vector3 newPos;
-        newPos = UnityEngine.Random.onUnitSphere * settings.PlanetRadius;
-        newPos.y = Mathf.Abs(newPos.y);
-        newPos = Quaternion.FromToRotation(Vector3.up, -Camera.main.transform.forward) * (newPos - Vector3.zero);
         if (enablePlay) 
             player.SetModePlay();
-        player.SpawnOnLevel(newPos, settings);
 
+        player.SpawnOnLevel(position, settings);
 
         return player;
     }
