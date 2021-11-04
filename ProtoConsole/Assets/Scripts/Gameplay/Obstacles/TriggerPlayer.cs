@@ -17,10 +17,13 @@ public class TriggerPlayer : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (other.CompareTag(PLAYER_TAG))
         {
-            player.Eject(-transform.up, ejectForce);
-            OnCollision?.Invoke(player);
-            onHitParticule.transform.position = player.transform.position;
-            onHitParticule.Play();
+            
+            if(player.Eject(-transform.up, ejectForce))
+            {
+               OnCollision?.Invoke(player);
+               onHitParticule.transform.position = player.transform.position;
+               onHitParticule.Play();
+            }
         }
 
     }

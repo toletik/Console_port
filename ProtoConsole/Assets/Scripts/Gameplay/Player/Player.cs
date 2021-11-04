@@ -392,13 +392,15 @@ public class Player : MonoBehaviour
         StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onDeathVibration, playerID, onDeathVibrationDuration));
     }
 
-    public void Eject(Vector3 direction, float strength)
+    public bool Eject(Vector3 direction, float strength)
     {
         if (CanBeEjected)
         {
             ejection = (direction + (rigidbody.position - levelSettings.GravityCenter).normalized * upModifierOnEject).normalized * strength;
             SetModeEjected();
+            return true;
         }
+        else return false;
     }
 
     private void SetModeEjected()
