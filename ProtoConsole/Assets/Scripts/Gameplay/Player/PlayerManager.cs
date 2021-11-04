@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof (PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
-    public event Action<int> OnPlayerAdded;
+    public event Action<List<PlayerInput>> OnPlayerAdded;
     public event Action<int> OnPlayerRemoved;
 
     [SerializeField] private uint minNumberOfPlayers = 8;
@@ -62,7 +62,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Bienvenue !");
 
             playersInputs.Add(player);
-            OnPlayerAdded?.Invoke(playersInputs.Count);
+            OnPlayerAdded?.Invoke(playersInputs);
         }
     }
     private void PlayerInputManager_OnPlayerLeft(PlayerInput player)
@@ -189,7 +189,7 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    int GetPlayerID(PlayerInput playerInput)
+    public int GetPlayerID(PlayerInput playerInput)
     {
         return playerInput.devices[0].name switch
         {
@@ -203,6 +203,12 @@ public class PlayerManager : MonoBehaviour
             "NPad8" => 7,
             _ => -1 // On keyboard, disables vibrations
         };
+    }
+
+    public NpadId GetNPadID(int i)
+    {
+        NpadId[] npadIds = { NpadId.No1, NpadId.No2, NpadId.No3, NpadId.No4, NpadId.No5, NpadId.No6, NpadId.No7, NpadId.No8 };
+        return npadIds[i];
     }
 
     private void OnDestroy()

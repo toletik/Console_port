@@ -70,6 +70,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool keepAssignModeActivatedAfterAttributionSuccess = false;
     [SerializeField] private bool keepAssignModeActivatedAfterAttributionFail = true;
     #endregion
+    [Header("Particule")]
+    [SerializeField] private ParticleSystem onCollisionParticule = default;
 
     [HideInInspector] public float AltitudeModifier = 0;
     [HideInInspector] public bool CanAddAltitudeModifier = true;
@@ -360,6 +362,8 @@ public class Player : MonoBehaviour
             collidedPlayer = otherPlayer;
             Eject(rigidbody.position - collision.rigidbody.position, otherPlayer.IsUsingCapacity(Capacity.DASH) ? ejectionOnPlayerContactWithDashStrength : ejectionOnPlayerContactStrenght);
             StartCoroutine(VibrationManager.GetSingleton().VibrateForOneDuringSeconds(onCollisionVibration, playerID, onCollisionVibrationDuration));
+            Instantiate(onCollisionParticule, transform.position, Quaternion.identity);
+
         }
     }
 

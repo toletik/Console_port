@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using nn.hid;
 using UnityEngine.InputSystem.Switch.LowLevel;
+using UnityEngine.InputSystem;
 
 public class ConnexionScreen : UIScreen
 {
@@ -29,12 +30,14 @@ public class ConnexionScreen : UIScreen
         OpenApplet();
     }
 
-    private void PlayerManager_OnPlayerAdded(int currentNumberOfPlayers)
+    private void PlayerManager_OnPlayerAdded(List<PlayerInput> playerInput)
     {
+
+        int currentNumberOfPlayers = playerInput.Count;
         if(playerIndicatorList[currentNumberOfPlayers-1].TryGetComponent(out Image image))
             image.color = playerTag.GetColorAtIndex(currentNumberOfPlayers-1);
         if(playerTypeOfController[currentNumberOfPlayers-1].TryGetComponent(out Image imageController))
-            imageController.sprite = playerIMG.ImgController[0];
+            imageController.sprite = Npad.GetStyleSet(playerManager.GetPlayerID(playerInput[currentNumberOfPlayers-1]));
     }
 
     private void PlayerManager_OnPlayerRemoved(int currentNumberOfPlayers)
