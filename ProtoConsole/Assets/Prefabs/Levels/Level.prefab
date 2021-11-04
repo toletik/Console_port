@@ -215,6 +215,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 5266986892180950230}
   - {fileID: 3987662190532009787}
+  spawnPlayersRadiusZone: 10
   collectibleManager: {fileID: 6905316725995849133}
   allFinalPlanetParts:
   - {fileID: 5343698326463550447}
@@ -237,8 +238,11 @@ MonoBehaviour:
   planetOrigin: {fileID: 4263315186895105374}
   prefabCollectible: {fileID: 4555949036239020911, guid: 8d75ffc844ca46043a149739ee74b92e, type: 3}
   levelSettings: {fileID: 11400000, guid: cb7441887d4ced14cb17a141d52f0aa1, type: 2}
-  startCollectible: 4
+  startCollectible: 5
   minNbrOfCollectible: 2
+  collectibleSpawnZoneAngle: 60
+  collectibleMinSpawnZoneAngle: 20
+  collectibleSpawnPositionDelta: 2
   radiusOnDeath: 5
 --- !u!1001 &2553841583739558212
 PrefabInstance:

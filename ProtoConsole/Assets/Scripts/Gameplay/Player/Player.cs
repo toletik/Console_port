@@ -187,7 +187,6 @@ public class Player : MonoBehaviour
         StartCoroutine(PlayInvincibilityTime());
     }
 
-
     #region Movement
     private void SetModeMove()
     {
@@ -522,7 +521,6 @@ public class Player : MonoBehaviour
         OnScoreUpdated = null;
     }
     #endregion
-
 
     private Vector3 GetClosestGravityCenter()
     {
