@@ -10634,10 +10634,6 @@ PrefabInstance:
       value: Replay
       objectReference: {fileID: 0}
     - target: {fileID: 985687017140933633, guid: 283caf1022d79c342b3aa056bb0c8651, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 985687017140933633, guid: 283caf1022d79c342b3aa056bb0c8651, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2536019400704025512}
