@@ -791,6 +791,7 @@ MonoBehaviour:
   activateAssignModeEvenWithoutAvailableSlot: 0
   keepAssignModeActivatedAfterAttributionSuccess: 0
   keepAssignModeActivatedAfterAttributionFail: 1
+  onCollisionParticule: {fileID: 7646697281319548375, guid: c4dea2775def37745bbe8e1e1889e1b0, type: 3}
   AltitudeModifier: 0
   CanAddAltitudeModifier: 1
   MovementControlCoef: 1
