@@ -27,7 +27,6 @@ public class WinScreen : UIScreen
 	public void Replay()
 	{
 		lastRank=0;
-		Debug.Log("REPLAY");
 		UIManager.Instance.AddScreen<LevelSelectionScreen>(true);
 	}
 
