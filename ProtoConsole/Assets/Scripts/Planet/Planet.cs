@@ -24,6 +24,8 @@ public class Planet : MonoBehaviour
     [SerializeField] private float offSetRotation = default;
     [SerializeField] private float timeScaleSpacing = default;
 
+    [SerializeField] private ParticleSystem onCutParticule = default;
+
     private List<Transform> sphereEntityUncuted = new List<Transform>();
     private int cutLeft = default;
     private Action doAction = default;
@@ -91,6 +93,7 @@ public class Planet : MonoBehaviour
             timer   = 0;
             cutLeft -= 1;
             ResetRotation();
+            Instantiate(onCutParticule, transform.position, Quaternion.identity);
 
             sphereEntityUncuted = new List<Transform>();
 
