@@ -4908,6 +4908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8598961597848001135}
   lerpDuration: 4
+  fullPlayerEjectionForce: 0.2
 --- !u!1001 &3217314120908576213
 PrefabInstance:
   m_ObjectHideFlags: 0

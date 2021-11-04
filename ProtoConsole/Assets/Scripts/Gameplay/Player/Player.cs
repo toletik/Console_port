@@ -241,9 +241,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CollectCapacityToAssign() 
+    public bool CollectCapacityToAssign() 
     {
-        AvailableUnassignedCapacities++;
+        if (capacityRenderersContainer.childCount + AvailableUnassignedCapacities >= 6) return false;
+        else
+        {
+            AvailableUnassignedCapacities++;
+            return true;
+        }
     }
 
     public bool TryAddCapacity(Capacity type, Direction dashDirection = default)
