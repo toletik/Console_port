@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926fc46b3a8eac84a9eec71d1fe6da88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLevelDelayDuration: 3
+  startLevelDelayDuration: 1.5
   destroyLevelDelayDuration: 5
   startLevelBannerMessage: Let's Go!!!
   endLevelBannerMessage: Time is up!
