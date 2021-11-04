@@ -6,6 +6,7 @@ public class Collectible : MonoBehaviour
 {
     [SerializeField] private Animator animator = default;
     [SerializeField] private float lerpDuration = 4;
+    [SerializeField] private ParticleSystem collectedParticule = default;
     [Space(8)]
     [SerializeField] private float fullPlayerEjectionForce = 0.3f;
 
@@ -38,6 +39,7 @@ public class Collectible : MonoBehaviour
             if (player.CollectCapacityToAssign())
             {
                 OnCollect?.Invoke(this);
+                Instantiate(collectedParticule, transform.position,Quaternion.identity);
                 Destroy(gameObject);
             }
             else player.Eject(player.transform.position - transform.position, fullPlayerEjectionForce);
