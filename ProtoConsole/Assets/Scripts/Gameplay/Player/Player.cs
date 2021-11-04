@@ -172,6 +172,7 @@ public class Player : MonoBehaviour
         meshRenderer.enabled = true;
 
         rigidbody.position = position;
+        InclineAccordingToPlanet();
 
         levelSettings = currentLevelSettings;
         //allPossibleGravityCenters.Add(levelSettings.GravityCenter);

@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public event Action OnLevelEnd;
 
 
-    [SerializeField] private int startLevelDelayDuration = 3;
+    [SerializeField] private float startLevelDelayDuration = 3;
     [SerializeField] private int destroyLevelDelayDuration = 5;
     [SerializeField] private string startLevelBannerMessage = "Let's Go!!!";
     [SerializeField] private string endLevelBannerMessage = "Time is up!";
