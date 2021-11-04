@@ -609,6 +609,10 @@ PrefabInstance:
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 5366093407587650062}
+    - target: {fileID: 3290440096189545975, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
+      propertyPath: onCutParticule
+      value: 
+      objectReference: {fileID: 448973269153064761, guid: 136532555f876b04ebc5b65ca79e1174, type: 3}
     - target: {fileID: 5710516636004721315, guid: e8a4fde4ed2b6fc46a6970cf73852cef, type: 3}
       propertyPath: m_TagString
       value: Sphere

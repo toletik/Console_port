@@ -10,8 +10,10 @@ public class HUD : MonoBehaviour
     [SerializeField] private PlayerInfo playerInfoPrefab = default;
     [SerializeField] private Transform verticalBox = default;
     [SerializeField] private TextMeshProUGUI timeText = default;
+    [SerializeField] private Color baseTimerColor = default;
+    [SerializeField] private Color EndTimerColor = default;
 
-   
+
     [HideInInspector] public LevelManager levelManager = default;
         
     
@@ -98,11 +100,17 @@ public class HUD : MonoBehaviour
         int sec = 0;
         min = (int)timeleft / 60;
         sec = (int)timeleft - (60 * min);
+        if (min == 0 && sec <= 10) timeText.color = EndTimerColor;
+        else timeText.color = baseTimerColor;
         return min + ":" + sec;
     }
     private void UpdateTimeText(float timer)
     {
-        timeText.text = CalculateTimeLeft(timer);
+        if(timeText.text != CalculateTimeLeft(timer))
+        {
+            timeText.text = CalculateTimeLeft(timer);
+
+        }
     }
     private IEnumerator TimerCoroutine()
     {

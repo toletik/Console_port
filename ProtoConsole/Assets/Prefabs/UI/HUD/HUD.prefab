@@ -276,6 +276,8 @@ MonoBehaviour:
   playerInfoPrefab: {fileID: 6317431174429381518, guid: 1a44a98f81238384396948091ec7624e, type: 3}
   verticalBox: {fileID: 2490918607456194004}
   timeText: {fileID: 2465167709849505662}
+  baseTimerColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  EndTimerColor: {r: 1, g: 0, b: 0, a: 1}
   levelManager: {fileID: 0}
 --- !u!223 &4000503267323912808
 Canvas:
